@@ -24,9 +24,23 @@ Highest priority. Protect the repo from silent drift, accidental machine-specifi
 - [ ] Preserve the rule that canonical source lives in `design-system/`, `brands/`, and generator source files, not generated exports.
 - [ ] Keep review and vendor workflows centered on reproducible local generation, not manually edited output artifacts.
 
-## Priority 1: Immediate Next Work
+## Priority 1: First Client Collateral
 
-This is the work Jason can realistically do tomorrow.
+This is the highest-leverage work for winning a first consulting client.
+
+- [ ] Create a proposal cover generator or reusable proposal-cover workflow driven by the `Work With Me` brand direction, without hardcoding ArcadeGhosts-specific copy into shared generator logic.
+- [ ] Create a capability sheet generator or reusable one-page capability-sheet workflow for services, proof, and contact details.
+- [ ] Create a discovery call PDF generator or workflow for a polished pre-call leave-behind.
+- [ ] Create a case study template generator or workflow that can be reused once real client work exists.
+- [ ] Refine the email signature so it works as a real outbound consulting touchpoint, not just a rendered preview.
+- [ ] Strengthen the conference badge as an in-person lead-generation asset.
+- [ ] Strengthen the letterhead shell so it can front proposals or lightweight client documents.
+- [ ] Strengthen the invoice shell so it feels credible for real billing once client work starts.
+- [ ] Keep client-facing collateral ahead of additional merch work unless a merch task directly supports client acquisition.
+
+## Priority 2: Immediate Next Work
+
+This is the work Jason can realistically do tomorrow after the client-collateral priorities above are clear.
 
 - [x] Review `brand:audit-source` warnings and classify them as:
   acceptable brand-specific references, docs-only references, reusable-code leaks, or false positives.
@@ -40,7 +54,7 @@ This is the work Jason can realistically do tomorrow.
   Chosen next target: OG / social hero outputs first, before merch families.
 - [ ] Keep tomorrow's pass focused on confidence in existing outputs rather than adding new generator families.
 
-## Priority 2: Verification And Manifests
+## Priority 3: Verification And Manifests
 
 - [x] Expand `brand:verify` beyond business cards.
   Current coverage now includes business cards plus OG / LinkedIn / GitHub social, website hero, and icons manifest/preflight checks.
@@ -53,8 +67,9 @@ This is the work Jason can realistically do tomorrow.
   dimensions, expected URLs, contact email, asset existence, safe areas where relevant, and output completeness.
 - [ ] Treat business cards as the strongest production workflow and use that bar when extending verification elsewhere.
 - [ ] Keep proof-of-concept merch generators useful, but do not treat them as vendor-ready until manifests and verification exist.
+- [ ] Keep lower-priority merch work below client-acquisition collateral unless it becomes part of a real sales or conference workflow.
 
-## Priority 3: Website Integration
+## Priority 4: Website Integration
 
 - [ ] Decide whether the ArcadeGhosts website should use generated:
   OG image, LinkedIn/GitHub social images, website hero, and icons.
@@ -63,7 +78,7 @@ This is the work Jason can realistically do tomorrow.
 - [ ] Add validation before copying generated assets into the live website repo.
 - [ ] Keep website handoff staging as a workflow aid until the validation story is stronger.
 
-## Priority 4: Scene / Hero Architecture
+## Priority 5: Scene / Hero Architecture
 
 - [ ] Keep Hero Composition as the canonical visual abstraction.
 - [ ] Move more outputs toward `Scene -> Hero Composition -> Export Target`.
@@ -71,7 +86,7 @@ This is the work Jason can realistically do tomorrow.
 - [ ] Treat Hero Composition as the best reusable architecture found so far and protect it from surface-specific drift.
 - [ ] Consider a scene registry if `defaultHero` and `workWithMeHero` become too limiting.
 
-## Priority 5: Multi-Brand Validation
+## Priority 6: Multi-Brand Validation
 
 - [ ] Add a second real or realistic test brand before claiming the repo is brand-agnostic.
 - [ ] Use the second brand to test:
@@ -79,7 +94,7 @@ This is the work Jason can realistically do tomorrow.
 - [ ] Treat second-brand validation as the real test of brand agnosticism.
 - [ ] Do not overfit abstractions before second-brand validation.
 
-## Priority 6: Generator Maturity
+## Priority 7: Generator Maturity
 
 Use these labels as workflow expectations, not visual judgments.
 
@@ -134,6 +149,7 @@ Use these labels as workflow expectations, not visual judgments.
 - [ ] Add richer theme sweeps where they improve review quality instead of just generating more files.
 - [ ] Add vendor-specific handoffs where a generator family becomes operationally real.
 - [ ] Build a reusable client-brand onboarding path once second-brand validation exposes the real requirements.
+- [ ] Add more merch families only if they support a real client-acquisition, conference, or delivery workflow.
 
 ## Completed Recently
 
@@ -157,6 +173,7 @@ Recent completed work from `CHANGES.md`:
 ## Notes To Keep In Mind
 
 - Do not add more output types yet.
+- Only add new generator families when they directly support client acquisition or are justified by real client delivery work.
 - Improve confidence in existing outputs first.
 - Treat business cards as the strongest production workflow.
 - Treat proof-of-concept merch generators as useful but not vendor-ready.

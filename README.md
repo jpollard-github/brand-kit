@@ -1,6 +1,6 @@
 # Brand Kit
 
-This repository is a generator-based brand toolkit for ArcadeGhosts and related merchandise work.
+This repository is a generator-based brand toolkit for ArcadeGhosts, client-facing collateral, and related brand surfaces.
 
 ## Setup
 
@@ -21,11 +21,12 @@ If you are new to the repo, use this order:
 
 1. [docs/repo-map.md](docs/repo-map.md)
 2. [TODO.md](TODO.md)
-3. [brands/arcadeghosts/README.md](brands/arcadeghosts/README.md)
-4. [brands/arcadeghosts/what-makes-arcadeghosts.md](brands/arcadeghosts/what-makes-arcadeghosts.md)
-5. [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
-6. [design-system/brand-config.ts](design-system/brand-config.ts)
-7. [generators/social/hero-composition.ts](generators/social/hero-composition.ts)
+3. [docs/CLIENT-COLLATERAL.md](docs/CLIENT-COLLATERAL.md)
+4. [brands/arcadeghosts/README.md](brands/arcadeghosts/README.md)
+5. [brands/arcadeghosts/what-makes-arcadeghosts.md](brands/arcadeghosts/what-makes-arcadeghosts.md)
+6. [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
+7. [design-system/brand-config.ts](design-system/brand-config.ts)
+8. [generators/social/hero-composition.ts](generators/social/hero-composition.ts)
 
 ## Current approach
 
@@ -175,6 +176,7 @@ Start here for end-to-end output handoff guidance:
 Useful specialized docs:
 
 - [docs/repo-map.md](docs/repo-map.md)
+- [docs/CLIENT-COLLATERAL.md](docs/CLIENT-COLLATERAL.md)
 - [docs/add-output.md](docs/add-output.md)
 - [docs/add-brand.md](docs/add-brand.md)
 - [generators/business-cards/generator/README.md](generators/business-cards/generator/README.md)
