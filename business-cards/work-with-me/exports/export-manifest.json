@@ -1,0 +1,38 @@
+[
+  {
+    "cardId": "work-with-me-front",
+    "outputPath": "/Users/jasonp/repos/personal/merch/business-cards/work-with-me/exports/front-final.png",
+    "width": 1110,
+    "height": 660,
+    "hasGuides": false,
+    "pdfGenerated": false,
+    "timestamp": "2026-06-28T01:46:48.092Z"
+  },
+  {
+    "cardId": "work-with-me-front",
+    "outputPath": "/Users/jasonp/repos/personal/merch/business-cards/work-with-me/exports/front-final-guides.png",
+    "width": 1110,
+    "height": 660,
+    "hasGuides": true,
+    "pdfGenerated": true,
+    "timestamp": "2026-06-28T01:46:48.092Z"
+  },
+  {
+    "cardId": "work-with-me-back",
+    "outputPath": "/Users/jasonp/repos/personal/merch/business-cards/work-with-me/exports/back-final.png",
+    "width": 1110,
+    "height": 660,
+    "hasGuides": false,
+    "pdfGenerated": false,
+    "timestamp": "2026-06-28T01:46:48.092Z"
+  },
+  {
+    "cardId": "work-with-me-back",
+    "outputPath": "/Users/jasonp/repos/personal/merch/business-cards/work-with-me/exports/back-final-guides.png",
+    "width": 1110,
+    "height": 660,
+    "hasGuides": true,
+    "pdfGenerated": true,
+    "timestamp": "2026-06-28T01:46:48.092Z"
+  }
+]
