@@ -119,7 +119,7 @@ function renderLetterhead(
   <text x="228" y="1740" fill="#171b21" font-family="${data.fontStack}" font-size="64" font-weight="780">Project proposal or follow-up note</text>
 
   <text x="228" y="1950" fill="#3a342d" font-family="${data.fontStack}" font-size="42" font-weight="520">Hello,</text>
-  <text x="228" y="2070" fill="#4d4640" font-family="${data.fontStack}" font-size="38" font-weight="520">This template keeps the top of the page recognizably ArcadeGhosts while leaving the body calm and practical.</text>
+  <text x="228" y="2070" fill="#4d4640" font-family="${data.fontStack}" font-size="38" font-weight="520">This template keeps the top of the page recognizably tied to ${data.brand.displayName} while leaving the body calm and practical.</text>
   <text x="228" y="2140" fill="#4d4640" font-family="${data.fontStack}" font-size="38" font-weight="520">Use it for proposals, short deliverables, technical notes, invoices with more explanation, or lightweight client-facing letters.</text>
   <text x="228" y="2280" fill="#4d4640" font-family="${data.fontStack}" font-size="38" font-weight="520">The body intentionally moves back toward paper-friendly neutrals instead of pushing the full neon mood onto every paragraph.</text>
   <text x="228" y="2420" fill="#4d4640" font-family="${data.fontStack}" font-size="38" font-weight="520">That should help it feel professional but still unmistakably tied to the same brand system as the site, cards, and social assets.</text>

@@ -9,6 +9,12 @@ import {
   renderSvgToPng,
   repoRootDir,
 } from "../social/hero-composition";
+import {
+  createBrandOutputName,
+  resolveBrandId,
+  resolveSceneId,
+} from "../shared/cli";
+import { writeWebsiteHeroManifest } from "./manifest";
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const outputDir = path.join(repoRootDir, "generators", "outputs", "website");
@@ -28,10 +34,15 @@ type HeroArgs = {
 };
 
 function parseArgs(argv: string[]): HeroArgs {
+  const defaultBrandId = resolveBrandId(argv);
   const args: HeroArgs = {
-    brandId: "arcadeghosts",
-    sceneId: "arcadeghosts-hero",
-    outputName: "arcadeghosts-website-hero",
+    brandId: defaultBrandId,
+    sceneId: resolveSceneId(argv),
+    outputName: createBrandOutputName(
+      defaultBrandId,
+      "website-hero",
+      process.env.BRAND_THEME,
+    ),
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -128,11 +139,21 @@ async function main() {
   await ensureOutputDir();
   const result = await writeHeroSvg(args);
   const pngPath = await renderSvgToPng(result.svg, heroSize, path.join(outputDir, `${args.outputName}.png`));
+  const manifestPath = await writeWebsiteHeroManifest({
+    data: result.data,
+    outputName: args.outputName,
+    size: heroSize,
+    svgPath: result.svgPath,
+    pngPath,
+  });
   console.log(
     `Website hero SVG written to ${path.relative(process.cwd(), result.svgPath)}`,
   );
   console.log(
     `Website hero PNG written to ${path.relative(process.cwd(), pngPath)}`,
+  );
+  console.log(
+    `Website hero manifest written to ${path.relative(process.cwd(), manifestPath)}`,
   );
   console.log(`Brand: ${result.data.brand.displayName}`);
   console.log(`Scene: ${result.data.scene.label}`);

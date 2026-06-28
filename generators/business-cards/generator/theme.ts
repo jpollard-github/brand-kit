@@ -1,4 +1,7 @@
-import { getBrandConfig } from "../../../design-system/brand-config";
+import {
+  DEFAULT_BRAND_ID,
+  getBrandConfig,
+} from "../../../design-system/brand-config";
 
 export const CARD_WIDTH = 1110;
 export const CARD_HEIGHT = 660;
@@ -16,6 +19,11 @@ export const exportSize = {
   pdfHeight: "2.2in",
 };
 
+export const WORK_WITH_ME_FRONT_CARD_ID = "work-with-me-front" as const;
+export const WORK_WITH_ME_BACK_CARD_ID = "work-with-me-back" as const;
+export const BRAND_FRONT_CARD_ID = `${DEFAULT_BRAND_ID}-front` as const;
+export const BRAND_BACK_CARD_ID = `${DEFAULT_BRAND_ID}-back` as const;
+
 export type Box = {
   x: number;
   y: number;
@@ -24,10 +32,10 @@ export type Box = {
 };
 
 export type CardId =
-  | "work-with-me-front"
-  | "work-with-me-back"
-  | "arcadeghosts-front"
-  | "arcadeghosts-back";
+  | typeof WORK_WITH_ME_FRONT_CARD_ID
+  | typeof WORK_WITH_ME_BACK_CARD_ID
+  | typeof BRAND_FRONT_CARD_ID
+  | typeof BRAND_BACK_CARD_ID;
 
 export const fontStack = brandConfig.typography.fontStack;
 
@@ -72,24 +80,24 @@ export const logo = {
 };
 
 export const cardBoxes: Record<CardId, Record<string, Box>> = {
-  "work-with-me-front": {
+  [WORK_WITH_ME_FRONT_CARD_ID]: {
     name: { x: 10, y: 16, w: 62, h: 20 },
     title: { x: 10, y: 34, w: 52, h: 10 },
     tagline: { x: 10, y: 56, w: 58, h: 18 },
     logo: { x: 74, y: 12, w: 14, h: 20 },
   },
-  "work-with-me-back": {
+  [WORK_WITH_ME_BACK_CARD_ID]: {
     url: { x: 10, y: 16, w: 52, h: 10 },
     email: { x: 10, y: 28, w: 42, h: 10 },
     services: { x: 10, y: 46, w: 48, h: 30 },
     qr: { x: 66, y: 28, w: 20, h: 38 },
   },
-  "arcadeghosts-front": {
+  [BRAND_FRONT_CARD_ID]: {
     title: { x: 10, y: 58, w: 54, h: 16 },
     descriptor: { x: 10, y: 74, w: 58, h: 14 },
     focal: { x: 52, y: 10, w: 34, h: 42 },
   },
-  "arcadeghosts-back": {
+  [BRAND_BACK_CARD_ID]: {
     url: { x: 10, y: 16, w: 46, h: 10 },
     descriptor: { x: 10, y: 37, w: 48, h: 30 },
     qr: { x: 66, y: 30, w: 20, h: 38 },

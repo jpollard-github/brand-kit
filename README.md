@@ -99,6 +99,7 @@ Use these labels as workflow expectations, not as a judgment on visual quality:
   business cards plus the current verification path
 - `Production Candidate`
   OG image, LinkedIn banner, GitHub social, website hero, icons, newsletter header, project cover, presentation cover, conference badge, mini flyer, wallpapers, documents, email signature, and preview sheet
+  Social hero outputs, website hero, and icons now include manifest and preflight support, but still need broader workflow proof before they move above `Production Candidate`.
 - `Proof of Concept`
   stickers, sticker sheet, mugs, shirts, totes, stream thumbnail, and website handoff staging
 - `Scaffold`
@@ -138,12 +139,17 @@ npm run brand:audit-source
 npm run brand:preview
 ```
 
-- `brand:verify` checks business-card source-of-truth details such as URLs, QR targets, and contact email.
-- `brand:audit-source` warns when reusable code still contains ArcadeGhosts-specific strings.
+- `brand:verify` now checks business-card source-of-truth details plus social hero manifests/preflight metadata for OG, LinkedIn, and GitHub outputs.
+- `brand:verify` is the main preflight command before trusting outputs for real use. It now checks business-card source-of-truth details plus manifest/preflight coverage for social hero outputs, website hero, and icons.
+- `brand:audit-source` is a reusable-code hygiene check. Its purpose is to catch places where shared code still leaks ArcadeGhosts-specific strings so the repo can become genuinely multi-brand over time, without blocking normal work yet.
 - `brand:preview` generates the current output set and refreshes the multi-output review page.
 
 Useful extra workflows:
 
+- `npm run brand:verify:social`
+- `npm run brand:verify:business-cards`
+- `npm run brand:verify:website`
+- `npm run brand:verify:icons`
 - `npm run brand:preview:themes`
 - `npm run test:unit`
 
@@ -157,6 +163,8 @@ Generated files such as export images, PDFs, and manifest files are intentionall
 
 That includes proof exports under brand copy folders such as `brands/arcadeghosts/copy/exports/`.
 Keep the source copy tracked, but regenerate proofs locally when needed.
+Social manifests are written next to their PNG/SVG outputs under `generators/outputs/social/`.
+Website hero and icon manifests are written next to their generated outputs under `generators/outputs/website/` and `generators/outputs/icons/`.
 
 ## Workflow Docs
 
@@ -191,6 +199,7 @@ Useful verification commands:
 
 ```bash
 npm run brand:verify
+npm run brand:verify:social
 npm run brand:audit-source
 ```
 

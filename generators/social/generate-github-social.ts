@@ -9,6 +9,12 @@ import {
   renderHeroBase,
   renderHeroDefs,
 } from "./hero-composition";
+import {
+  createBrandOutputName,
+  resolveBrandId,
+  resolveSceneId,
+} from "../shared/cli";
+import { writeSocialManifest } from "./manifest";
 
 const githubSocialSize = {
   width: 1280,
@@ -25,10 +31,15 @@ type GithubSocialArgs = {
 };
 
 function parseArgs(argv: string[]): GithubSocialArgs {
+  const defaultBrandId = resolveBrandId(argv);
   const args: GithubSocialArgs = {
-    brandId: "arcadeghosts",
-    sceneId: "arcadeghosts-hero",
-    outputName: "arcadeghosts-github-social",
+    brandId: defaultBrandId,
+    sceneId: resolveSceneId(argv),
+    outputName: createBrandOutputName(
+      defaultBrandId,
+      "github-social",
+      process.env.BRAND_THEME,
+    ),
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -129,11 +140,22 @@ async function main() {
   await ensureOutputDir();
   const result = await writeGithubSocialSvg(args);
   const pngPath = await writeGithubSocialPng(result.svg, args.outputName);
+  const manifestPath = await writeSocialManifest({
+    data: result.data,
+    outputKind: "github-social",
+    outputName: args.outputName,
+    size: githubSocialSize,
+    svgPath: result.svgPath,
+    pngPath,
+  });
   console.log(
     `GitHub social SVG written to ${path.relative(process.cwd(), result.svgPath)}`,
   );
   console.log(
     `GitHub social PNG written to ${path.relative(process.cwd(), pngPath)}`,
+  );
+  console.log(
+    `GitHub social manifest written to ${path.relative(process.cwd(), manifestPath)}`,
   );
   console.log(`Brand: ${result.data.brand.displayName}`);
   console.log(`Scene: ${result.data.scene.label}`);

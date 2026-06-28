@@ -71,8 +71,9 @@ async function fileExists(filePath: string) {
 }
 
 async function resolveLogoDataUrl(brandId: string) {
+  const brand = getBrandConfig(brandId);
   const primaryPath = path.join(brandsRootDir, brandId, "assets", "logo.png");
-  const fallbackPath = path.join(brandsRootDir, "arcadeghosts", "assets", "logo.png");
+  const fallbackPath = path.join(repoRootDir, brand.logo.fallbackAsset);
   const logoPath = (await fileExists(primaryPath)) ? primaryPath : fallbackPath;
   return readAssetAsDataUrl(logoPath);
 }
@@ -92,7 +93,7 @@ async function writeToteFiles(args: ToteArgs) {
   <rect x="180" y="220" width="2440" height="2760" rx="180" fill="${palette.backgroundDeep}" />
   <rect x="360" y="380" width="2080" height="2440" rx="140" fill="rgba(10, 14, 18, 0.92)" stroke="${palette.border}" stroke-width="10" />
   <path d="M 0 2400 C 260 2240, 520 2210, 820 2290 C 1120 2370, 1380 2310, 1650 2160 C 1950 1990, 2270 1990, 2580 2140 C 2670 2182, 2740 2228, 2800 2280 L 2800 3200 L 0 3200 Z" fill="rgba(7, 10, 14, 0.9)" />
-  <text x="1400" y="710" text-anchor="middle" fill="${palette.amber}" font-family="${fontStack}" font-size="84" font-weight="700" letter-spacing="18">ARCADEGHOSTS</text>
+  <text x="1400" y="710" text-anchor="middle" fill="${palette.amber}" font-family="${fontStack}" font-size="84" font-weight="700" letter-spacing="18">${displayName.toUpperCase()}</text>
   <circle cx="1400" cy="1260" r="360" fill="rgba(7, 10, 14, 0.6)" stroke="rgba(248,239,227,0.08)" stroke-width="8" />
   <circle cx="1400" cy="1260" r="286" fill="none" stroke="${palette.teal}" stroke-opacity="0.24" stroke-width="16" />
   <circle cx="1400" cy="1260" r="226" fill="none" stroke="${palette.amber}" stroke-opacity="0.15" stroke-width="10" />

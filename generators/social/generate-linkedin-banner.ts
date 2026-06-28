@@ -9,6 +9,12 @@ import {
   renderHeroBase,
   renderHeroDefs,
 } from "./hero-composition";
+import {
+  createBrandOutputName,
+  resolveBrandId,
+  resolveSceneId,
+} from "../shared/cli";
+import { writeSocialManifest } from "./manifest";
 
 const bannerSize = {
   width: 1584,
@@ -25,10 +31,15 @@ type BannerArgs = {
 };
 
 function parseArgs(argv: string[]): BannerArgs {
+  const defaultBrandId = resolveBrandId(argv);
   const args: BannerArgs = {
-    brandId: "arcadeghosts",
-    sceneId: "arcadeghosts-hero",
-    outputName: "arcadeghosts-linkedin-banner",
+    brandId: defaultBrandId,
+    sceneId: resolveSceneId(argv),
+    outputName: createBrandOutputName(
+      defaultBrandId,
+      "linkedin-banner",
+      process.env.BRAND_THEME,
+    ),
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -129,11 +140,27 @@ async function main() {
   await ensureOutputDir();
   const result = await writeBannerSvg(args);
   const pngPath = await writeBannerPng(result.svg, args.outputName);
+  const manifestPath = await writeSocialManifest({
+    data: result.data,
+    outputKind: "linkedin-banner",
+    outputName: args.outputName,
+    size: bannerSize,
+    svgPath: result.svgPath,
+    pngPath,
+    safeArea: {
+      label: "Profile photo overlap",
+      description:
+        "Keep the lower-left profile-photo overlap area visually non-critical.",
+    },
+  });
   console.log(
     `LinkedIn banner SVG written to ${path.relative(process.cwd(), result.svgPath)}`,
   );
   console.log(
     `LinkedIn banner PNG written to ${path.relative(process.cwd(), pngPath)}`,
+  );
+  console.log(
+    `LinkedIn banner manifest written to ${path.relative(process.cwd(), manifestPath)}`,
   );
   console.log(`Brand: ${result.data.brand.displayName}`);
   console.log(`Scene: ${result.data.scene.label}`);

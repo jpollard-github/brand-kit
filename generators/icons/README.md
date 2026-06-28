@@ -6,6 +6,7 @@ Use this generator for favicon and app-icon style assets.
 
 ```bash
 npm run brand:icons
+npm run brand:verify:icons
 ```
 
 ## Outputs
@@ -15,6 +16,7 @@ npm run brand:icons
 - `generators/outputs/icons/arcadeghosts-icon-192.png`
 - `generators/outputs/icons/arcadeghosts-apple-touch-icon.png`
 - `generators/outputs/icons/arcadeghosts-favicon-32.png`
+- `generators/outputs/icons/arcadeghosts-icons.manifest.json`
 
 ## What To Upload
 
@@ -26,3 +28,13 @@ npm run brand:icons
   `arcadeghosts-apple-touch-icon.png`
 - Small favicon fallback:
   `arcadeghosts-favicon-32.png`
+
+## Verification
+
+Use:
+
+```bash
+npm run brand:verify:icons
+```
+
+This checks that the icon manifest exists and that all expected icon outputs are present with the correct dimensions.

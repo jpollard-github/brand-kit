@@ -2,6 +2,24 @@
 
 Date: 2026-06-28
 
+## Follow-Up: Social Manifest And Preflight Support
+
+- Added manifest writing for OG, LinkedIn, and GitHub social outputs.
+- Added a social verification command: `npm run brand:verify:social`.
+- Expanded `npm run brand:verify` to cover business cards, social hero outputs, website hero, and icons.
+- Added preflight checks for social dimensions, rendered display URL, asset existence, output completeness, contact metadata, and LinkedIn safe-area notes.
+- Generalized more social/icon defaults to reduce avoidable ArcadeGhosts-specific entrypoint leakage.
+- Added manifest writing and verification commands for website hero and icons.
+- Reduced business-card audit leakage until the audit no longer reports any high-severity reusable-code leaks.
+
+## Why This Follow-Up Was Made
+
+- Social hero outputs are the smallest mature family after business cards and the closest match to the `Scene -> Hero Composition -> Export Target` architecture.
+- Per-output manifests make review and handoff more trustworthy than “look at the PNG and hope.”
+- Preflight checks create a repeatable confidence path before website integration work starts leaning on these outputs.
+- Keeping manifests next to the generated files makes it easier to inspect what was produced without treating those outputs as canonical source.
+- Shrinking business-card-specific audit noise makes `brand:audit-source` more trustworthy as a day-to-day signal instead of a list of known legacy strings.
+
 ## Architectural Changes
 
 - Added `DEFAULT_BRAND_ID` and made unknown brand IDs throw instead of silently falling back to ArcadeGhosts.
@@ -27,6 +45,9 @@ Date: 2026-06-28
 - Removed absolute local repo paths from tracked Markdown docs.
 - Made unknown brand IDs fail loudly.
 - Added `brand:audit-source`.
+- Added social output manifests and `brand:verify:social`.
+- Added website hero and icon manifests plus `brand:verify:website` and `brand:verify:icons`.
+- Expanded `brand:verify` to include social, website hero, and icon manifest/preflight checks.
 - Replaced obvious hard-coded brand values where practical.
 - Centralized small CLI defaults.
 - Improved MIME handling.
@@ -39,7 +60,15 @@ Date: 2026-06-28
 - `npm run test:unit`
 - `npm run brand:audit-source`
 - `npm run brand:verify`
+- `npm run brand:verify:social`
+- `npm run brand:verify:website`
+- `npm run brand:verify:icons`
 - `npm run brand:og`
+- `npm run brand:linkedin`
+- `npm run brand:github-social`
+- `npm run brand:website-hero`
+- `npm run brand:icons`
+- `npm run brand:business-cards -- --guides --pdf`
 - `npm run brand:preview-sheet`
 - `npm run brand:stickers`
 - `npm run brand:totes`
@@ -51,8 +80,16 @@ Date: 2026-06-28
 
 - `test:unit`: passed, 4 files / 14 tests
 - `brand:verify`: passed
+- `brand:verify:social`: passed
+- `brand:verify:website`: passed
+- `brand:verify:icons`: passed
 - `brand:audit-source`: completed with warnings
 - `brand:og`: passed after running Playwright outside the sandbox
+- `brand:linkedin`: passed after running Playwright outside the sandbox
+- `brand:github-social`: passed after running Playwright outside the sandbox
+- `brand:website-hero`: passed after running Playwright outside the sandbox
+- `brand:icons`: passed after running Playwright outside the sandbox
+- `brand:business-cards -- --guides --pdf`: passed after running Playwright outside the sandbox
 - `brand:preview-sheet`: passed
 - generator smoke tests for stickers, totes, documents, conference badge, and email signature: passed
 

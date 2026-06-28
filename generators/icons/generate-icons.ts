@@ -9,6 +9,12 @@ import {
   renderSvgToPng,
   repoRootDir,
 } from "../social/hero-composition";
+import {
+  resolveBrandId,
+  resolveSceneId,
+} from "../shared/cli";
+import { createThemedOutputName } from "../../design-system/themes";
+import { writeIconManifest } from "./manifest";
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const outputDir = path.join(repoRootDir, "generators", "outputs", "icons");
@@ -22,10 +28,14 @@ type IconArgs = {
 };
 
 function parseArgs(argv: string[]): IconArgs {
+  const defaultBrandId = resolveBrandId(argv);
   const args: IconArgs = {
-    brandId: "arcadeghosts",
-    sceneId: "arcadeghosts-hero",
-    outputName: "arcadeghosts",
+    brandId: defaultBrandId,
+    sceneId: resolveSceneId(argv),
+    outputName: createThemedOutputName(
+      defaultBrandId,
+      process.env.BRAND_THEME,
+    ),
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -89,6 +99,12 @@ async function main() {
   await fs.writeFile(svgPath, svg, "utf8");
 
   const renderedPngs: string[] = [];
+  const manifestPngs: Array<{
+    role: string;
+    path: string;
+    expectedWidth: number;
+    expectedHeight: number;
+  }> = [];
   for (const size of iconSizes) {
     const pngName =
       size === 180
@@ -99,12 +115,32 @@ async function main() {
     const pngPath = path.join(outputDir, pngName);
     await renderSvgToPng(renderIconSvg(size, data), { width: size, height: size }, pngPath);
     renderedPngs.push(path.relative(process.cwd(), pngPath));
+    manifestPngs.push({
+      role:
+        size === 512
+          ? "icon-512"
+          : size === 192
+            ? "icon-192"
+            : size === 180
+              ? "apple-touch-icon"
+              : "favicon-32",
+      path: pngPath,
+      expectedWidth: size,
+      expectedHeight: size,
+    });
   }
+  const manifestPath = await writeIconManifest({
+    data,
+    outputBaseName: args.outputName,
+    svgPath,
+    pngPaths: manifestPngs,
+  });
 
   console.log(`Icon SVG written to ${path.relative(process.cwd(), svgPath)}`);
   for (const pngPath of renderedPngs) {
     console.log(`Icon PNG written to ${pngPath}`);
   }
+  console.log(`Icon manifest written to ${path.relative(process.cwd(), manifestPath)}`);
   console.log(`Brand: ${data.brand.displayName}`);
   console.log(`Scene: ${data.scene.label}`);
 }

@@ -58,7 +58,7 @@ export function createThemeSystem(
       createThemeVariant({
         id: "default",
         label: "Default",
-        summary: "Primary brand palette with the normal ArcadeGhosts mood balance.",
+        summary: "Primary brand palette with the normal brand mood balance.",
       }),
     ],
     ...overrides,

@@ -9,6 +9,12 @@ import {
   renderHeroBase,
   renderHeroDefs,
 } from "./hero-composition";
+import {
+  createBrandOutputName,
+  resolveBrandId,
+  resolveSceneId,
+} from "../shared/cli";
+import { writeSocialManifest } from "./manifest";
 
 type SocialArgs = {
   brandId: string;
@@ -20,10 +26,15 @@ type SocialArgs = {
 };
 
 function parseArgs(argv: string[]): SocialArgs {
+  const defaultBrandId = resolveBrandId(argv);
   const args: SocialArgs = {
-    brandId: "arcadeghosts",
-    sceneId: "arcadeghosts-hero",
-    outputName: "arcadeghosts-og-image",
+    brandId: defaultBrandId,
+    sceneId: resolveSceneId(argv),
+    outputName: createBrandOutputName(
+      defaultBrandId,
+      "og-image",
+      process.env.BRAND_THEME,
+    ),
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -120,10 +131,19 @@ async function main() {
   await ensureOutputDir();
   const result = await writeOgSvg(args);
   const pngPath = await writeOgPng(result.svg, args.outputName);
+  const manifestPath = await writeSocialManifest({
+    data: result.data,
+    outputKind: "og-image",
+    outputName: args.outputName,
+    size: { width: 1200, height: 630 },
+    svgPath: result.svgPath,
+    pngPath,
+  });
   console.log(
     `OG SVG written to ${path.relative(process.cwd(), result.svgPath)}`,
   );
   console.log(`OG PNG written to ${path.relative(process.cwd(), pngPath)}`);
+  console.log(`OG manifest written to ${path.relative(process.cwd(), manifestPath)}`);
   console.log(`Brand: ${result.data.brand.displayName}`);
   console.log(`Scene: ${result.data.scene.label}`);
 }

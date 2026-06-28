@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 import {
+  BRAND_BACK_CARD_ID,
+  BRAND_FRONT_CARD_ID,
   boxStyle,
   CARD_HEIGHT,
   CARD_WIDTH,
@@ -18,8 +20,11 @@ import {
   shadows,
   typography,
   type CardId,
+  WORK_WITH_ME_BACK_CARD_ID,
+  WORK_WITH_ME_FRONT_CARD_ID,
 } from "./theme";
 import {
+  DEFAULT_BRAND_ID,
   getBrandConfig,
   type BrandConfig,
 } from "../../../design-system/brand-config";
@@ -584,10 +589,10 @@ function buildWorkFrontHtml(
   brandConfig: BrandConfig,
 ) {
   const [name, title, , ...taglineLines] = copy.workFront;
-  const boxes = cardBoxes["work-with-me-front"];
+  const boxes = cardBoxes[WORK_WITH_ME_FRONT_CARD_ID];
 
   return `
-    <article class="card" data-card-id="work-with-me-front">
+    <article class="card" data-card-id="${WORK_WITH_ME_FRONT_CARD_ID}">
       ${cardGuidesHtml()}
       <div class="box" style="${boxStyle(boxes.name)}">
         <div class="eyebrow">${escapeHtml(brandConfig.labels.workWithMe)}</div>
@@ -603,11 +608,11 @@ function buildWorkFrontHtml(
 }
 
 function buildWorkBackHtml(copy: CopySet, assets: AssetBundle) {
-  const boxes = cardBoxes["work-with-me-back"];
+  const boxes = cardBoxes[WORK_WITH_ME_BACK_CARD_ID];
   const { url, email, intro, bullets } = splitWorkBack(copy.workBack);
 
   return `
-    <article class="card" data-card-id="work-with-me-back">
+    <article class="card" data-card-id="${WORK_WITH_ME_BACK_CARD_ID}">
       <div class="work-back-stripe"></div>
       ${cardGuidesHtml()}
       <div class="box url" style="${boxStyle(boxes.url)}">${escapeHtml(url)}</div>
@@ -631,10 +636,10 @@ function buildArcadeFrontHtml(
   brandConfig: BrandConfig,
 ) {
   const [title, , ...descriptorLines] = copy.arcadeFront;
-  const boxes = cardBoxes["arcadeghosts-front"];
+  const boxes = cardBoxes[BRAND_FRONT_CARD_ID];
 
   return `
-    <article class="card arcade-front" data-card-id="arcadeghosts-front">
+    <article class="card arcade-front" data-card-id="${BRAND_FRONT_CARD_ID}">
       ${cardGuidesHtml()}
       <div class="box focal-wrap" style="${boxStyle(boxes.focal)}">
         <img src="${assets.logoDataUrl}" alt="" />
@@ -650,19 +655,23 @@ function buildArcadeFrontHtml(
   `;
 }
 
-function buildArcadeBackHtml(copy: CopySet, assets: AssetBundle) {
-  const boxes = cardBoxes["arcadeghosts-back"];
+function buildArcadeBackHtml(
+  copy: CopySet,
+  assets: AssetBundle,
+  brandConfig: BrandConfig,
+) {
+  const boxes = cardBoxes[BRAND_BACK_CARD_ID];
   const { url, descriptor } = splitArcadeBack(copy.arcadeBack);
 
   return `
-    <article class="card arcade-back" data-card-id="arcadeghosts-back">
+    <article class="card arcade-back" data-card-id="${BRAND_BACK_CARD_ID}">
       ${cardGuidesHtml()}
       <div class="box url" style="${boxStyle(boxes.url)}">${escapeHtml(url)}</div>
       <div class="box arcade-back-descriptor" style="${boxStyle(boxes.descriptor)}">${toParagraphs(
         descriptor,
       )}</div>
       <div class="box qr-wrap" style="${boxStyle(boxes.qr)}">
-        <img src="${assets.arcadeQrDataUrl}" alt="QR code linking to ArcadeGhosts" />
+        <img src="${assets.arcadeQrDataUrl}" alt="QR code linking to ${escapeHtml(brandConfig.labels.arcade)}" />
       </div>
     </article>
   `;
@@ -691,7 +700,7 @@ async function resolveBrandRootDir(brandId: string) {
     return candidateDir;
   }
 
-  return path.join(brandsRootDir, "arcadeghosts");
+  return path.join(brandsRootDir, DEFAULT_BRAND_ID);
 }
 
 async function loadCopy(brandId: string): Promise<CopySet> {
@@ -711,13 +720,13 @@ async function loadCopy(brandId: string): Promise<CopySet> {
   const arcadeFrontPath = path.join(
     brandRootDir,
     "copy",
-    "arcadeghosts",
+    brandId,
     "front-copy.txt",
   );
   const arcadeBackPath = path.join(
     brandRootDir,
     "copy",
-    "arcadeghosts",
+    brandId,
     "back-copy.txt",
   );
 
@@ -732,20 +741,20 @@ async function loadCopy(brandId: string): Promise<CopySet> {
     ),
     arcadeFront: await readCopyLines(
       arcadeFrontPath,
-      path.join(rootDir, "arcadeghosts", "front-copy.txt"),
+      path.join(rootDir, brandId, "front-copy.txt"),
     ),
     arcadeBack: await readCopyLines(
       arcadeBackPath,
-      path.join(rootDir, "arcadeghosts", "back-copy.txt"),
+      path.join(rootDir, brandId, "back-copy.txt"),
     ),
   };
 }
 
-async function ensureDirectories() {
+async function ensureDirectories(brandId: string) {
   await fs.mkdir(path.join(rootDir, "work-with-me", "exports"), {
     recursive: true,
   });
-  await fs.mkdir(path.join(rootDir, "arcadeghosts", "exports"), {
+  await fs.mkdir(path.join(rootDir, brandId, "exports"), {
     recursive: true,
   });
   await fs.mkdir(generatorDir, { recursive: true });
@@ -758,8 +767,8 @@ async function loadAssets(brandId: string): Promise<AssetBundle> {
   const fallbackLogoPath = path.join(sharedDir, "logo.png");
   const workQrPath = path.join(brandAssetsDir, "qr-work-with-me.svg");
   const fallbackWorkQrPath = path.join(sharedDir, "qr-work-with-me.svg");
-  const arcadeQrPath = path.join(brandAssetsDir, "qr-arcadeghosts.svg");
-  const fallbackArcadeQrPath = path.join(sharedDir, "qr-arcadeghosts.svg");
+  const arcadeQrPath = path.join(brandAssetsDir, `qr-${brandId}.svg`);
+  const fallbackArcadeQrPath = path.join(sharedDir, `qr-${brandId}.svg`);
 
   const resolvedLogoPath = (await fileExists(logoPath))
     ? logoPath
@@ -774,7 +783,7 @@ async function loadAssets(brandId: string): Promise<AssetBundle> {
   await Promise.all([
     requireAsset(resolvedLogoPath, "logo.png"),
     requireAsset(resolvedWorkQrPath, "qr-work-with-me.svg"),
-    requireAsset(resolvedArcadeQrPath, "qr-arcadeghosts.svg"),
+    requireAsset(resolvedArcadeQrPath, `qr-${brandId}.svg`),
   ]);
 
   const [logoDataUrl, workQrDataUrl, arcadeQrDataUrl] = await Promise.all([
@@ -798,7 +807,7 @@ async function loadAssets(brandId: string): Promise<AssetBundle> {
 function parseOptions(argv: string[]): ExportOptions {
   let guides = false;
   let pdf = false;
-  let brandId = "arcadeghosts";
+  let brandId = DEFAULT_BRAND_ID;
   let outputType = "business-cards";
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -876,7 +885,7 @@ async function buildCards(brandConfig: BrandConfig): Promise<CardExport[]> {
 
   return [
     {
-      id: "work-with-me-front",
+      id: WORK_WITH_ME_FRONT_CARD_ID,
       title: `${brandConfig.labels.workWithMe} Front`,
       exportPath: path.join(
         rootDir,
@@ -887,7 +896,7 @@ async function buildCards(brandConfig: BrandConfig): Promise<CardExport[]> {
       html: buildWorkFrontHtml(copy, assets, brandConfig),
     },
     {
-      id: "work-with-me-back",
+      id: WORK_WITH_ME_BACK_CARD_ID,
       title: `${brandConfig.labels.workWithMe} Back`,
       exportPath: path.join(
         rootDir,
@@ -898,26 +907,26 @@ async function buildCards(brandConfig: BrandConfig): Promise<CardExport[]> {
       html: buildWorkBackHtml(copy, assets),
     },
     {
-      id: "arcadeghosts-front",
+      id: BRAND_FRONT_CARD_ID,
       title: `${brandConfig.labels.arcade} Front`,
       exportPath: path.join(
         rootDir,
-        "arcadeghosts",
+        brandConfig.id,
         "exports",
         "front-final.png",
       ),
       html: buildArcadeFrontHtml(copy, assets, brandConfig),
     },
     {
-      id: "arcadeghosts-back",
+      id: BRAND_BACK_CARD_ID,
       title: `${brandConfig.labels.arcade} Back`,
       exportPath: path.join(
         rootDir,
-        "arcadeghosts",
+        brandConfig.id,
         "exports",
         "back-final.png",
       ),
-      html: buildArcadeBackHtml(copy, assets),
+      html: buildArcadeBackHtml(copy, assets, brandConfig),
     },
   ];
 }
@@ -1088,7 +1097,7 @@ async function main() {
   const options = parseOptions(process.argv.slice(2));
   const brandConfig = getBrandConfig(options.brandId);
 
-  await ensureDirectories();
+  await ensureDirectories(brandConfig.id);
   const cards = await buildCards(brandConfig);
   await writePreview(cards);
   await exportCards(cards, options);

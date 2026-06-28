@@ -1,7 +1,10 @@
 import path from "node:path";
 import { promises as fs } from "node:fs";
 
-import { getBrandConfig } from "../../../design-system/brand-config";
+import {
+  DEFAULT_BRAND_ID,
+  getBrandConfig,
+} from "../../../design-system/brand-config";
 import {
   assertVerificationPassed,
   logVerificationReport,
@@ -52,7 +55,7 @@ async function resolveBrandRootDir(brandId: string) {
     return candidateDir;
   }
 
-  return path.join(brandsRootDir, "arcadeghosts");
+  return path.join(brandsRootDir, DEFAULT_BRAND_ID);
 }
 
 async function loadCopy(brandId: string): Promise<CopySet> {
@@ -68,12 +71,12 @@ async function loadCopy(brandId: string): Promise<CopySet> {
       path.join(rootDir, "work-with-me", "back-copy.txt"),
     ),
     arcadeFront: await readCopyLines(
-      path.join(brandRootDir, "copy", "arcadeghosts", "front-copy.txt"),
-      path.join(rootDir, "arcadeghosts", "front-copy.txt"),
+      path.join(brandRootDir, "copy", brandId, "front-copy.txt"),
+      path.join(rootDir, brandId, "front-copy.txt"),
     ),
     arcadeBack: await readCopyLines(
-      path.join(brandRootDir, "copy", "arcadeghosts", "back-copy.txt"),
-      path.join(rootDir, "arcadeghosts", "back-copy.txt"),
+      path.join(brandRootDir, "copy", brandId, "back-copy.txt"),
+      path.join(rootDir, brandId, "back-copy.txt"),
     ),
   };
 }
@@ -96,14 +99,14 @@ async function loadAssetPaths(brandId: string) {
       path.join(sharedDir, "qr-work-with-me.svg"),
     ),
     arcadeQrPath: await resolvePath(
-      path.join(brandAssetsDir, "qr-arcadeghosts.svg"),
-      path.join(sharedDir, "qr-arcadeghosts.svg"),
+      path.join(brandAssetsDir, `qr-${brandId}.svg`),
+      path.join(sharedDir, `qr-${brandId}.svg`),
     ),
   };
 }
 
 function parseOptions(argv: string[]): VerifyOptions {
-  let brandId = "arcadeghosts";
+  let brandId = DEFAULT_BRAND_ID;
   let guides = true;
   let pdf = true;
 
@@ -140,8 +143,8 @@ async function main() {
   const exportPaths = [
     path.join(rootDir, "work-with-me", "exports", "front-final.png"),
     path.join(rootDir, "work-with-me", "exports", "back-final.png"),
-    path.join(rootDir, "arcadeghosts", "exports", "front-final.png"),
-    path.join(rootDir, "arcadeghosts", "exports", "back-final.png"),
+    path.join(rootDir, brandConfig.id, "exports", "front-final.png"),
+    path.join(rootDir, brandConfig.id, "exports", "back-final.png"),
   ];
 
   const exportReport = await verifyExportArtifacts(exportPaths, {

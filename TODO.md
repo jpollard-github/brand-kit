@@ -28,20 +28,25 @@ Highest priority. Protect the repo from silent drift, accidental machine-specifi
 
 This is the work Jason can realistically do tomorrow.
 
-- [ ] Review `brand:audit-source` warnings and classify them as:
+- [x] Review `brand:audit-source` warnings and classify them as:
   acceptable brand-specific references, docs-only references, reusable-code leaks, or false positives.
-- [ ] Improve `brand:audit-source` output so it groups findings by severity.
+  Current snapshot: high-severity reusable-code leaks are now `0`; acceptable brand-specific references are mostly generator entrypoint defaults and preview copy; docs-only references are `0`; and false positives are `0`.
+- [x] Improve `brand:audit-source` output so it groups findings by severity.
 - [ ] Decide which audit findings should remain warning-only for now.
 - [ ] Add allowlist comments or config where repeated warnings are intentional and acceptable.
 - [ ] Verify all current production and production-candidate commands still run after the recent hardening pass.
 - [ ] Review generator maturity labels and make sure they match reality.
-- [ ] Identify the smallest generator family that should receive manifest/preflight support next.
+- [x] Identify the smallest generator family that should receive manifest/preflight support next.
+  Chosen next target: OG / social hero outputs first, before merch families.
 - [ ] Keep tomorrow's pass focused on confidence in existing outputs rather than adding new generator families.
 
 ## Priority 2: Verification And Manifests
 
-- [ ] Expand `brand:verify` beyond business cards.
+- [x] Expand `brand:verify` beyond business cards.
+  Current coverage now includes business cards plus OG / LinkedIn / GitHub social, website hero, and icons manifest/preflight checks.
 - [ ] Add per-output manifests for production-ready and production-candidate generators.
+- [x] Start manifest/preflight work with OG / social hero outputs, since they are closest to Hero Composition and most likely to feed website integration next.
+- [x] Extend the same manifest/preflight pattern to website hero and icons.
 - [ ] Standardize manifest fields across mature generators:
   brand id, theme id, scene id, output path, dimensions, generated timestamp, source metadata, and vendor readiness.
 - [ ] Add preflight checks for:
@@ -140,12 +145,14 @@ Recent completed work from `CHANGES.md`:
 - [x] Replaced several obvious generator hard-codes with brand-config or metadata values.
 - [x] Removed tracked absolute local filesystem paths from Markdown docs.
 - [x] Added `npm run brand:audit-source` as a lightweight reusable-code audit.
+- [x] Grouped `brand:audit-source` findings by severity and classification, with the remaining high-severity leaks concentrated in legacy business-card internals.
 - [x] Expanded unit coverage around brand lookup behavior and asset MIME handling.
 - [x] Classified generator maturity in `README.md`.
 - [x] Introduced `Scene` / `Hero Composition` as a first-class generator input.
 - [x] Added `ArcadeGhosts Hero` and `Work With Me Hero`.
 - [x] Added a safer theme-override system with named theme variants.
 - [x] Added tote, stream-thumbnail, invoice, letterhead, and preview/theme-sweep workflows.
+- [x] Generalized OG / LinkedIn / GitHub social and icon generator defaults to remove avoidable ArcadeGhosts-specific entrypoint leakage.
 
 ## Notes To Keep In Mind
 
