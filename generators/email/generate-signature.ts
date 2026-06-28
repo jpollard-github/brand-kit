@@ -3,6 +3,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
+import { getClientCollateralConfig } from "../../design-system/client-collateral";
+import { writeEmailSignatureManifest } from "./manifest";
 import {
   buildHeroCompositionData,
   escapeXml,
@@ -61,6 +63,10 @@ async function ensureOutputDir() {
 async function writeSignatureFiles(args: SignatureArgs) {
   const data = await buildHeroCompositionData(args.brandId, args.sceneId);
   const brand = data.brand;
+  const collateral = getClientCollateralConfig(brand.id);
+  const serviceChips = collateral.services
+    .slice(0, 3)
+    .map((service) => service.name);
   const html = `<!doctype html>
 <html lang="en">
   <head>
@@ -160,10 +166,27 @@ async function writeSignatureFiles(args: SignatureArgs) {
 
       .role {
         color: var(--muted);
-        font-size: 18px;
+        font-size: 17px;
         line-height: 1.35;
         margin: 0 0 16px;
         max-width: 470px;
+      }
+
+      .service-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 14px;
+      }
+
+      .service-tag {
+        color: var(--text);
+        background: rgba(100, 213, 207, 0.12);
+        border: 1px solid rgba(100, 213, 207, 0.18);
+        border-radius: 999px;
+        padding: 7px 11px;
+        font-size: 13px;
+        font-weight: 700;
       }
 
       .links {
@@ -200,13 +223,21 @@ async function writeSignatureFiles(args: SignatureArgs) {
       <div>
         <div class="eyebrow">${escapeXml(brand.labels.workWithMe)}</div>
         <h1 class="name">${escapeXml(brand.metadata.contactName)}</h1>
-        <p class="role">${escapeXml(data.scene.subtitle)}</p>
+        <p class="role">${escapeXml(collateral.positioning.primaryRole)}</p>
+        <div class="service-row">
+          ${serviceChips
+            .map(
+              (service) =>
+                `<span class="service-tag">${escapeXml(service)}</span>`,
+            )
+            .join("")}
+        </div>
         <div class="links">
           <a class="chip" href="mailto:${escapeXml(brand.metadata.contactEmail)}">${escapeXml(brand.metadata.contactEmail)}</a>
           <a class="chip" href="${escapeXml(brand.metadata.homeUrl)}">${escapeXml(brand.metadata.homeUrl.replace(/^https:\/\//, ""))}</a>
-          <a class="chip" href="${escapeXml(brand.metadata.workWithMeUrl)}">Work With Me</a>
+          <a class="chip" href="${escapeXml(brand.metadata.workWithMeUrl)}">${escapeXml(collateral.ctas.primaryCTA.label)}</a>
         </div>
-        <div class="subline">${escapeXml(data.scene.subline ?? data.scene.subtitle)}</div>
+        <div class="subline">${escapeXml(collateral.positioning.tagline ?? collateral.positioning.oneLiner)} ${escapeXml(collateral.positioning.problemSummary ?? collateral.positioning.shortPromise)}</div>
       </div>
     </div>
   </body>
@@ -214,7 +245,7 @@ async function writeSignatureFiles(args: SignatureArgs) {
 
   const htmlPath = path.join(outputDir, `${args.outputName}.html`);
   await fs.writeFile(htmlPath, html, "utf8");
-  return { brand, html, htmlPath };
+  return { brand, collateral, data, html, htmlPath };
 }
 
 async function renderHtmlPreview(html: string, pngPath: string) {
@@ -243,11 +274,22 @@ async function main() {
   const result = await writeSignatureFiles(args);
   const pngPath = path.join(outputDir, `${args.outputName}.png`);
   await renderHtmlPreview(result.html, pngPath);
+  const manifestPath = await writeEmailSignatureManifest({
+    html: result.html,
+    collateral: result.collateral,
+    data: result.data,
+    outputName: args.outputName,
+    htmlPath: result.htmlPath,
+    pngPath,
+  });
   console.log(
     `Email signature HTML written to ${path.relative(process.cwd(), result.htmlPath)}`,
   );
   console.log(
     `Email signature PNG written to ${path.relative(process.cwd(), pngPath)}`,
+  );
+  console.log(
+    `Email signature manifest written to ${path.relative(process.cwd(), manifestPath)}`,
   );
   console.log(`Brand: ${result.brand.displayName}`);
 }

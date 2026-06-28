@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { getClientCollateralConfig } from "../../design-system/client-collateral";
 import {
   buildHeroCompositionData,
   renderHeroBase,
@@ -12,7 +13,6 @@ import {
 } from "../social/hero-composition";
 import {
   createBrandOutputName,
-  defaultRoleLabel,
   resolveBrandId,
 } from "../shared/cli";
 import { getBrandConfig } from "../../design-system/brand-config";
@@ -36,6 +36,7 @@ type BadgeArgs = {
 function parseArgs(argv: string[]): BadgeArgs {
   const defaultBrandId = resolveBrandId(argv);
   const defaultBrand = getBrandConfig(defaultBrandId);
+  const defaultCollateral = getClientCollateralConfig(defaultBrandId);
   const args: BadgeArgs = {
     brandId: defaultBrandId,
     sceneId: "work-with-me-hero",
@@ -45,7 +46,7 @@ function parseArgs(argv: string[]): BadgeArgs {
       process.env.BRAND_THEME,
     ),
     attendeeName: defaultBrand.metadata.contactName,
-    roleLabel: defaultRoleLabel(defaultBrand),
+    roleLabel: defaultCollateral.positioning.primaryRole,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -87,9 +88,10 @@ async function ensureOutputDir() {
 
 async function writeBadgeSvg(args: BadgeArgs) {
   const data = await buildHeroCompositionData(args.brandId, args.sceneId);
+  const collateral = getClientCollateralConfig(data.brand.id);
   const badgeSubline = wrapText(
-    data.scene.subline ?? data.scene.subtitle,
-    42,
+    collateral.positioning.oneLiner,
+    34,
   )
     .slice(0, 3)
     .map((line) => line.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
@@ -109,11 +111,11 @@ async function writeBadgeSvg(args: BadgeArgs) {
   <image href="${data.logoDataUrl}" x="420" y="380" width="360" height="360" preserveAspectRatio="xMidYMid meet" />
 
   <text x="600" y="920" text-anchor="middle" fill="${data.brand.palette.text}" font-family="${data.fontStack}" font-size="96" font-weight="790" letter-spacing="-3">${args.attendeeName}</text>
-  <text x="600" y="1000" text-anchor="middle" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="44" font-weight="600">${args.roleLabel}</text>
-  <text x="600" y="1110" text-anchor="middle" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="34" font-weight="520">Small projects. Clear problems. Personal attention.</text>
+  <text x="600" y="1000" text-anchor="middle" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="38" font-weight="600">${args.roleLabel}</text>
+  <text x="600" y="1110" text-anchor="middle" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="34" font-weight="520">${collateral.positioning.shortPromise}</text>
 
   <rect x="236" y="1188" width="728" height="132" rx="28" fill="rgba(7, 10, 14, 0.76)" stroke="rgba(248,239,227,0.1)" stroke-width="2" />
-  <text x="600" y="1268" text-anchor="middle" fill="${data.brand.palette.teal}" font-family="${data.fontStack}" font-size="40" font-weight="700">${data.brand.metadata.canonicalDomain}</text>
+  <text x="600" y="1268" text-anchor="middle" fill="${data.brand.palette.teal}" font-family="${data.fontStack}" font-size="34" font-weight="700">${data.brand.metadata.workWithMeUrl.replace(/^https:\/\//, "")}</text>
 
   <path d="M 244 1444 C 388 1378, 530 1378, 674 1444" fill="none" stroke="${data.brand.palette.pink}" stroke-opacity="0.26" stroke-width="12" />
   <path d="M 526 1444 C 682 1518, 842 1518, 960 1444" fill="none" stroke="${data.brand.palette.cyan}" stroke-opacity="0.18" stroke-width="10" />
@@ -124,7 +126,7 @@ async function writeBadgeSvg(args: BadgeArgs) {
         `<text x="600" y="${1554 + index * 48}" text-anchor="middle" fill="${data.brand.palette.text}" font-family="${data.fontStack}" font-size="31" font-weight="640">${line}</text>`,
     )
     .join("")}
-  <text x="600" y="1710" text-anchor="middle" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="28" font-weight="520">${data.brand.displayName} conference badge preview</text>
+  <text x="600" y="1710" text-anchor="middle" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="28" font-weight="520">${data.brand.metadata.contactEmail}</text>
 </svg>`;
 
   const svgPath = path.join(outputDir, `${args.outputName}.svg`);

@@ -1,6 +1,6 @@
 # Brand Kit
 
-This repository is a generator-based brand toolkit for ArcadeGhosts, client-facing collateral, and related brand surfaces.
+This repository is a reusable client-collateral system for ArcadeGhosts and related brand surfaces, implemented through source-driven generators.
 
 ## Setup
 
@@ -22,11 +22,14 @@ If you are new to the repo, use this order:
 1. [docs/repo-map.md](docs/repo-map.md)
 2. [TODO.md](TODO.md)
 3. [docs/CLIENT-COLLATERAL.md](docs/CLIENT-COLLATERAL.md)
-4. [brands/arcadeghosts/README.md](brands/arcadeghosts/README.md)
-5. [brands/arcadeghosts/what-makes-arcadeghosts.md](brands/arcadeghosts/what-makes-arcadeghosts.md)
-6. [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
-7. [design-system/brand-config.ts](design-system/brand-config.ts)
-8. [generators/social/hero-composition.ts](generators/social/hero-composition.ts)
+4. [docs/BUSINESS-LINKS-CONTRACT.md](docs/BUSINESS-LINKS-CONTRACT.md)
+5. [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md)
+6. [docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md](docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md)
+7. [brands/arcadeghosts/README.md](brands/arcadeghosts/README.md)
+8. [brands/arcadeghosts/what-makes-arcadeghosts.md](brands/arcadeghosts/what-makes-arcadeghosts.md)
+9. [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
+10. [design-system/brand-config.ts](design-system/brand-config.ts)
+11. [generators/social/hero-composition.ts](generators/social/hero-composition.ts)
 
 ## Current approach
 
@@ -48,6 +51,12 @@ Use the repo with three mental buckets:
 
 If a file can be regenerated from brand config, copy, assets, and generator code, it should usually be treated as generated rather than canonical.
 
+## Architecture Status
+
+Brand Kit should now be considered `Stable v1`.
+
+Future work should prioritize production readiness, real-world usage, generator polish, verification, and customer feedback rather than architectural expansion.
+
 ## Brand-agnostic direction
 
 The repo is now structured to support a shared design-system layer that can be reused across multiple brands and output types.
@@ -59,7 +68,7 @@ The repo is now structured to support a shared design-system layer that can be r
 
 ## Output-agnostic direction
 
-The generator entry points are now set up to be more general than business cards alone.
+The collateral system includes generator entry points that are more general than business cards alone.
 
 - Cards: `npm run brand:business-cards`
 - Stickers: `npm run brand:stickers`
@@ -73,11 +82,13 @@ The generator entry points are now set up to be more general than business cards
 - Conference badge / mini flyer / wallpapers: `npm run brand:conference-badge`, `npm run brand:mini-flyer`, `npm run brand:wallpapers`
 - Tote / stream thumbnail: `npm run brand:totes`, `npm run brand:stream-thumbnail`
 - Documents / stationery: `npm run brand:documents`
+- Client collateral: `npm run brand:client-collateral`, `npm run brand:proposal-cover`, `npm run brand:capability-sheet`, `npm run brand:discovery-call`, `npm run brand:case-study-template`
 - Email signature: `npm run brand:email-signature`
 - Full preview: `npm run brand:preview`
 - Theme preview sweep: `npm run brand:preview:themes`
-- Generator implementations live under the generators folder, with business cards as the first generator family.
+- Generator implementations live under the generators folder, with business cards as the first working family.
 - Additional output-oriented commands can be introduced as new generators are added.
+- Improve existing collateral before adding new collateral families.
 
 ## Scene Families
 
@@ -92,21 +103,20 @@ The repo now has two primary scene families for ArcadeGhosts:
 
 The goal is to adapt one composition family across aspect ratios instead of redesigning the same idea from scratch for every surface.
 
-## Generator Maturity
+## Collateral Maturity
 
-Use these labels as workflow expectations, not as a judgment on visual quality:
+Use these levels as workflow expectations, not as a judgment on visual quality:
 
-- `Production Ready`
-  business cards plus the current verification path
-- `Production Candidate`
-  OG image, LinkedIn banner, GitHub social, website hero, icons, newsletter header, project cover, presentation cover, conference badge, mini flyer, wallpapers, documents, email signature, and preview sheet
-  Social hero outputs, website hero, and icons now include manifest and preflight support, but still need broader workflow proof before they move above `Production Candidate`.
+- `Prototype`
+  early or architecture-validating surfaces that still need clearer operational use, such as mini flyer and preview-oriented review surfaces.
 - `Proof of Concept`
-  stickers, sticker sheet, mugs, shirts, totes, stream thumbnail, and website handoff staging
-- `Scaffold`
-  shared multi-brand abstractions that still need validation against a second real brand
-- `Archived`
-  material under `archive/` and historical conversations under `vschats/`
+  useful exploration value, but not yet trustworthy as real operational collateral. Current examples include case study template until real client work exists, stickers, sticker sheet, mugs, shirts, totes, stream thumbnail, and website handoff staging.
+- `Production Candidate`
+  useful assets that are close to operationally real, but still need broader workflow proof. Current examples include OG image, LinkedIn banner, GitHub social, website hero, icons, newsletter header, project cover, presentation cover, conference badge, wallpapers, documents, email signature, proposal cover, capability sheet, and discovery call guide.
+- `Production Ready`
+  repeatable outputs with clear handoff and stronger verification confidence. Business cards are the strongest current example.
+- `Deprecated`
+  intentionally historical or no-longer-active material, including `archive/` and older conversation/context folders under `vschats/`.
 
 ## Guardrails And Themes
 
@@ -141,7 +151,7 @@ npm run brand:preview
 ```
 
 - `brand:verify` now checks business-card source-of-truth details plus social hero manifests/preflight metadata for OG, LinkedIn, and GitHub outputs.
-- `brand:verify` is the main preflight command before trusting outputs for real use. It now checks business-card source-of-truth details plus manifest/preflight coverage for social hero outputs, website hero, and icons.
+- `brand:verify` is the main preflight command before trusting outputs for real use. It now checks business-card source-of-truth details plus manifest/preflight coverage for social hero outputs, website hero, icons, email signature, and capability sheet.
 - `brand:audit-source` is a reusable-code hygiene check. Its purpose is to catch places where shared code still leaks ArcadeGhosts-specific strings so the repo can become genuinely multi-brand over time, without blocking normal work yet.
 - `brand:preview` generates the current output set and refreshes the multi-output review page.
 
@@ -151,6 +161,8 @@ Useful extra workflows:
 - `npm run brand:verify:business-cards`
 - `npm run brand:verify:website`
 - `npm run brand:verify:icons`
+- `npm run brand:verify:email`
+- `npm run brand:verify:capability-sheet`
 - `npm run brand:preview:themes`
 - `npm run test:unit`
 
@@ -177,13 +189,26 @@ Useful specialized docs:
 
 - [docs/repo-map.md](docs/repo-map.md)
 - [docs/CLIENT-COLLATERAL.md](docs/CLIENT-COLLATERAL.md)
+- [docs/BUSINESS-LINKS-CONTRACT.md](docs/BUSINESS-LINKS-CONTRACT.md)
+- [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md)
+- [docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md](docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md)
 - [docs/add-output.md](docs/add-output.md)
 - [docs/add-brand.md](docs/add-brand.md)
+- [generators/client-collateral/README.md](generators/client-collateral/README.md)
 - [generators/business-cards/generator/README.md](generators/business-cards/generator/README.md)
 - [brands/arcadeghosts/workflows/MOO-upload-checklist.md](brands/arcadeghosts/workflows/MOO-upload-checklist.md)
 - [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
 - [generators/website/README.md](generators/website/README.md)
 - generator-family upload notes under `generators/*/README.md`
+
+The docs are split roughly like this:
+
+- `CLIENT-COLLATERAL.md`
+  collateral set, maturity, and customer-journey fit
+- `BUSINESS-LINKS-CONTRACT.md`
+  logical CTA/link contract between Brand Kit and consumer repos
+- `ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`
+  ArcadeGhosts-specific handoff expectations for lead-generation use
 
 ## Testing
 
