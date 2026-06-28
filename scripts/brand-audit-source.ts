@@ -48,6 +48,11 @@ type ClassificationRule = {
   note: string;
 };
 
+type WarningOnlyRule = Omit<ClassificationRule, "classification" | "severity"> & {
+  classification?: AuditClassification;
+  severity?: AuditSeverity;
+};
+
 const auditPatterns: AuditPattern[] = [
   {
     label: "ArcadeGhosts display name",
@@ -82,7 +87,7 @@ const entrypointDefaults = new Set([
   "generators/preview/generate-theme-preview-sheets.ts",
 ]);
 
-const classificationRules: ClassificationRule[] = [
+const warningOnlyRules: WarningOnlyRule[] = [
   {
     match: (finding) => finding.path === "design-system/brand-config.ts",
     classification: "acceptable brand-specific reference",
@@ -109,6 +114,14 @@ const classificationRules: ClassificationRule[] = [
     severity: "medium",
     note: "Generator entrypoint defaults still seed from ArcadeGhosts and should be generalized as each family matures.",
   },
+];
+
+const classificationRules: ClassificationRule[] = [
+  ...warningOnlyRules.map((rule) => ({
+    ...rule,
+    classification: rule.classification ?? "acceptable brand-specific reference",
+    severity: rule.severity ?? "medium",
+  })),
   {
     match: (finding) =>
       finding.path === "generators/business-cards/generator/export-cards.ts" ||
@@ -326,6 +339,9 @@ async function main() {
   const classifiedFindings = rawFindings.map(classifyFinding);
 
   console.warn("Source audit warnings:");
+  console.warn(
+    `Warning-only allowlist rules: ${warningOnlyRules.length} configured intentional cases.`,
+  );
   printSummary(classifiedFindings);
   printGroupedFindings(classifiedFindings);
   console.warn(

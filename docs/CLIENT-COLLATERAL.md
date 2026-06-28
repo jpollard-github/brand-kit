@@ -40,6 +40,11 @@ Recent-work note:
   service positioning copy, proof points, contact metadata, and a print-friendly document or poster-style layout.
 - Verification status:
   now includes a lightweight manifest and `npm run brand:verify:capability-sheet` preflight check.
+- Layout direction:
+  preserve the current dark-hero, light-body, card/grid, one-page format as the preferred production-candidate direction for client-facing collateral.
+- Current content standard:
+  rendered output should stay client-facing.
+  Keep internal notes like usage guidance, CTA metadata, or review instructions in docs and config comments, not in the PDF itself.
 
 ### Discovery Call PDF
 
@@ -79,6 +84,8 @@ Recent-work note:
   prototype until a real local handoff use case is confirmed.
 - Dependencies:
   concise offer framing, contact details, visual restraint, and a believable local handoff use case.
+- Current decision:
+  keep this out of the first-client stack for now unless a real local leave-behind need appears.
 
 ### Email Signature
 
@@ -94,6 +101,8 @@ Recent-work note:
   brand metadata, contact info, client-collateral positioning data, `Work With Me` scene styling, email-client-safe HTML constraints, and review in actual mail clients.
 - Verification status:
   now includes a lightweight manifest and `npm run brand:verify:email` preflight check.
+- Layout direction:
+  preserve the current dark premium card, left logo block, `WORK WITH ME` eyebrow, large Jason Pollard name, concise role line, contact/action chips, and one focused `Work With Me` CTA as the production-default signature direction.
 
 ### Conference Badge
 
@@ -142,6 +151,7 @@ Useful now for acquiring consulting work:
   strongest current workflow; especially the `Work With Me` card set because it already points to a contact-oriented next step.
 - `email signature`
   the best first operational collateral asset because it directly supports every outbound message and follow-up, but it still needs real-client email-client proofing.
+  Keep default messaging stable across themes, and keep `Work With Me` as the primary first-touch CTA.
 - `capability sheet`
   one of the clearest warm-lead and referral assets because it answers what Jason helps with, what problems he solves, and how to start.
 - `proposal cover`
@@ -149,7 +159,7 @@ Useful now for acquiring consulting work:
 - `discovery call PDF`
   useful before or after a first conversation because it makes the process feel calm and concrete.
 - `mini flyer`
-  potentially useful for local leave-behind or event use, but should still follow the email signature and capability sheet in practical attention.
+  potentially useful for local leave-behind or event use, but should still follow the email signature and capability sheet in practical attention and does not currently earn first-client focus.
 - `conference badge`
   directly supports in-person lead generation, but still needs vendor/event workflow validation.
 - `letterhead`
@@ -176,7 +186,57 @@ Bottom line:
 - The biggest gap for first-client acquisition is not more merch or more surface variety.
 - The biggest gap is reusable client-facing documents that turn the `Work With Me` direction into proposal, capability, and discovery assets.
 
+## One-Page Collateral Family
+
+The current capability-sheet layout should become the preferred base style for future one-page client collateral such as:
+
+- capability sheet
+- one-service overview
+- case study
+- proposal overview
+- discovery summary
+- audit report
+- pricing guide
+- project recommendation
+
+Shared family resemblance should stay consistent:
+
+- same hero structure
+- same typography
+- same spacing rhythm
+- same footer pattern
+- same CTA placement
+- same card radius
+- same color language
+
+Content changes. The system stays consistent.
+
+This style works especially well for:
+
+- warm leads
+- referrals
+- pre-call attachments
+- first-client outreach support
+
+## Shared Service Vocabulary
+
+Across the first-client collateral family, keep the service language compatible even when the length changes by asset.
+
+- Short:
+  `Software Consultant | Internal Tools & AI Workflows`
+- Medium:
+  `Websites, web apps, automation, AI-assisted systems, internal tools, and technical cleanup.`
+- Expanded:
+  `I help small and mid-sized businesses fix messy workflows, websites, forms, reports, internal tools, AI-assisted processes, and existing codebases.`
+
+The business problem should lead.
+Complex-codebase and repository support should appear as a secondary capability rather than the main headline.
+
 ## Customer Journey
+
+Operational path:
+
+`Business Card -> Website -> Work With Me -> Capability Sheet -> Discovery Call -> Proposal -> Invoice`
 
 ### Awareness
 
@@ -195,6 +255,7 @@ Bottom line:
   canonical public entry point.
 - `capability sheet`
   production candidate and the next-best warm-lead/referral asset.
+  Keep it `Production Candidate` until it has been visually proofed, reviewed in a real outreach context, checked for print/PDF readability, confirmed to export cleanly as one page or with intentional page breaks, stripped of internal/meta wording, and confirmed against the production checklist.
 
 ### Evaluation
 

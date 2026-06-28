@@ -20,7 +20,8 @@ Move from generated card exports to a small, low-risk first print order.
 Run:
 
 ```bash
-npm run brand:business-cards -- --guides --pdf
+npm run brand:business-cards:order-ready
+npm run brand:verify:business-cards
 ```
 
 That gives you:
@@ -201,10 +202,11 @@ Most likely fixes:
 
 If you want the no-drama route:
 
-1. run `npm run brand:business-cards -- --guides --pdf`
-2. review the guide PNGs and guide PDFs
-3. scan both QR codes manually
-4. upload `Work With Me` clean PNGs to MOO first
-5. upload `ArcadeGhosts` clean PNGs second
-6. order a small test batch
-7. review in hand before doing anything fancy
+1. run `npm run brand:business-cards:order-ready`
+2. run `npm run brand:verify:business-cards`
+3. review the guide PNGs and guide PDFs
+4. scan both QR codes manually
+5. upload `Work With Me` clean PNGs to MOO first
+6. upload `ArcadeGhosts` clean PNGs second
+7. order a small test batch
+8. review in hand before doing anything fancy

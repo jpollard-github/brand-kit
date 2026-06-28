@@ -11,6 +11,7 @@ import {
   type CopySet,
   verifyBusinessCardSources,
   verifyExportArtifacts,
+  verifyExportManifests,
 } from "./verification";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
@@ -154,8 +155,15 @@ async function main() {
   logVerificationReport("Export artifact verification", exportReport);
   assertVerificationPassed(exportReport);
 
+  const manifestReport = await verifyExportManifests(exportPaths, {
+    guides: options.guides,
+    pdf: options.pdf,
+  });
+  logVerificationReport("Export manifest verification", manifestReport);
+  assertVerificationPassed(manifestReport);
+
   console.log("Pre-flight checklist");
-  console.log("  [pass] Name, email, website, QR targets, dimensions, PNGs, guides, and PDFs all verified.");
+  console.log("  [pass] Name, email, website, QR targets, dimensions, PNGs, guides, PDFs, and export manifests all verified.");
 }
 
 main().catch((error) => {

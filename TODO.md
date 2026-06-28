@@ -21,34 +21,60 @@ Highest priority. Protect the repo from silent drift, accidental machine-specifi
 - [x] Keep generated outputs out of canonical source.
 - [x] Keep `brand:audit-source` available as a reusable-code warning pass.
 - [x] Keep business-card verification strong because a wrong URL already caused a real ordering mistake.
-- [ ] Preserve the rule that canonical source lives in `design-system/`, `brands/`, and generator source files, not generated exports.
-- [ ] Keep review and vendor workflows centered on reproducible local generation, not manually edited output artifacts.
+- [x] Preserve the rule that canonical source lives in `design-system/`, `brands/`, and generator source files, not generated exports.
+- [x] Keep review and vendor workflows centered on reproducible local generation, not manually edited output artifacts.
 
 ## Priority 1: First Client Collateral
 
 This is the highest-leverage work for winning a first consulting client.
 
+- [x] Proof the email signature in the real outreach client before treating it as operationally useful.
+  Current status: installed and working in the actual email setup; keep `docs/EMAIL-SIGNATURE-PROOFING.md` for any broader cross-client pass before promoting beyond `Production Candidate`.
+- [ ] Keep the email signature `Production Candidate` until manual proofing is complete in:
+  Outlook mobile, at least one non-Outlook client, reply/forward behavior, and real sent-email rendering.
+- [ ] Proof the capability sheet in a real outreach context and against [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md).
+- [ ] Keep the capability sheet `Production Candidate` until PDF readability, CTA clarity, footer legibility, and one-page fit are confirmed in a real review pass.
+- [x] Keep internal or meta language out of client-facing collateral renders:
+  current sendable capability-sheet and related client-collateral outputs now avoid `Primary CTA`, usage-note footers, and internal review instructions in the rendered asset itself.
+- [x] Keep service vocabulary aligned across business cards, email signature, capability sheet, proposal cover, and discovery guide:
+  current shared language now consistently supports websites, web apps, automation, AI-assisted systems, internal tools, technical cleanup, and existing codebases where appropriate.
+- [x] Keep complex-codebase and repo capability present but secondary:
+  current capability-sheet direction includes this as supporting proof of range without turning the asset into a giant skills resume.
+- [x] Place the corrected Work With Me business-card order.
+  Current status: MOO order placed on 2026-06-28.
+- [ ] Complete business-card production verification with the manual checks in [docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md](docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md):
+  QR scan speed on iPhone and Android, margins, bleed, safe area, and final paper choice, plus a received-print sanity check after delivery.
+- [x] Add a lightweight review-packet command for first-client collateral.
+- [x] Keep generated output organization and review-packet conventions quiet and consistent through [docs/OUTPUTS-AND-REVIEW-PACKETS.md](docs/OUTPUTS-AND-REVIEW-PACKETS.md).
+  Current status: generated outputs stay canonical under `generators/outputs/`, and timestamped review packets now live under `review-packets/` with both folder and zip review paths.
+- [ ] Promote assets from `Production Candidate` to `Production Ready` only after checklist-driven proofing and real-world usage.
+- [ ] Let future collateral changes be driven by real consulting validation, not speculative expansion.
 - [x] Create and document `docs/BUSINESS-LINKS-CONTRACT.md` so Brand Kit consumes logical CTA intent instead of owning deployment-specific funnel URLs.
 - [x] Refine the email signature so it works as a real outbound consulting touchpoint, not just a rendered preview.
 - [x] Add a lightweight reusable CTA model to client-collateral config without turning it into a full schema system.
-- [ ] Ensure the email signature keeps using logical CTA intent cleanly as the contract evolves.
-- [ ] Proof the email signature in real email clients before treating it as operationally ready everywhere.
+- [x] Ensure the email signature keeps using logical CTA intent cleanly as the contract evolves.
+  Current email-signature links now resolve website, contact email, and primary CTA through the shared client-collateral link contract instead of hardcoded field choices.
 - [x] Create a capability sheet generator or reusable one-page capability-sheet workflow for services, proof, and contact details.
   First pass now exists under `npm run brand:capability-sheet`, but it should keep getting refined around `what I help with`, `problems I solve`, and `how to start`.
-- [ ] Ensure the capability sheet keeps using logical CTA intent cleanly as the contract evolves.
+- [x] Ensure the capability sheet keeps using logical CTA intent cleanly as the contract evolves.
+  Current capability-sheet copy now resolves the primary CTA through the logical CTA contract instead of reaching directly into `workWithMeUrl`.
 - [x] Add manifest/preflight coverage for the capability sheet next if it proves to be a repeated outreach asset.
 - [x] Create a proposal cover generator or reusable proposal-cover workflow driven by the `Work With Me` brand direction, without hardcoding ArcadeGhosts-specific copy into shared generator logic.
   First pass now exists under `npm run brand:proposal-cover`.
 - [x] Create a discovery call PDF generator or workflow for a polished pre-call leave-behind.
   First pass now exists under `npm run brand:discovery-call`.
 - [x] Create a case study template generator or workflow that can be reused once real client work exists.
-  First pass now exists under `npm run brand:case-study-template`, but it should stay proof-of-concept until real client work informs it.
-- [ ] Decide whether the mini flyer belongs in the first consulting-collateral stack as a real local leave-behind, then refine it for that use if yes.
+  First pass now exists under `npm run brand:case-study-template`, but it should stay `Proof of Concept` until real client work informs it.
+- [x] Decide whether the mini flyer belongs in the first consulting-collateral stack as a real local leave-behind, then refine it for that use if yes.
+  Current decision: not yet. Keep it as a `Prototype` until a real local use case appears.
 - [x] Strengthen the letterhead shell so it can front proposals or lightweight client documents.
 - [x] Strengthen the invoice shell so it feels credible for real billing once client work starts.
 - [x] Strengthen the conference badge as an in-person lead-generation asset.
-- [ ] Keep business cards important as a proven contact surface, while treating client-collateral refinement as the next growth-focused work.
+- [x] Keep business cards important as a proven contact surface, while treating client-collateral refinement as the next growth-focused work.
 - [ ] Keep client-facing collateral ahead of additional merch work unless a merch task directly supports client acquisition.
+- [ ] Keep the first-client stack focused and pause new collateral families unless real outreach or client work creates the need.
+- [ ] Keep the one-page collateral family visually consistent:
+  same hero structure, typography, spacing rhythm, footer pattern, CTA placement, card radius, and color language across capability sheet, proposal overview, case study, discovery summary, and similar one-page collateral.
 
 ## Priority 2: Immediate Next Work
 
@@ -58,13 +84,18 @@ This is the work Jason can realistically do tomorrow after the client-collateral
   acceptable brand-specific references, docs-only references, reusable-code leaks, or false positives.
   Current snapshot: high-severity reusable-code leaks are now `0`; acceptable brand-specific references are mostly generator entrypoint defaults and preview copy; docs-only references are `0`; and false positives are `0`.
 - [x] Improve `brand:audit-source` output so it groups findings by severity.
-- [ ] Decide which audit findings should remain warning-only for now.
-- [ ] Add allowlist comments or config where repeated warnings are intentional and acceptable.
-- [ ] Verify all current production and production-candidate commands still run after the recent hardening pass.
-- [ ] Review generator maturity labels and make sure they match reality.
+- [x] Decide which audit findings should remain warning-only for now.
+  Current warning-only set: generator entrypoint defaults, preview surfaces, and default-brand wiring that intentionally references ArcadeGhosts.
+- [x] Add allowlist comments or config where repeated warnings are intentional and acceptable.
+  `brand:audit-source` now has an explicit warning-only allowlist section for intentional references.
+- [x] Verify all current production and production-candidate commands still run after the recent hardening pass.
+  Current status: `npm run test:unit`, `npm run brand:audit-source`, `npm run brand:verify`, `npm run brand:preview`, and `npm run brand:client-collateral` all completed successfully on 2026-06-28.
+- [x] Review generator maturity labels and make sure they match reality.
+  Current status: root README and collateral docs now reflect the present split between `Production Ready`, `Production Candidate`, `Proof of Concept`, and `Prototype` more explicitly.
 - [x] Identify the smallest generator family that should receive manifest/preflight support next.
   Chosen next target: OG / social hero outputs first, before merch families.
-- [ ] Keep tomorrow's pass focused on confidence in existing outputs rather than adding new generator families.
+- [x] Keep recent passes focused on confidence in existing outputs rather than adding new generator families.
+  Current status: the latest work has centered on business-card ordering readiness, email-signature proofing, capability-sheet polish, packet review flow, and documentation clarity.
 
 ## Priority 3: Verification And Manifests
 
@@ -164,7 +195,18 @@ This is documentation-only for now.
 
 ## Future / Later
 
-- [ ] Add a ChatGPT review packet command, probably `npm run chatgpt:packet`.
+- [ ] Consider whether review packets eventually need a broader `chatgpt:packet` wrapper beyond the current first-client collateral packet command.
+- [ ] Normalize default output names toward `<brand>-<asset>-<theme>.<ext>` if a future cleanup can do it without disrupting verification, docs, or review habits.
+- [ ] Define email-signature theme usage guidance:
+  default daily outreach, conference/event, seasonal, minimal fallback, and special campaign use.
+- [ ] Explore future signature theme ideas:
+  Halloween, Twin Peaks-inspired mood palette without copyrighted imagery, local-business plain version, and high-contrast accessibility version.
+- [ ] Add email-signature accessibility and fallback proofing notes:
+  image alt text, readable text if images are blocked, link labels that do not rely on color, and acceptable plain-text fallback behavior.
+- [ ] Keep signature install guidance clear:
+  which HTML file to use, how to install in Outlook, what to verify after install, and what not to edit manually.
+- [ ] Add a lightweight process-diagram option for one-page collateral if real outreach use proves it helpful.
+  Keep it small and memorable, such as `Spreadsheet -> Simple Web Tool -> Reports`.
 - [ ] Promote stronger source audit failures once a second brand exists.
 - [ ] Add preview-sheet warnings for proof-of-concept outputs.
 - [ ] Add richer theme sweeps where they improve review quality instead of just generating more files.
@@ -172,6 +214,7 @@ This is documentation-only for now.
 - [ ] Build a reusable client-brand onboarding path once second-brand validation exposes the real requirements.
 - [ ] Add more merch families only if they support a real client-acquisition, conference, or delivery workflow.
 - [ ] Prefer adding new collateral only when real consulting work demonstrates a need.
+- [ ] Keep stickers, mugs, banners, shirts, social graphics, postcards, brochures, posters, and trade-show materials deferred until real outreach proves a need.
 
 ## Completed Recently
 

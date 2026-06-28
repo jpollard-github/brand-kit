@@ -3,7 +3,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
-import { getClientCollateralConfig } from "../../design-system/client-collateral";
+import {
+  getClientCollateralConfig,
+  resolveClientCollateralLink,
+} from "../../design-system/client-collateral";
 import { writeEmailSignatureManifest } from "./manifest";
 import {
   buildHeroCompositionData,
@@ -67,6 +70,25 @@ async function writeSignatureFiles(args: SignatureArgs) {
   const serviceChips = collateral.services
     .slice(0, 3)
     .map((service) => service.name);
+  const websiteUrl = resolveClientCollateralLink(brand.metadata, "website");
+  const websiteDisplayUrl = brand.metadata.homeUrl.replace(/^https:\/\//, "");
+  const primaryCtaUrl = resolveClientCollateralLink(
+    brand.metadata,
+    collateral.ctas.primaryCTA.linkKey,
+  );
+  const contactEmailUrl = resolveClientCollateralLink(
+    brand.metadata,
+    collateral.ctas.contactCTA.linkKey,
+  );
+  const roleLine = collateral.email?.roleLine ?? collateral.positioning.primaryRole;
+  const subline =
+    collateral.email?.subline ??
+    `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
+  const serviceTags = serviceChips
+    .map(
+      (service) => `<span style="display:inline-block;margin:0 8px 8px 0;padding:6px 10px;border-radius:999px;background:#16343b;border:1px solid #23545e;color:${brand.palette.text};font-size:12px;font-weight:700;line-height:1.2;">${escapeXml(service)}</span>`,
+    )
+    .join("");
   const html = `<!doctype html>
 <html lang="en">
   <head>
@@ -74,17 +96,6 @@ async function writeSignatureFiles(args: SignatureArgs) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${escapeXml(brand.displayName)} Email Signature</title>
     <style>
-      :root {
-        --bg: ${brand.palette.backgroundDeep};
-        --panel: ${brand.palette.background};
-        --border: ${brand.palette.border};
-        --text: ${brand.palette.text};
-        --muted: ${brand.palette.textMuted};
-        --amber: ${brand.palette.amber};
-        --teal: ${brand.palette.teal};
-        --pink: ${brand.palette.pink};
-      }
-
       body {
         margin: 0;
         padding: 24px;
@@ -93,153 +104,48 @@ async function writeSignatureFiles(args: SignatureArgs) {
       }
 
       .signature {
-        width: 720px;
-        color: var(--text);
-        background:
-          radial-gradient(circle at top left, rgba(100, 213, 207, 0.15), transparent 28%),
-          radial-gradient(circle at top right, rgba(245, 119, 162, 0.16), transparent 24%),
-          linear-gradient(135deg, ${brand.palette.backgroundDeep} 0%, ${brand.palette.background} 100%);
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        padding: 26px 28px;
-        display: grid;
-        grid-template-columns: 148px 1fr;
-        gap: 22px;
-        box-shadow: 0 20px 50px rgba(8, 10, 16, 0.18);
+        width: 760px;
       }
 
-      .mark {
-        background: rgba(7, 10, 14, 0.62);
-        border: 1px solid rgba(248, 239, 227, 0.08);
-        border-radius: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 148px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .mark::before,
-      .mark::after {
-        content: "";
-        position: absolute;
-        border-radius: 999px;
-        border: 2px solid transparent;
-      }
-
-      .mark::before {
-        width: 116px;
-        height: 116px;
-        border-color: rgba(100, 213, 207, 0.32);
-      }
-
-      .mark::after {
-        width: 86px;
-        height: 86px;
-        border-color: rgba(240, 191, 108, 0.22);
-      }
-
-      .mark img {
-        width: 94px;
-        height: 94px;
-        object-fit: contain;
-        position: relative;
-        z-index: 1;
-      }
-
-      .eyebrow {
-        color: var(--amber);
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 0.26em;
-        text-transform: uppercase;
-        margin-bottom: 8px;
-      }
-
-      .name {
-        font-size: 32px;
-        font-weight: 800;
-        line-height: 1.05;
-        margin: 0 0 8px;
-      }
-
-      .role {
-        color: var(--muted);
-        font-size: 17px;
-        line-height: 1.35;
-        margin: 0 0 16px;
-        max-width: 470px;
-      }
-
-      .service-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin: 0 0 14px;
-      }
-
-      .service-tag {
-        color: var(--text);
-        background: rgba(100, 213, 207, 0.12);
-        border: 1px solid rgba(100, 213, 207, 0.18);
-        border-radius: 999px;
-        padding: 7px 11px;
-        font-size: 13px;
-        font-weight: 700;
-      }
-
-      .links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 0 0 18px;
-      }
-
-      .chip {
-        color: var(--text);
-        text-decoration: none;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: rgba(7, 10, 14, 0.62);
-        border: 1px solid rgba(248, 239, 227, 0.08);
-        font-size: 14px;
-        font-weight: 650;
-      }
-
-      .subline {
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.45;
-        max-width: 520px;
+      table {
+        border-collapse: separate;
       }
     </style>
   </head>
   <body>
-    <div class="signature">
-      <div class="mark">
-        <img src="${data.logoDataUrl}" alt="${escapeXml(brand.displayName)} logo" />
-      </div>
-      <div>
-        <div class="eyebrow">${escapeXml(brand.labels.workWithMe)}</div>
-        <h1 class="name">${escapeXml(brand.metadata.contactName)}</h1>
-        <p class="role">${escapeXml(collateral.positioning.primaryRole)}</p>
-        <div class="service-row">
-          ${serviceChips
-            .map(
-              (service) =>
-                `<span class="service-tag">${escapeXml(service)}</span>`,
-            )
-            .join("")}
-        </div>
-        <div class="links">
-          <a class="chip" href="mailto:${escapeXml(brand.metadata.contactEmail)}">${escapeXml(brand.metadata.contactEmail)}</a>
-          <a class="chip" href="${escapeXml(brand.metadata.homeUrl)}">${escapeXml(brand.metadata.homeUrl.replace(/^https:\/\//, ""))}</a>
-          <a class="chip" href="${escapeXml(brand.metadata.workWithMeUrl)}">${escapeXml(collateral.ctas.primaryCTA.label)}</a>
-        </div>
-        <div class="subline">${escapeXml(collateral.positioning.tagline ?? collateral.positioning.oneLiner)} ${escapeXml(collateral.positioning.problemSummary ?? collateral.positioning.shortPromise)}</div>
-      </div>
-    </div>
+    <table class="signature" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:760px;max-width:760px;background:${brand.palette.background};background-image:linear-gradient(135deg, ${brand.palette.backgroundDeep} 0%, ${brand.palette.background} 100%);border:1px solid ${brand.palette.border};border-radius:20px;color:${brand.palette.text};font-family:${brand.typography.fontStack};">
+      <tr>
+        <td style="padding:24px 22px 24px 24px;vertical-align:top;width:136px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:120px;height:120px;background:#11161c;border:1px solid rgba(248,239,227,0.08);border-radius:18px;">
+            <tr>
+              <td align="center" valign="middle" style="width:120px;height:120px;padding:8px;">
+                <img src="${data.logoDataUrl}" alt="${escapeXml(brand.displayName)} logo" width="96" height="96" style="display:block;width:96px;height:96px;border:0;outline:none;text-decoration:none;" />
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td style="padding:22px 24px 22px 0;vertical-align:top;">
+          <div style="color:${brand.palette.amber};font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 8px 0;">${escapeXml(brand.labels.workWithMe)}</div>
+          <div style="color:${brand.palette.text};font-size:30px;font-weight:800;line-height:1.05;margin:0 0 8px 0;">${escapeXml(brand.metadata.contactName)}</div>
+          <div style="color:${brand.palette.textMuted};font-size:16px;line-height:1.35;margin:0 0 14px 0;">${escapeXml(roleLine)}</div>
+          <div style="margin:0 0 10px 0;line-height:1;">${serviceTags}</div>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px 0;">
+            <tr>
+              <td style="padding:0 8px 8px 0;">
+                <a href="${escapeXml(contactEmailUrl)}" style="display:inline-block;padding:9px 12px;border-radius:999px;background:#11161c;border:1px solid rgba(248,239,227,0.08);color:${brand.palette.text};font-size:13px;font-weight:650;line-height:1.2;text-decoration:none;">${escapeXml(brand.metadata.contactEmail)}</a>
+              </td>
+              <td style="padding:0 8px 8px 0;">
+                <a href="${escapeXml(websiteUrl)}" style="display:inline-block;padding:9px 12px;border-radius:999px;background:#11161c;border:1px solid rgba(248,239,227,0.08);color:${brand.palette.text};font-size:13px;font-weight:650;line-height:1.2;text-decoration:none;">${escapeXml(websiteDisplayUrl)}</a>
+              </td>
+              <td style="padding:0 0 8px 0;">
+                <a href="${escapeXml(primaryCtaUrl)}" style="display:inline-block;padding:10px 14px;border-radius:999px;background:#1b454e;border:1px solid #327784;color:${brand.palette.text};font-size:13px;font-weight:800;line-height:1.2;text-decoration:none;">${escapeXml(collateral.ctas.primaryCTA.label)}</a>
+              </td>
+            </tr>
+          </table>
+          <div style="color:${brand.palette.textMuted};font-size:14px;line-height:1.45;">${escapeXml(subline)}</div>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>`;
 

@@ -8,7 +8,7 @@ Practical side-hustle / consulting card.
 
 ```text
 Jason Pollard
-Software Developer
+Software Consultant
 
 Small projects. Clear problems.
 Personal attention.

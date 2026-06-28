@@ -5,6 +5,15 @@ import type { ClientCollateralConfig } from "../../design-system/client-collater
 import type { HeroCompositionData } from "../social/hero-composition";
 import { readPngDimensions, toDisplayUrl } from "../shared/output-manifest";
 
+function escapeHtmlText(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 export type EmailSignatureManifest = {
   generatorFamily: "email";
   outputKind: "email-signature";
@@ -27,12 +36,13 @@ export type EmailSignatureManifest = {
   sourceMetadata: {
     contactName: string;
     primaryRole: string;
+    roleLine: string;
     contactEmail: string;
     homeUrl: string;
     workWithMeUrl: string;
     displayUrl: string;
     primaryCtaLabel: string;
-    tagline?: string;
+    subline?: string;
   };
   vendorReadiness: "production-candidate";
   preflight: {
@@ -62,18 +72,22 @@ function verifyRequiredHtmlFields(options: {
   const { html, data, collateral } = options;
   const requiredFields = [
     data.brand.metadata.contactName,
-    collateral.positioning.primaryRole,
+    collateral.email?.roleLine ?? collateral.positioning.primaryRole,
     data.brand.metadata.contactEmail,
     data.brand.metadata.homeUrl,
     data.brand.metadata.workWithMeUrl,
     collateral.ctas.primaryCTA.label,
   ];
 
-  if (collateral.positioning.tagline) {
-    requiredFields.push(collateral.positioning.tagline);
+  const subline =
+    collateral.email?.subline ??
+    `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
+
+  if (subline) {
+    requiredFields.push(subline);
   }
 
-  return requiredFields.every((field) => html.includes(field));
+  return requiredFields.every((field) => html.includes(escapeHtmlText(field)));
 }
 
 export async function writeEmailSignatureManifest(options: {
@@ -128,13 +142,19 @@ export async function writeEmailSignatureManifest(options: {
     sourceMetadata: {
       contactName: data.brand.metadata.contactName,
       primaryRole: collateral.positioning.primaryRole,
+      roleLine: collateral.email?.roleLine ?? collateral.positioning.primaryRole,
       contactEmail: data.brand.metadata.contactEmail,
       homeUrl: data.brand.metadata.homeUrl,
       workWithMeUrl: data.brand.metadata.workWithMeUrl,
       displayUrl: toDisplayUrl(data.brand.metadata.homeUrl),
       primaryCtaLabel: collateral.ctas.primaryCTA.label,
-      ...(collateral.positioning.tagline
-        ? { tagline: collateral.positioning.tagline }
+      ...((collateral.email?.subline ??
+        `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`)
+        ? {
+            subline:
+              collateral.email?.subline ??
+              `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`,
+          }
         : {}),
     },
     vendorReadiness: "production-candidate",

@@ -27,6 +27,17 @@ export type VerificationReport = {
   failed: VerificationItem[];
 };
 
+type ManifestEntry = {
+  cardId: string;
+  outputPath: string;
+  width: number;
+  height: number;
+  hasGuides: boolean;
+  pdfGenerated: boolean;
+  pdfPath?: string;
+  timestamp: string;
+};
+
 function normalizeHostname(hostname: string) {
   return hostname.toLowerCase().replace(/\.$/, "");
 }
@@ -60,6 +71,10 @@ async function readSvgDesc(filePath: string) {
   const svg = await fs.readFile(filePath, "utf8");
   const match = svg.match(/<desc>([^<]+)<\/desc>/i);
   return match?.[1]?.trim() ?? "";
+}
+
+function isIsoDate(value: string) {
+  return !Number.isNaN(Date.parse(value));
 }
 
 function validateUrlHost(
@@ -261,6 +276,212 @@ export async function verifyExportArtifacts(
         const message =
           error instanceof Error ? error.message : "unknown stat error";
         addFail(report, "PDF export", `${pdfPath} missing or unreadable: ${message}`);
+      }
+    }
+  }
+
+  return report;
+}
+
+export async function verifyExportManifests(
+  exportPaths: string[],
+  options: { guides: boolean; pdf: boolean },
+) {
+  const report: VerificationReport = {
+    passed: [],
+    failed: [],
+  };
+
+  const folderToExports = new Map<string, string[]>();
+  for (const exportPath of exportPaths) {
+    const folder = path.dirname(exportPath);
+    const current = folderToExports.get(folder) ?? [];
+    current.push(exportPath);
+    folderToExports.set(folder, current);
+  }
+
+  for (const [folderPath, folderExports] of Array.from(folderToExports.entries())) {
+    const manifestPath = path.join(folderPath, "export-manifest.json");
+    let entries: ManifestEntry[];
+
+    try {
+      const contents = await fs.readFile(manifestPath, "utf8");
+      entries = JSON.parse(contents) as ManifestEntry[];
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "unknown read error";
+      addFail(
+        report,
+        "Export manifest",
+        `${path.relative(process.cwd(), manifestPath)} missing or unreadable: ${message}`,
+      );
+      continue;
+    }
+
+    if (!Array.isArray(entries) || entries.length === 0) {
+      addFail(
+        report,
+        "Export manifest entries",
+        `${path.relative(process.cwd(), manifestPath)} is empty or invalid`,
+      );
+      continue;
+    }
+
+    addPass(
+      report,
+      "Export manifest",
+      `${path.relative(process.cwd(), manifestPath)} present with ${entries.length} entries`,
+    );
+
+    const expectedEntries = folderExports.flatMap((exportPath) => {
+      const cleanRelative = path.relative(process.cwd(), exportPath);
+      const entrySet = [
+        {
+          outputPath: cleanRelative,
+          hasGuides: false,
+          pdfGenerated: !options.guides && options.pdf,
+          pdfPath:
+            !options.guides && options.pdf
+              ? cleanRelative.replace(/\.png$/, ".pdf")
+              : undefined,
+        },
+      ];
+
+      if (options.guides) {
+        const guideRelative = cleanRelative.replace(/\.png$/, "-guides.png");
+        entrySet.push({
+          outputPath: guideRelative,
+          hasGuides: true,
+          pdfGenerated: options.pdf,
+          pdfPath: options.pdf
+            ? guideRelative.replace(/\.png$/, ".pdf")
+            : undefined,
+        });
+      }
+
+      return entrySet;
+    });
+
+    if (entries.length !== expectedEntries.length) {
+      addFail(
+        report,
+        "Export manifest entry count",
+        `${path.relative(process.cwd(), manifestPath)} expected ${expectedEntries.length} entries, found ${entries.length}`,
+      );
+    } else {
+      addPass(
+        report,
+        "Export manifest entry count",
+        `${path.relative(process.cwd(), manifestPath)} has expected entry count`,
+      );
+    }
+
+    for (const expectedEntry of expectedEntries) {
+      const actual = entries.find(
+        (entry) =>
+          entry.outputPath === expectedEntry.outputPath &&
+          entry.hasGuides === expectedEntry.hasGuides,
+      );
+
+      if (!actual) {
+        addFail(
+          report,
+          "Export manifest output",
+          `${path.relative(process.cwd(), manifestPath)} missing ${expectedEntry.outputPath}`,
+        );
+        continue;
+      }
+
+      if (path.isAbsolute(actual.outputPath)) {
+        addFail(
+          report,
+          "Export manifest path style",
+          `${path.relative(process.cwd(), manifestPath)} stores absolute outputPath ${actual.outputPath}`,
+        );
+      } else {
+        addPass(
+          report,
+          "Export manifest path style",
+          `${actual.outputPath} is relative`,
+        );
+      }
+
+      if (actual.width !== CARD_WIDTH || actual.height !== CARD_HEIGHT) {
+        addFail(
+          report,
+          "Export manifest dimensions",
+          `${actual.outputPath} expected ${CARD_WIDTH}x${CARD_HEIGHT}, found ${actual.width}x${actual.height}`,
+        );
+      } else {
+        addPass(
+          report,
+          "Export manifest dimensions",
+          `${actual.outputPath} ${actual.width}x${actual.height}`,
+        );
+      }
+
+      if (actual.pdfGenerated !== expectedEntry.pdfGenerated) {
+        addFail(
+          report,
+          "Export manifest PDF flag",
+          `${actual.outputPath} expected pdfGenerated=${expectedEntry.pdfGenerated}, found ${actual.pdfGenerated}`,
+        );
+      } else {
+        addPass(
+          report,
+          "Export manifest PDF flag",
+          `${actual.outputPath} pdfGenerated=${actual.pdfGenerated}`,
+        );
+      }
+
+      if (expectedEntry.pdfGenerated) {
+        if (actual.pdfPath !== expectedEntry.pdfPath) {
+          addFail(
+            report,
+            "Export manifest PDF path",
+            `${actual.outputPath} expected pdfPath=${expectedEntry.pdfPath}, found ${actual.pdfPath ?? "missing"}`,
+          );
+        } else if (actual.pdfPath && path.isAbsolute(actual.pdfPath)) {
+          addFail(
+            report,
+            "Export manifest PDF path style",
+            `${actual.outputPath} stores absolute pdfPath ${actual.pdfPath}`,
+          );
+        } else {
+          addPass(
+            report,
+            "Export manifest PDF path",
+            `${actual.outputPath} -> ${actual.pdfPath}`,
+          );
+        }
+      }
+
+      if (!actual.cardId.trim()) {
+        addFail(
+          report,
+          "Export manifest card id",
+          `${actual.outputPath} is missing cardId`,
+        );
+      } else {
+        addPass(
+          report,
+          "Export manifest card id",
+          `${actual.outputPath} -> ${actual.cardId}`,
+        );
+      }
+
+      if (!isIsoDate(actual.timestamp)) {
+        addFail(
+          report,
+          "Export manifest timestamp",
+          `${actual.outputPath} has invalid timestamp ${actual.timestamp}`,
+        );
+      } else {
+        addPass(
+          report,
+          "Export manifest timestamp",
+          `${actual.outputPath} ${actual.timestamp}`,
+        );
       }
     }
   }

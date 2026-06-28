@@ -28,13 +28,13 @@ export type CapabilitySheetManifest = {
   sourceMetadata: {
     contactName: string;
     primaryRole: string;
+    serviceLine: string;
     contactEmail: string;
     homeUrl: string;
     workWithMeUrl: string;
     displayUrl: string;
     primaryCtaLabel: string;
     capabilityTitle: string;
-    shortPromise: string;
   };
   vendorReadiness: "production-candidate";
   preflight: {
@@ -70,7 +70,9 @@ function verifyRequiredHtmlFields(options: {
     collateral.capability.title,
     collateral.positioning.oneLiner,
     collateral.positioning.primaryRole,
-    collateral.positioning.shortPromise,
+    collateral.positioning.serviceLine ??
+      collateral.positioning.tagline ??
+      collateral.positioning.oneLiner,
     data.brand.metadata.contactName,
     data.brand.metadata.contactEmail,
     displayedWorkWithMeUrl,
@@ -135,13 +137,16 @@ export async function writeCapabilitySheetManifest(options: {
     sourceMetadata: {
       contactName: data.brand.metadata.contactName,
       primaryRole: collateral.positioning.primaryRole,
+      serviceLine:
+        collateral.positioning.serviceLine ??
+        collateral.positioning.tagline ??
+        collateral.positioning.oneLiner,
       contactEmail: data.brand.metadata.contactEmail,
       homeUrl: data.brand.metadata.homeUrl,
       workWithMeUrl: data.brand.metadata.workWithMeUrl,
       displayUrl: toDisplayUrl(data.brand.metadata.homeUrl),
       primaryCtaLabel: collateral.ctas.primaryCTA.label,
       capabilityTitle: collateral.capability.title,
-      shortPromise: collateral.positioning.shortPromise,
     },
     vendorReadiness: "production-candidate",
     preflight: {

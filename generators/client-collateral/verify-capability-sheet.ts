@@ -183,7 +183,9 @@ async function main() {
       collateral.capability.title,
       collateral.positioning.oneLiner,
       collateral.positioning.primaryRole,
-      collateral.positioning.shortPromise,
+      collateral.positioning.serviceLine ??
+        collateral.positioning.tagline ??
+        collateral.positioning.oneLiner,
       brand.metadata.contactName,
       brand.metadata.contactEmail,
       displayedWorkWithMeUrl,

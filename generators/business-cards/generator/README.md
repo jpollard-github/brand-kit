@@ -6,6 +6,7 @@ This generator creates deterministic business card exports without relying on vi
 
 ```bash
 npm run brand:business-cards
+npm run brand:business-cards:order-ready
 npm run brand:verify
 ```
 
@@ -41,6 +42,7 @@ npm run brand:business-cards -- --guides --pdf
 - QR code contents are not changed by the generator
 - `--guides` produces `*-guides.png` proof exports with trim/safe-area overlays for review only
 - `--pdf` produces matching PDFs for review/proofing unless MOO specifically asks for PDF
+- `brand:business-cards:order-ready` is the simplest reorder path because it produces clean PNGs, guide PNGs, guide PDFs, and refreshed export manifests in one run
 - QR codes should be scanned manually before ordering any print run
 
 ## Verification
@@ -60,6 +62,7 @@ This checks:
 - printed URLs and QR targets agree
 - exported PNGs exist at `1110 x 660`
 - guide PNGs and proof PDFs exist
+- `export-manifest.json` files exist, use relative paths, and match the expected export set
 
 ## Editing
 

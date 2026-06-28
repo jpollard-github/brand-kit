@@ -16,3 +16,6 @@ archive/business-cards/generator/cards.html
 
 # Local integration config
 integrations/*.local.json
+
+# Local review packets
+review-packets/

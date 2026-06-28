@@ -71,6 +71,7 @@ type ManifestEntry = {
   height: number;
   hasGuides: boolean;
   pdfGenerated: boolean;
+  pdfPath?: string;
   timestamp: string;
 };
 
@@ -1000,7 +1001,7 @@ async function exportCards(cards: CardExport[], options: ExportOptions) {
     const cleanEntries = manifestByFolder.get(cleanFolder) ?? [];
     cleanEntries.push({
       cardId: card.id,
-      outputPath: cleanPngPath,
+      outputPath: path.relative(process.cwd(), cleanPngPath),
       width: cleanDimensions.width,
       height: cleanDimensions.height,
       hasGuides: false,
@@ -1032,11 +1033,19 @@ async function exportCards(cards: CardExport[], options: ExportOptions) {
       const guideEntries = manifestByFolder.get(guideFolder) ?? [];
       guideEntries.push({
         cardId: card.id,
-        outputPath: guidePngPath,
+        outputPath: path.relative(process.cwd(), guidePngPath),
         width: guideDimensions.width,
         height: guideDimensions.height,
         hasGuides: true,
         pdfGenerated: options.pdf,
+        ...(options.pdf
+          ? {
+              pdfPath: path.relative(
+                process.cwd(),
+                guidePngPath.replace(/\.png$/, ".pdf"),
+              ),
+            }
+          : {}),
         timestamp,
       });
       manifestByFolder.set(guideFolder, guideEntries);
@@ -1046,6 +1055,10 @@ async function exportCards(cards: CardExport[], options: ExportOptions) {
       const last = folderEntries[folderEntries.length - 1];
       if (last) {
         last.pdfGenerated = true;
+        last.pdfPath = path.relative(
+          process.cwd(),
+          cleanPngPath.replace(/\.png$/, ".pdf"),
+        );
       }
       manifestByFolder.set(cleanFolder, folderEntries);
     }

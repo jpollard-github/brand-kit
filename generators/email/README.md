@@ -36,10 +36,38 @@ The PNG is only for review/proofing.
 - Verify link targets, spacing, image rendering, and dark-mode behavior.
 - Keep this as a consulting touchpoint, not a decorative brand artifact.
 
+## Recommended Variants
+
+Proof the default signature first and treat it as the primary daily outreach signature.
+
+Recommended usage order:
+
+1. `default`
+   primary daily outreach signature
+2. `synthwave`
+   strongest ArcadeGhosts personality, optional special-use variant after default is proven
+3. `conference`
+   events and networking
+4. `minimal-print`
+   plainest fallback option
+5. `winter` / `holiday`
+   seasonal only
+
+Themes should mostly change visual treatment, not core business messaging.
+
+## Proofing Status
+
+- Local generation and manifest/preflight checks are covered in-repo.
+- Real email-client proof is still a manual step before this should be treated as `Production Ready`.
+- Use [docs/EMAIL-SIGNATURE-PROOFING.md](../../docs/EMAIL-SIGNATURE-PROOFING.md) as the manual review checklist.
+- Use the generated HTML file directly in Outlook web rather than manually rebuilding the signature.
+
 ## CTA Model
 
 - The signature uses the logical primary CTA from client-collateral config.
 - In the current ArcadeGhosts implementation, that resolves to `Work With Me`.
+- First-touch signatures should keep `Work With Me` as the primary CTA.
+- Do not add Stripe or discovery payment links to first-touch signatures.
 - Reusable generator logic should keep consuming CTA intent and brand metadata rather than hardcoding deployment-specific funnel URLs.
 
 ## Verification

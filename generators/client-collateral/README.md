@@ -48,6 +48,10 @@ The capability sheet is the next-best warm-lead/referral asset after the email s
   primary CTA first, more qualified CTAs later.
 - Expect iteration on wording, proof points, and layout once real outreach and client conversations begin.
 - Keep the capability sheet to one page and favor clarity over polish perfection.
+- Keep rendered client-facing outputs free of internal metadata language such as usage notes or CTA labels written as implementation details.
+- Keep the service language consistent with the rest of the first-client collateral family:
+  websites, web apps, automation, AI-assisted systems, internal tools, technical cleanup, and existing codebases where relevant.
+- Treat complex codebases and repo support as a secondary capability, not the whole headline.
 
 ## Verification
 

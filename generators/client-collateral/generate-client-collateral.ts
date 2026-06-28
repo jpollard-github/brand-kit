@@ -3,7 +3,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
-import { getClientCollateralConfig } from "../../design-system/client-collateral";
+import {
+  getClientCollateralConfig,
+  resolveClientCollateralLink,
+} from "../../design-system/client-collateral";
 import { writeCapabilitySheetManifest } from "./manifest";
 import { buildHeroCompositionData, escapeXml, repoRootDir } from "../social/hero-composition";
 import { createBrandOutputName, parseCliFlag, resolveBrandId } from "../shared/cli";
@@ -69,7 +72,7 @@ function renderList(items: string[], className = "bullet-list") {
 }
 
 function renderServiceCards(
-  services: Array<{ name: string; summary: string }>,
+  services: Array<{ name: string; summary: string; highlights?: string[] }>,
   limit?: number,
 ) {
   return services
@@ -78,6 +81,13 @@ function renderServiceCards(
       (service) => `<article class="service-card">
   <h3>${escapeXml(service.name)}</h3>
   <p>${escapeXml(service.summary)}</p>
+  ${
+    service.highlights?.length
+      ? `<div class="service-points">${service.highlights
+          .map((item) => `<span>${escapeXml(item)}</span>`)
+          .join("")}</div>`
+      : ""
+  }
 </article>`,
     )
     .join("");
@@ -146,7 +156,7 @@ function renderPageShell(
 
       .sheet {
         width: 8.5in;
-        min-height: 11in;
+        height: 11in;
         margin: 0 auto;
         background: var(--paper);
         color: var(--ink);
@@ -263,14 +273,14 @@ function renderPageShell(
       .body {
         position: relative;
         z-index: 1;
-        padding: 0.42in 0.72in 0.58in;
+        padding: 0.34in 0.66in 0.38in;
       }
 
       .meta-row {
         display: flex;
         flex-wrap: wrap;
         gap: 0.12in;
-        margin: 0 0 0.28in;
+        margin: 0 0 0.2in;
       }
 
       .meta-chip,
@@ -304,8 +314,8 @@ function renderPageShell(
 
       .grid.two {
         display: grid;
-        grid-template-columns: 1.08fr 0.92fr;
-        gap: 0.28in;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.2in;
       }
 
       .grid.three {
@@ -315,20 +325,20 @@ function renderPageShell(
       }
 
       .section {
-        margin: 0 0 0.26in;
+        margin: 0 0 0.18in;
       }
 
       .section h2 {
         margin: 0 0 0.1in;
-        font-size: 0.2in;
+        font-size: 0.19in;
         line-height: 1.15;
         font-weight: 760;
       }
 
       .section p {
         margin: 0;
-        font-size: 0.15in;
-        line-height: 1.5;
+        font-size: 0.142in;
+        line-height: 1.42;
         color: var(--muted);
       }
 
@@ -336,7 +346,15 @@ function renderPageShell(
         background: rgba(255, 255, 255, 0.84);
         border: 1px solid var(--line);
         border-radius: 0.18in;
-        padding: 0.18in 0.2in;
+        padding: 0.15in 0.17in;
+      }
+
+      .panel,
+      .service-card,
+      .case-box,
+      .footer-band {
+        break-inside: avoid;
+        page-break-inside: avoid;
       }
 
       .panel.dark {
@@ -366,47 +384,73 @@ function renderPageShell(
       }
 
       .bullet-list li {
-        margin: 0 0 0.08in;
+        margin: 0 0 0.06in;
         color: var(--muted);
-        font-size: 0.145in;
-        line-height: 1.42;
+        font-size: 0.135in;
+        line-height: 1.34;
       }
 
       .service-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.14in;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.12in;
       }
 
       .service-card {
         background: rgba(255, 255, 255, 0.92);
         border: 1px solid rgba(23, 27, 33, 0.08);
         border-radius: 0.16in;
-        padding: 0.16in;
+        padding: 0.14in;
       }
 
       .service-card p {
         margin: 0;
         color: var(--muted);
-        font-size: 0.14in;
-        line-height: 1.42;
+        font-size: 0.122in;
+        line-height: 1.28;
+      }
+
+      .service-points {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.06in;
+        margin-top: 0.1in;
+      }
+
+      .service-points span {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.045in 0.08in;
+        border-radius: 999px;
+        background: rgba(100, 213, 207, 0.1);
+        border: 1px solid rgba(100, 213, 207, 0.16);
+        color: #0f1a1f;
+        font-size: 0.105in;
+        font-weight: 700;
+        line-height: 1;
       }
 
       .footer-band {
-        margin-top: 0.24in;
-        padding-top: 0.18in;
+        margin-top: 0.16in;
+        padding-top: 0.14in;
         border-top: 1px solid rgba(23, 27, 33, 0.12);
         display: flex;
         justify-content: space-between;
-        gap: 0.2in;
+        gap: 0.14in;
         align-items: center;
       }
 
       .footer-note,
       .footer-links {
-        font-size: 0.125in;
-        line-height: 1.4;
+        font-size: 0.122in;
+        line-height: 1.3;
         color: var(--muted);
+      }
+
+      .footer-links {
+        color: var(--ink);
+        font-weight: 650;
+        text-align: right;
       }
 
       .footer-links strong {
@@ -424,6 +468,37 @@ function renderPageShell(
         font-size: 0.16in;
       }
 
+      .capability-summary {
+        margin-bottom: 0.16in;
+      }
+
+      .capability-summary p {
+        max-width: 6.9in;
+      }
+
+      .detail-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.16in;
+      }
+
+      .detail-stack .section {
+        margin: 0;
+      }
+
+      .cta-panel {
+        margin-top: 0.12in;
+        padding: 0.18in 0.2in;
+      }
+
+      .cta-panel .cta-line {
+        margin: 0.08in 0 0;
+        color: var(--text);
+        font-size: 0.15in;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
       .case-study-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -431,7 +506,48 @@ function renderPageShell(
       }
 
       .how-to-start {
+        margin-top: 0.1in;
+      }
+
+      .cta-panel {
+        background:
+          linear-gradient(135deg, rgba(11, 14, 19, 0.9) 0%, rgba(20, 25, 34, 0.84) 100%);
+        border-color: rgba(248, 239, 227, 0.12);
+      }
+
+      .cta-headline {
+        margin: 0 0 0.08in;
+        color: var(--text);
+        font-size: 0.22in;
+        line-height: 1.1;
+        font-weight: 800;
+      }
+
+      .process-diagram {
+        display: flex;
+        align-items: center;
+        gap: 0.08in;
+        flex-wrap: wrap;
         margin-top: 0.14in;
+      }
+
+      .process-step {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.06in 0.1in;
+        border-radius: 999px;
+        background: rgba(248, 239, 227, 0.08);
+        border: 1px solid rgba(248, 239, 227, 0.08);
+        color: var(--text);
+        font-size: 0.11in;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .process-arrow {
+        color: var(--amber);
+        font-size: 0.12in;
+        font-weight: 800;
       }
 
       .case-box {
@@ -552,9 +668,25 @@ function buildAssets(
   const brand = data.brand;
   const collateral = getClientCollateralConfig(brand.id);
   const services = collateral.services;
+  const serviceLine =
+    collateral.positioning.serviceLine ??
+    collateral.positioning.tagline ??
+    collateral.positioning.oneLiner;
+  const footerServiceLine =
+    collateral.positioning.footerLine ??
+    collateral.positioning.tagline ??
+    collateral.positioning.shortPromise;
+  const primaryCtaUrl = resolveClientCollateralLink(
+    brand.metadata,
+    collateral.ctas.primaryCTA.linkKey,
+  );
+  const primaryCtaDisplayUrl = primaryCtaUrl
+    .replace(/^mailto:/, "")
+    .replace(/^https:\/\//, "");
   const footerLinks = `<strong>${escapeXml(brand.metadata.contactName)}</strong> · ${escapeXml(
     brand.metadata.contactEmail,
-  )} · ${escapeXml(brand.metadata.workWithMeUrl.replace(/^https:\/\//, ""))}`;
+  )} · ${escapeXml(primaryCtaDisplayUrl)}`;
+  const processDiagram = collateral.capability.processDiagramExamples?.[0];
 
   const proposalContent = `
     <section class="hero-band">
@@ -565,7 +697,7 @@ function buildAssets(
         <div>
           <p class="eyebrow">${escapeXml(collateral.proposal.eyebrow)}</p>
           <h1 class="hero-title">${escapeXml(brand.labels.workWithMe)}</h1>
-          <p class="hero-subtitle">${escapeXml(collateral.positioning.oneLiner)}</p>
+          <p class="hero-subtitle">${escapeXml(serviceLine)}</p>
         </div>
       </div>
     </section>
@@ -609,9 +741,7 @@ function buildAssets(
         </div>
       </div>
       <div class="footer-band">
-        <div class="footer-note">${escapeXml(
-          data.scene.label,
-        )} direction adapted for client-facing proposal material.</div>
+        <div class="footer-note">${escapeXml(footerServiceLine)}</div>
         <div class="footer-links">${footerLinks}</div>
       </div>
     </section>`;
@@ -632,55 +762,72 @@ function buildAssets(
     <section class="body">
       <div class="meta-row">
         <span class="meta-chip">${escapeXml(collateral.positioning.primaryRole)}</span>
-        <span class="meta-chip">${escapeXml(collateral.positioning.shortPromise)}</span>
+        <span class="meta-chip">${escapeXml(brand.metadata.canonicalDomain)}</span>
       </div>
+      <section class="section capability-summary">
+        <h2>${escapeXml(collateral.positioning.oneLiner)}</h2>
+        <p>${escapeXml(serviceLine)}</p>
+      </section>
+      <section class="section">
+        <div class="service-grid">
+          ${renderServiceCards(services)}
+        </div>
+      </section>
       <div class="grid two">
-        <div>
-          <section class="section">
-            <h2>${escapeXml(collateral.positioning.oneLiner)}</h2>
-            <p>${escapeXml(brand.metadata.contactName)} works best with teams that need a practical fix, a calm technical partner, and a small project that can actually ship.</p>
-          </section>
+        <div class="detail-stack">
           <section class="section panel">
-            <h3>Who this fits best</h3>
-            ${renderList(collateral.positioning.audience)}
-          </section>
-          <section class="section panel dark">
-            <h3>What tends to improve</h3>
-            ${renderList(collateral.capability.outcomes)}
-          </section>
-          <section class="section panel">
-            <h3>Problems I solve</h3>
+            <h3>Problems I help fix</h3>
             ${renderList(collateral.capability.problemPatterns)}
           </section>
-        </div>
-        <div>
-          <section class="section">
-            <div class="service-grid">
-              ${renderServiceCards(services)}
-            </div>
+          <section class="section panel dark">
+            <h3>What gets better</h3>
+            ${renderList(collateral.capability.outcomes)}
           </section>
+        </div>
+        <div class="detail-stack">
           <section class="section panel">
-            <h3>How Jason usually works</h3>
+            <h3>How projects usually start</h3>
             ${renderChipRow(collateral.capability.engagementModes)}
+            ${
+              collateral.capability.processNotes?.length
+                ? `<div style="margin-top:0.12in;">${renderList(
+                    collateral.capability.processNotes,
+                  )}</div>`
+                : ""
+            }
           </section>
-          <section class="section panel">
-            <h3>Why clients tend to trust the process</h3>
-            ${renderList(collateral.proofSignals)}
-          </section>
-          <section class="section panel dark how-to-start">
-            <h3>How to start</h3>
-            ${renderList(collateral.capability.howToStart)}
-            <p class="mini-note" style="margin-top: 0.12in;">Primary CTA: ${escapeXml(
-              collateral.ctas.primaryCTA.label,
-            )} via ${escapeXml(brand.metadata.workWithMeUrl.replace(/^https:\/\//, ""))}</p>
-          </section>
+          ${
+            collateral.capability.codebaseSupport
+              ? `<section class="section panel">
+            <h3>${escapeXml(collateral.capability.codebaseSupport.title)}</h3>
+            <p>${escapeXml(collateral.capability.codebaseSupport.summary)}</p>
+            <div style="margin-top:0.12in;">${renderChipRow(
+              collateral.capability.codebaseSupport.stacks,
+            )}</div>
+          </section>`
+              : ""
+          }
         </div>
       </div>
-      <div class="callout">
-        <p>${escapeXml(collateral.ctas.primaryCTA.description)}</p>
-      </div>
+      <section class="section panel dark cta-panel how-to-start">
+        <h3>${escapeXml(collateral.ctas.primaryCTA.label)}</h3>
+        <p class="cta-headline">${escapeXml(
+          collateral.capability.ctaHeadline ?? "Start with a short conversation.",
+        )}</p>
+        ${renderList(collateral.capability.howToStart)}
+        ${
+          processDiagram?.length
+            ? `<div class="process-diagram">${processDiagram
+                .map((step, index) =>
+                  `${index > 0 ? `<span class="process-arrow">→</span>` : ""}<span class="process-step">${escapeXml(step)}</span>`,
+                )
+                .join("")}</div>`
+            : ""
+        }
+        <p class="cta-line">Start with a short conversation: ${escapeXml(primaryCtaDisplayUrl)}</p>
+      </section>
       <div class="footer-band">
-        <div class="footer-note">Use this as a referral leave-behind, warm-intro attachment, or fast overview before a call.</div>
+        <div class="footer-note">${escapeXml(footerServiceLine)}</div>
         <div class="footer-links">${footerLinks}</div>
       </div>
     </section>`;
@@ -735,7 +882,7 @@ function buildAssets(
         </div>
       </div>
       <div class="footer-band">
-        <div class="footer-note">Good attachment for outreach, scheduling replies, or follow-up after a warm intro.</div>
+        <div class="footer-note">${escapeXml(footerServiceLine)}</div>
         <div class="footer-links">${footerLinks}</div>
       </div>
     </section>`;
@@ -755,9 +902,9 @@ function buildAssets(
     </section>
     <section class="body">
       <div class="meta-row">
-        <span class="meta-chip">Use after real client work exists</span>
-        <span class="meta-chip">Keep it concrete</span>
-        <span class="meta-chip">Prefer outcomes over hype</span>
+        <span class="meta-chip">Problem first</span>
+        <span class="meta-chip">Show what changed</span>
+        <span class="meta-chip">Use real numbers</span>
       </div>
       <div class="case-study-grid">
         ${collateral.caseStudy.sections
@@ -790,7 +937,7 @@ function buildAssets(
         ])}
       </section>
       <div class="footer-band">
-        <div class="footer-note">Template asset for future proof once real engagements exist.</div>
+        <div class="footer-note">${escapeXml(footerServiceLine)}</div>
         <div class="footer-links">${footerLinks}</div>
       </div>
     </section>`;

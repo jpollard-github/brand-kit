@@ -12,6 +12,15 @@ import { repoRootDir } from "../social/hero-composition";
 import { readPngDimensions, toDisplayUrl } from "../shared/output-manifest";
 import type { EmailSignatureManifest } from "./manifest";
 
+function escapeHtmlText(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 type VerificationItem = {
   label: string;
   detail: string;
@@ -179,18 +188,24 @@ async function main() {
     const html = await fs.readFile(htmlPath, "utf8");
     const requiredHtmlFields = [
       brand.metadata.contactName,
-      collateral.positioning.primaryRole,
+      collateral.email?.roleLine ?? collateral.positioning.primaryRole,
       brand.metadata.contactEmail,
       brand.metadata.homeUrl,
       brand.metadata.workWithMeUrl,
       collateral.ctas.primaryCTA.label,
     ];
 
-    if (collateral.positioning.tagline) {
-      requiredHtmlFields.push(collateral.positioning.tagline);
+    const subline =
+      collateral.email?.subline ??
+      `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
+
+    if (subline) {
+      requiredHtmlFields.push(subline);
     }
 
-    const missingFields = requiredHtmlFields.filter((field) => !html.includes(field));
+    const missingFields = requiredHtmlFields.filter(
+      (field) => !html.includes(escapeHtmlText(field)),
+    );
     if (missingFields.length > 0) {
       addFail(
         report,

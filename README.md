@@ -50,12 +50,13 @@ Use the repo with three mental buckets:
   files under `archive/`, which preserve old working material without being the current source of truth
 
 If a file can be regenerated from brand config, copy, assets, and generator code, it should usually be treated as generated rather than canonical.
+That includes business-card export PNGs, PDFs, and `export-manifest.json` files.
 
 ## Architecture Status
 
-Brand Kit should now be considered `Stable v1`.
+Brand Kit should now be considered `Stable v1` and `Operational v1`.
 
-Future work should prioritize production readiness, real-world usage, generator polish, verification, and customer feedback rather than architectural expansion.
+Future work should prioritize production readiness, real-world usage, generator polish, verification, and customer feedback rather than architectural expansion or speculative new collateral.
 
 ## Brand-agnostic direction
 
@@ -66,29 +67,89 @@ The repo is now structured to support a shared design-system layer that can be r
 - Brand-specific reference material lives under the brands folder, with a dedicated ArcadeGhosts folder for the current implementation.
 - Future brands can be introduced by adding brand config and copy data without replacing the current workflow.
 
-## Output-agnostic direction
+## What Brand Kit Can Generate
 
-The collateral system includes generator entry points that are more general than business cards alone.
+From a configured brand, Brand Kit can currently generate:
 
-- Cards: `npm run brand:business-cards`
-- Stickers: `npm run brand:stickers`
-- Sticker sheet: `npm run brand:sticker-sheet`
-- Mugs: `npm run brand:mugs`
-- Shirts: `npm run brand:shirts`
-- Icons: `npm run brand:icons`
-- OG / LinkedIn / GitHub social: `npm run brand:og`, `npm run brand:linkedin`, `npm run brand:github-social`
-- Website hero / handoff: `npm run brand:website-hero`, `npm run brand:website-handoff`
-- Newsletter / project cover / presentation cover: `npm run brand:newsletter`, `npm run brand:project-cover`, `npm run brand:presentation-cover`
-- Conference badge / mini flyer / wallpapers: `npm run brand:conference-badge`, `npm run brand:mini-flyer`, `npm run brand:wallpapers`
-- Tote / stream thumbnail: `npm run brand:totes`, `npm run brand:stream-thumbnail`
-- Documents / stationery: `npm run brand:documents`
-- Client collateral: `npm run brand:client-collateral`, `npm run brand:proposal-cover`, `npm run brand:capability-sheet`, `npm run brand:discovery-call`, `npm run brand:case-study-template`
-- Email signature: `npm run brand:email-signature`
-- Full preview: `npm run brand:preview`
-- Theme preview sweep: `npm run brand:preview:themes`
-- Generator implementations live under the generators folder, with business cards as the first working family.
-- Additional output-oriented commands can be introduced as new generators are added.
-- Improve existing collateral before adding new collateral families.
+- Business cards:
+  `npm run brand:business-cards`, `npm run brand:business-cards:guides`, `npm run brand:business-cards:pdf`, `npm run brand:business-cards:order-ready`
+- Client-facing collateral:
+  `npm run brand:client-collateral`, `npm run brand:proposal-cover`, `npm run brand:capability-sheet`, `npm run brand:discovery-call`, `npm run brand:case-study-template`
+- Email signature:
+  `npm run brand:email-signature`
+- Documents and stationery:
+  `npm run brand:documents`
+  Current document shells include letterhead and invoice.
+- Web and social graphics:
+  `npm run brand:og`, `npm run brand:linkedin`, `npm run brand:github-social`, `npm run brand:website-hero`, `npm run brand:website-handoff`
+- Brand icons:
+  `npm run brand:icons`
+- Covers and headers:
+  `npm run brand:newsletter`, `npm run brand:project-cover`, `npm run brand:presentation-cover`
+- Event and outreach surfaces:
+  `npm run brand:conference-badge`, `npm run brand:mini-flyer`
+- Wallpapers and video surfaces:
+  `npm run brand:wallpapers`, `npm run brand:stream-thumbnail`
+- Merch and physical brand surfaces:
+  `npm run brand:stickers`, `npm run brand:sticker-sheet`, `npm run brand:mugs`, `npm run brand:shirts`, `npm run brand:totes`
+- Review and preview utilities:
+  `npm run brand:preview`, `npm run brand:preview:themes`, `npm run brand:packet:client-collateral`
+
+Generator implementations live under `generators/`.
+Improve existing collateral before adding new collateral families.
+
+## Generator Families
+
+This is the current generator-family map:
+
+- `business-cards`
+  Work With Me and broader ArcadeGhosts business-card fronts/backs, guide exports, proof PDFs, and order-ready outputs.
+- `client-collateral`
+  Proposal cover, capability sheet, discovery call guide, and case-study template.
+- `email`
+  HTML email signature, PNG proof, and manifest/preflight support.
+- `documents`
+  Letterhead and invoice shells.
+- `social`
+  OG image, LinkedIn banner, and GitHub social graphics.
+- `website`
+  Website hero art and website handoff assets.
+- `icons`
+  Site/app icon exports.
+- `newsletter`
+  Newsletter header.
+- `projects`
+  Project cover art.
+- `presentations`
+  Presentation cover art.
+- `badges`
+  Conference badge.
+- `posters`
+  Mini flyer.
+- `wallpapers`
+  Desktop/mobile wallpaper exports.
+- `video`
+  Stream thumbnail.
+- `stickers`
+  Individual stickers and sticker sheet.
+- `mugs`
+  Mug mockups/exports.
+- `shirts`
+  Shirt mockups/exports.
+- `totes`
+  Tote-bag mockups/exports.
+- `preview`
+  Multi-output preview sheet and theme sweeps.
+
+See the generator-family docs under:
+
+- [generators/business-cards/README.md](generators/business-cards/README.md)
+- [generators/client-collateral/README.md](generators/client-collateral/README.md)
+- [generators/email/README.md](generators/email/README.md)
+- [generators/documents/README.md](generators/documents/README.md)
+- [generators/social/README.md](generators/social/README.md)
+- [generators/website/README.md](generators/website/README.md)
+- `generators/*/README.md` for the rest of the family-specific notes
 
 ## Scene Families
 
@@ -117,6 +178,46 @@ Use these levels as workflow expectations, not as a judgment on visual quality:
   repeatable outputs with clear handoff and stronger verification confidence. Business cards are the strongest current example.
 - `Deprecated`
   intentionally historical or no-longer-active material, including `archive/` and older conversation/context folders under `vschats/`.
+
+## Current Status By Family
+
+This is the practical status snapshot after the latest verification and smoke-generation pass.
+
+- `Production Ready`
+  `business-cards`
+- `Production Candidate`
+  `client-collateral` proposal cover, capability sheet, and discovery call guide
+  `email`
+  `documents`
+  `social`
+  `website` hero
+  `icons`
+  `newsletter`
+  `projects`
+  `presentations`
+  `badges`
+  `wallpapers`
+- `Proof of Concept`
+  `client-collateral` case-study template
+  `website` handoff staging
+  `stickers`
+  `mugs`
+  `shirts`
+  `totes`
+  `video`
+- `Prototype`
+  `posters` mini flyer
+  `preview`
+
+Latest repo-level confidence check:
+
+- `npm run test:unit`
+- `npm run brand:audit-source`
+- `npm run brand:verify`
+- `npm run brand:preview`
+- `npm run brand:client-collateral`
+
+These passed on 2026-06-28, which means the current generator set is in a healthy operational state even though several families still need real-world proof before promotion.
 
 ## Guardrails And Themes
 
@@ -154,6 +255,7 @@ npm run brand:preview
 - `brand:verify` is the main preflight command before trusting outputs for real use. It now checks business-card source-of-truth details plus manifest/preflight coverage for social hero outputs, website hero, icons, email signature, and capability sheet.
 - `brand:audit-source` is a reusable-code hygiene check. Its purpose is to catch places where shared code still leaks ArcadeGhosts-specific strings so the repo can become genuinely multi-brand over time, without blocking normal work yet.
 - `brand:preview` generates the current output set and refreshes the multi-output review page.
+- `brand:packet:client-collateral` gathers the current first-client collateral stack into a review-friendly packet.
 
 Useful extra workflows:
 
@@ -176,6 +278,7 @@ Generated files such as export images, PDFs, and manifest files are intentionall
 
 That includes proof exports under brand copy folders such as `brands/arcadeghosts/copy/exports/`.
 Keep the source copy tracked, but regenerate proofs locally when needed.
+Business-card `export-manifest.json` files are generated proof metadata and should be refreshed locally instead of hand-editing them.
 Social manifests are written next to their PNG/SVG outputs under `generators/outputs/social/`.
 Website hero and icon manifests are written next to their generated outputs under `generators/outputs/website/` and `generators/outputs/icons/`.
 
@@ -191,6 +294,9 @@ Useful specialized docs:
 - [docs/CLIENT-COLLATERAL.md](docs/CLIENT-COLLATERAL.md)
 - [docs/BUSINESS-LINKS-CONTRACT.md](docs/BUSINESS-LINKS-CONTRACT.md)
 - [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md)
+- [docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md](docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md)
+- [docs/FIRST-CLIENT-CHECKLIST.md](docs/FIRST-CLIENT-CHECKLIST.md)
+- [docs/OUTPUTS-AND-REVIEW-PACKETS.md](docs/OUTPUTS-AND-REVIEW-PACKETS.md)
 - [docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md](docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md)
 - [docs/add-output.md](docs/add-output.md)
 - [docs/add-brand.md](docs/add-brand.md)
@@ -207,6 +313,10 @@ The docs are split roughly like this:
   collateral set, maturity, and customer-journey fit
 - `BUSINESS-LINKS-CONTRACT.md`
   logical CTA/link contract between Brand Kit and consumer repos
+- `OUTPUTS-AND-REVIEW-PACKETS.md`
+  where generated outputs live and how to assemble review packets
+- `FIRST-CLIENT-CHECKLIST.md`
+  operational bundle checklist before using Brand Kit in real outreach
 - `ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`
   ArcadeGhosts-specific handoff expectations for lead-generation use
 

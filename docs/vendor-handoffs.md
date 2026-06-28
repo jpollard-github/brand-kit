@@ -75,8 +75,13 @@ Best fit:
 Generate:
 
 ```bash
-npm run brand:business-cards
-npm run brand:business-cards:pdf
+npm run brand:business-cards:order-ready
+```
+
+Verify:
+
+```bash
+npm run brand:verify:business-cards
 ```
 
 Primary files:
@@ -86,11 +91,12 @@ Primary files:
 
 Checklist:
 
-- run `npm run brand:verify`
+- run `npm run brand:verify:business-cards`
 - scan QR codes
 - verify printed URL is `.org`
 - confirm name, email, and role
 - use clean final PNGs for upload unless the vendor explicitly requires PDF
+- treat `export-manifest.json` as generated proof metadata, not as canonical source
 
 More detail:
 

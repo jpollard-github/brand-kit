@@ -1,9 +1,11 @@
 import { clientCollateralRegistry } from "../brands/client-collateral-registry";
+import type { BrandMetadata } from "./metadata";
 import { DEFAULT_BRAND_ID, listBrandIds } from "./brand-config";
 
 export type ClientCollateralService = {
   name: string;
   summary: string;
+  highlights?: string[];
 };
 
 export type ClientCollateralCtaKey =
@@ -33,10 +35,19 @@ export type ClientCollateralConfig = {
   positioning: {
     primaryRole: string;
     oneLiner: string;
+    serviceLine?: string;
+    footerLine?: string;
     shortPromise: string;
+    promiseOptions?: string[];
     tagline?: string;
     problemSummary?: string;
     audience: string[];
+  };
+  email?: {
+    roleLine?: string;
+    roleLineOptions?: string[];
+    subline?: string;
+    sublineOptions?: string[];
   };
   ctas: Record<ClientCollateralCtaKey, ClientCollateralCta>;
   services: ClientCollateralService[];
@@ -54,7 +65,16 @@ export type ClientCollateralConfig = {
     outcomes: string[];
     problemPatterns: string[];
     engagementModes: string[];
+    processNotes?: string[];
     howToStart: string[];
+    ctaHeadline?: string;
+    ctaHeadlineOptions?: string[];
+    processDiagramExamples?: string[][];
+    codebaseSupport?: {
+      title: string;
+      summary: string;
+      stacks: string[];
+    };
   };
   discovery: {
     eyebrow: string;
@@ -76,6 +96,24 @@ export type ClientCollateralConfig = {
     quotePrompt: string;
   };
 };
+
+export function resolveClientCollateralLink(
+  metadata: BrandMetadata,
+  linkKey: ClientCollateralLinkKey,
+) {
+  switch (linkKey) {
+    case "website":
+      return metadata.homeUrl;
+    case "workWithMe":
+      return metadata.workWithMeUrl;
+    case "contactEmail":
+      return `mailto:${metadata.contactEmail}`;
+    default:
+      throw new Error(
+        `Client collateral link key "${linkKey}" needs consumer-provided business-link data before it can be resolved in Brand Kit.`,
+      );
+  }
+}
 
 function normalizeBrandId(brandId: string) {
   return brandId.trim().toLowerCase();

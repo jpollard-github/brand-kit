@@ -7,6 +7,7 @@
     "brand:business-cards": "node --import tsx generators/business-cards/generator/export-cards.ts",
     "brand:business-cards:guides": "node --import tsx generators/business-cards/generator/export-cards.ts --guides",
     "brand:business-cards:pdf": "node --import tsx generators/business-cards/generator/export-cards.ts --pdf",
+    "brand:business-cards:order-ready": "node --import tsx generators/business-cards/generator/export-cards.ts --guides --pdf",
     "brand:verify:business-cards": "node --import tsx generators/business-cards/generator/verify-brand.ts",
     "brand:verify:social": "node --import tsx generators/social/verify-social.ts",
     "brand:verify:website": "node --import tsx generators/website/verify-website-hero.ts",
@@ -44,6 +45,7 @@
     "brand:preview": "npm run brand:business-cards && npm run brand:stickers && npm run brand:sticker-sheet && npm run brand:mugs && npm run brand:shirts && npm run brand:totes && npm run brand:icons && npm run brand:og && npm run brand:linkedin && npm run brand:github-social && npm run brand:website-hero && npm run brand:newsletter && npm run brand:project-cover && npm run brand:presentation-cover && npm run brand:conference-badge && npm run brand:mini-flyer && npm run brand:wallpapers && npm run brand:stream-thumbnail && npm run brand:documents && npm run brand:email-signature && npm run brand:website-handoff && npm run brand:preview-sheet",
     "brand:help": "node --import tsx -e \"import { listBrandIds } from './design-system/brand-config.ts'; console.log(listBrandIds().join('\\n'))\"",
     "brand:audit-source": "node --import tsx scripts/brand-audit-source.ts",
+    "brand:packet:client-collateral": "node --import tsx scripts/create-client-collateral-packet.ts",
     "test:unit": "vitest run tests/unit",
     "test:unit:watch": "vitest tests/unit"
   },
