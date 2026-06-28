@@ -4,8 +4,8 @@ This folder is intentionally gitignored so you can keep working files, print exp
 
 Important migration context:
 
-- [TODO.md](/Users/jasonp/repos/brand-kit/TODO.md)
-- [brands/arcadeghosts/site-reference.md](/Users/jasonp/repos/brand-kit/brands/arcadeghosts/site-reference.md)
+- [TODO.md](../../TODO.md)
+- [brands/arcadeghosts/site-reference.md](../../brands/arcadeghosts/site-reference.md)
 
 Those files capture the larger brand-generator direction and the ArcadeGhosts website references that now live inside this repo.
 

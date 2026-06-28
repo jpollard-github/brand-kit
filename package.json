@@ -9,14 +9,38 @@
     "brand:business-cards:pdf": "node --import tsx generators/business-cards/generator/export-cards.ts --pdf",
     "brand:verify": "node --import tsx generators/business-cards/generator/verify-brand.ts",
     "brand:stickers": "node --import tsx generators/stickers/generate-stickers.ts",
+    "brand:sticker-sheet": "node --import tsx generators/stickers/generate-sticker-sheet.ts",
     "brand:mugs": "node --import tsx generators/mugs/generate-mugs.ts",
     "brand:shirts": "node --import tsx generators/shirts/generate-shirts.ts",
+    "brand:totes": "node --import tsx generators/totes/generate-tote-bag.ts",
+    "brand:newsletter": "node --import tsx generators/newsletter/generate-header.ts",
+    "brand:project-cover": "node --import tsx generators/projects/generate-cover.ts",
+    "brand:conference-badge": "node --import tsx generators/badges/generate-conference-badge.ts",
+    "brand:mini-flyer": "node --import tsx generators/posters/generate-mini-flyer.ts",
+    "brand:wallpapers": "node --import tsx generators/wallpapers/generate-wallpapers.ts",
+    "brand:stream-thumbnail": "node --import tsx generators/video/generate-stream-thumbnail.ts",
+    "brand:documents": "node --import tsx generators/documents/generate-stationery.ts",
+    "brand:email-signature": "node --import tsx generators/email/generate-signature.ts",
+    "brand:icons": "node --import tsx generators/icons/generate-icons.ts",
+    "brand:og": "node --import tsx generators/social/generate-og-image.ts",
+    "brand:linkedin": "node --import tsx generators/social/generate-linkedin-banner.ts",
+    "brand:github-social": "node --import tsx generators/social/generate-github-social.ts",
+    "brand:website-hero": "node --import tsx generators/website/generate-hero-image.ts",
+    "brand:website-handoff": "node --import tsx generators/website/prepare-handoff.ts",
+    "brand:presentation-cover": "node --import tsx generators/presentations/generate-cover.ts",
     "brand:preview-sheet": "node --import tsx generators/preview/generate-preview-sheet.ts",
-    "brand:preview": "npm run brand:business-cards && npm run brand:stickers && npm run brand:mugs && npm run brand:shirts && npm run brand:preview-sheet",
-    "brand:help": "node --import tsx -e \"import { listBrandIds } from './design-system/brand-config.ts'; console.log(listBrandIds().join('\\n'))\""
+    "brand:preview:themes": "node --import tsx generators/preview/generate-theme-preview-sheets.ts",
+    "brand:preview": "npm run brand:business-cards && npm run brand:stickers && npm run brand:sticker-sheet && npm run brand:mugs && npm run brand:shirts && npm run brand:totes && npm run brand:icons && npm run brand:og && npm run brand:linkedin && npm run brand:github-social && npm run brand:website-hero && npm run brand:newsletter && npm run brand:project-cover && npm run brand:presentation-cover && npm run brand:conference-badge && npm run brand:mini-flyer && npm run brand:wallpapers && npm run brand:stream-thumbnail && npm run brand:documents && npm run brand:email-signature && npm run brand:website-handoff && npm run brand:preview-sheet",
+    "brand:help": "node --import tsx -e \"import { listBrandIds } from './design-system/brand-config.ts'; console.log(listBrandIds().join('\\n'))\"",
+    "brand:audit-source": "node --import tsx scripts/brand-audit-source.ts",
+    "test:unit": "vitest run tests/unit",
+    "test:unit:watch": "vitest tests/unit"
   },
   "dependencies": {
     "playwright": "^1.49.1",
     "tsx": "^4.19.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
   }
 }

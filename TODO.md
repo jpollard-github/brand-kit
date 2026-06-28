@@ -1,193 +1,158 @@
-# Brand Generator TODO
+# Brand Kit TODO
 
 Reference: 2026-06-28 EDT
 
-This TODO now tracks the active build-out of `brand-kit` as the dedicated home for the generator system.
+This is the active working roadmap for `brand-kit`.
 
-Repo context: the rename and archive work is largely complete, so the remaining TODOs should focus on brand extraction, new outputs, and cleaner reuse.
+## Guiding Principles
 
-Working direction:
+- ArcadeGhosts is the first real brand, not a permanent special case.
+- Generated outputs are not canonical source.
+- Hero Composition / Scene architecture is the core abstraction.
+- Verification matters because these outputs can cost real money.
+- Add new output families only after existing families are validated.
 
-- build a `Brand Generator`
-- treat merchandise as one output category, not the whole system
-- keep ArcadeGhosts as the first live brand implementation
-- leave room for future client-facing reuse
+## Priority 0: Safety / Source-of-Truth
 
-Useful context from MERCH.md:
+Highest priority. Protect the repo from silent drift, accidental machine-specific coupling, and expensive output mistakes.
 
-- keep business cards as the first concrete deliverable
-- treat personal ArcadeGhosts cards and a small merch test batch as the next steps
-- business cards for both business and personal use have been ordered from MOO
-- use MOO for cards and Printify/Fourthwall for merch experiments
-- avoid building a merch page into the site until the product set is proven
+- [x] Keep unknown brand IDs failing loudly instead of silently falling back.
+- [x] Keep absolute local paths out of tracked docs.
+- [x] Keep generated outputs out of canonical source.
+- [x] Keep `brand:audit-source` available as a reusable-code warning pass.
+- [x] Keep business-card verification strong because a wrong URL already caused a real ordering mistake.
+- [ ] Preserve the rule that canonical source lives in `design-system/`, `brands/`, and generator source files, not generated exports.
+- [ ] Keep review and vendor workflows centered on reproducible local generation, not manually edited output artifacts.
 
-## Current Next Wave
+## Priority 1: Immediate Next Work
 
-- [x] Add explicit business-card URL/domain verification so `.com` regressions fail fast
-- [x] Add a first `npm run brand:verify` pre-flight check for business cards
-- [x] Extract the real ArcadeGhosts palette from the website and reconcile it with `design-system/colors.ts`
-- [x] Extract the real website metadata/summary language and reconcile it with `design-system/metadata.ts`
-- [ ] Add explicit logo usage rules so future generators use the brand mark consistently
-- [ ] Add the first social/web asset generator, likely starting with GitHub social image or OG image output
-- [ ] Expand the preview sheet to include at least one social/web asset alongside print outputs
+This is the work Jason can realistically do tomorrow.
 
-## Recommended Rename
+- [ ] Review `brand:audit-source` warnings and classify them as:
+  acceptable brand-specific references, docs-only references, reusable-code leaks, or false positives.
+- [ ] Improve `brand:audit-source` output so it groups findings by severity.
+- [ ] Decide which audit findings should remain warning-only for now.
+- [ ] Add allowlist comments or config where repeated warnings are intentional and acceptable.
+- [ ] Verify all current production and production-candidate commands still run after the recent hardening pass.
+- [ ] Review generator maturity labels and make sure they match reality.
+- [ ] Identify the smallest generator family that should receive manifest/preflight support next.
+- [ ] Keep tomorrow's pass focused on confidence in existing outputs rather than adding new generator families.
 
-- [x] Rename `merch/` to `brand/`, `brand-kit/`, or `brand-generator/`
-- [x] Move it into a sibling private repo outside this website repo
-- [x] Keep a note in this site repo pointing to the new location once moved
-- [x] Decide that generated outputs will stay gitignored locally and not be committed to the repo
+## Priority 2: Verification And Manifests
 
-## Highest Priority
+- [ ] Expand `brand:verify` beyond business cards.
+- [ ] Add per-output manifests for production-ready and production-candidate generators.
+- [ ] Standardize manifest fields across mature generators:
+  brand id, theme id, scene id, output path, dimensions, generated timestamp, source metadata, and vendor readiness.
+- [ ] Add preflight checks for:
+  dimensions, expected URLs, contact email, asset existence, safe areas where relevant, and output completeness.
+- [ ] Treat business cards as the strongest production workflow and use that bar when extending verification elsewhere.
+- [ ] Keep proof-of-concept merch generators useful, but do not treat them as vendor-ready until manifests and verification exist.
 
-- [x] Preserve ArcadeGhosts website brand context in the moved repo
-- [x] Extract a reusable design-system layer from the current business card generator
-- [x] Separate brand tokens from generator-specific rendering logic
-- [x] Keep the current business cards working as the first proof that the architecture is real
+## Priority 3: Website Integration
 
-## Before The Move
+- [ ] Decide whether the ArcadeGhosts website should use generated:
+  OG image, LinkedIn/GitHub social images, website hero, and icons.
+- [ ] Keep the first website integration local, previewable, and reversible.
+- [ ] Document the handoff path in both repos if generated website assets are adopted.
+- [ ] Add validation before copying generated assets into the live website repo.
+- [ ] Keep website handoff staging as a workflow aid until the validation story is stronger.
 
-- [x] Carry over [brands/arcadeghosts/site-reference.md](/Users/jasonp/repos/brand-kit/brands/arcadeghosts/site-reference.md)
-- [x] Carry over the business card generator source files and docs
-- [x] Carry over the current logo assets and QR assets
-- [x] Carry over the MOO workflow docs and generator docs
-- [x] Keep `docs/MERCH.md` material as site-history context and preserve the actionable brand-kit details in the new repo
+## Priority 4: Scene / Hero Architecture
 
-## Proposed Future Structure
+- [ ] Keep Hero Composition as the canonical visual abstraction.
+- [ ] Move more outputs toward `Scene -> Hero Composition -> Export Target`.
+- [ ] Avoid one-off layout hacks unless the output truly requires them.
+- [ ] Treat Hero Composition as the best reusable architecture found so far and protect it from surface-specific drift.
+- [ ] Consider a scene registry if `defaultHero` and `workWithMeHero` become too limiting.
 
-- [x] Create a top-level structure like:
-      `brands/`
-      `design-system/`
-      `assets/`
-      `generators/`
-      `outputs/`
-      `personas/`
-- [x] Move business cards under `generators/business-cards/`
-- [x] Create a shared `design-system/` folder for:
-  - colors
-  - typography
-  - spacing
-  - layout helpers
-  - metadata
-  - brand copy
-- [x] Decide that generated `outputs/` should stay local-only and be gitignored
+## Priority 5: Multi-Brand Validation
 
-## Design System Extraction
+- [ ] Add a second real or realistic test brand before claiming the repo is brand-agnostic.
+- [ ] Use the second brand to test:
+  brand config shape, scenes, metadata, generator assumptions, source audit noise, and default helper behavior.
+- [ ] Treat second-brand validation as the real test of brand agnosticism.
+- [ ] Do not overfit abstractions before second-brand validation.
 
-- [x] Extract ArcadeGhosts color tokens from `app/globals.css`
-- [x] Extract metadata and summary language from `app/seo.ts`
-- [ ] Extract reusable logo references and usage rules
-- [ ] Extract tone rules:
-  - professional but personal
-  - neon but readable
-  - atmospheric but not cluttered
-- [x] Add a document that explains what makes ArcadeGhosts feel like ArcadeGhosts
+## Priority 6: Generator Maturity
 
-## Generators To Keep / Expand
+Use these labels as workflow expectations, not visual judgments.
 
-- [x] Keep the business-card generator as the first stable generator
-- [x] Add a sticker generator
-- [x] Add mug layout generation
-- [x] Add shirt graphic generation
-- [ ] Add social graphic generation
-- [ ] Add LinkedIn banner generation
-- [ ] Add GitHub social image generation
-- [ ] Add website asset generation
-- [ ] Add presentation slide / deck cover generation
-- [ ] Add email signature generation
-- [ ] Add conference badge generation
-- [ ] Add invoice / letterhead generation if the side-hustle work grows
+### Production Ready
 
-## Cohesion Preview
+- Definition:
+  repeatable output, clear handoff, verification coverage, and reviewed sample output.
+- Current expectation:
+  business cards are the strongest example today.
+- To move a generator into this category:
+  manifest, verification, handoff docs, smoke test, and reviewed sample output.
 
-- [x] Add a single command like `npm run brand:preview`
-- [x] Generate a first multi-output preview sheet for:
-  - business cards
-  - sticker
-  - mug
-  - shirt
-- [ ] Expand the preview sheet later to include:
-  - social banner
-  - OG image
-  - email signature
-- [x] Make it easy to review whether the whole brand still feels cohesive in one pass
+### Production Candidate
 
-## Repo Hygiene
+- Definition:
+  useful outputs that look close to ready, but still need stronger proof before being trusted operationally.
+- Likely current members:
+  hero-composition-driven social surfaces, website hero, icons, documents, email signature, conference badge, wallpapers, project/newsletter/presentation covers, and preview outputs.
+- Production Candidate -> Production Ready requires:
+  manifest, verification, handoff docs, smoke test, and reviewed sample output.
 
-- [x] Split ArcadeGhosts card copy into canonical per-card source files under `brands/arcadeghosts/copy/`
-- [ ] Decide whether `brands/arcadeghosts/copy/exports/` should stay as tracked reference artifacts or be removed from the repo history and regenerated locally
-- [ ] Add a short README note explaining which files are canonical source, which are generated outputs, and which folders are archive/history only
-- [ ] Consider removing tracked `.DS_Store` artifacts from active generator folders
+### Proof of Concept
 
-## Theme Variants
+- Definition:
+  useful exploration value, but not yet vendor-ready or fully validated.
+- Current expectation:
+  merch outputs like stickers, mugs, shirts, totes, and similar exports stay here until preflight and handoff confidence improve.
+- To move upward:
+  clearer constraints, sample review, output completeness checks, and a believable vendor workflow.
 
-- [ ] Explore theme variants without losing ArcadeGhosts identity
-- [ ] Prototype ideas like:
-  - `synthwave`
-  - `winter`
-  - `conference`
-  - `minimal print`
-  - `holiday`
-- [ ] Add a safe system for theme overrides instead of one-off hacks
+### Scaffold
 
-## Website Integration
+- Definition:
+  shared abstractions that exist to support future reuse but still need validation in practice.
+- Current expectation:
+  multi-brand helpers and generalized scene/config plumbing belong here until a second brand proves them.
+- To move upward:
+  successful second-brand validation plus reduced audit noise and fewer ArcadeGhosts assumptions.
 
-- [ ] Decide whether the site should consume shared brand tokens from the future repo
-- [ ] Identify which website assets should eventually be brand-generator outputs:
-  - opengraph images
-  - social preview art
-  - logos
-  - hero support graphics
-  - print / PDF handoff materials
-- [ ] Decide whether to import brand outputs into the site build or copy them in manually
+### Archived
 
-## Persona / Brand Review
+- Definition:
+  historical material worth keeping but not active source of truth.
+- Current expectation:
+  `archive/` and older context folders stay here unless intentionally revived.
 
-- [ ] Connect future persona testing to brand review
-- [ ] Test whether different personas respond consistently across:
-  - website
-  - business cards
-  - social graphics
-  - print materials
-- [ ] Add a notion of `brand coherence` alongside usability and interest
+## Future / Later
 
-## Product Thinking
+- [ ] Add a ChatGPT review packet command, probably `npm run chatgpt:packet`.
+- [ ] Promote stronger source audit failures once a second brand exists.
+- [ ] Add preview-sheet warnings for proof-of-concept outputs.
+- [ ] Add richer theme sweeps where they improve review quality instead of just generating more files.
+- [ ] Add vendor-specific handoffs where a generator family becomes operationally real.
+- [ ] Build a reusable client-brand onboarding path once second-brand validation exposes the real requirements.
 
-- [ ] Decide whether this stays internal to ArcadeGhosts and your side hustle
-- [ ] Explore whether a future version could support client brands
-- [ ] Identify what would need to become configurable for clients:
-  - logo input
-  - palette
-  - typography
-  - metadata
-  - output templates
-- [ ] Keep the first version focused on ArcadeGhosts before generalizing too early
+## Completed Recently
 
-## Practical First Steps After Rename
+Recent completed work from `CHANGES.md`:
 
-- [x] Move the current generator with no structural breakage
-- [x] Recreate `npm run merch:cards` as `npm run brand:business-cards` or similar
-- [x] Add `npm run brand:preview`
-- [x] Create `design-system/colors.ts`
-- [x] Create `design-system/metadata.ts`
-- [x] Create `design-system/typography.ts`
-- [x] Add the first non-card generator, using a Printify-ready sticker placeholder workflow
-- [x] Move current ArcadeGhosts brand material into `brands/arcadeghosts/` for generator consumption
-- [x] Slim down or remove the legacy `business-cards/` compatibility copy once `generators/business-cards/` is fully settled
-- [x] Decide that `for-me/` can move to `archive/` now that mug and shirt generators are first-class outputs
+- [x] Added `DEFAULT_BRAND_ID` and made unknown brand IDs fail loudly.
+- [x] Added shared CLI helpers for default brand parsing and theme-aware output names.
+- [x] Added shared asset MIME detection and data-URL helpers.
+- [x] Replaced several obvious generator hard-codes with brand-config or metadata values.
+- [x] Removed tracked absolute local filesystem paths from Markdown docs.
+- [x] Added `npm run brand:audit-source` as a lightweight reusable-code audit.
+- [x] Expanded unit coverage around brand lookup behavior and asset MIME handling.
+- [x] Classified generator maturity in `README.md`.
+- [x] Introduced `Scene` / `Hero Composition` as a first-class generator input.
+- [x] Added `ArcadeGhosts Hero` and `Work With Me Hero`.
+- [x] Added a safer theme-override system with named theme variants.
+- [x] Added tote, stream-thumbnail, invoice, letterhead, and preview/theme-sweep workflows.
 
-## Current Working Decisions
+## Notes To Keep In Mind
 
-- [x] Keep ArcadeGhosts as the first canonical brand under `brands/arcadeghosts/`
-- [x] Keep `brands/arcadeghosts/site-reference.md` as the current home for website-derived brand context
-- [x] Archive the duplicate root `arcadeghosts-site-reference.md` and keep `brands/arcadeghosts/site-reference.md` as the canonical reference
-
-## Constraints To Preserve
-
-- [x] Fail business-card export if URLs, QR targets, or contact email drift from the brand config
-- [ ] Keep deterministic exports
-- [ ] Keep real text where possible
-- [ ] Keep print-friendly PNG/PDF outputs
-- [ ] Keep guide overlays for proofing
-- [ ] Do not silently drift away from the live ArcadeGhosts website identity
-- [ ] Favor reusable tokens over hard-coded one-off styles
+- Do not add more output types yet.
+- Improve confidence in existing outputs first.
+- Treat business cards as the strongest production workflow.
+- Treat proof-of-concept merch generators as useful but not vendor-ready.
+- Treat Hero Composition as the best reusable architecture so far.
+- Treat `brand:audit-source` as useful but currently noisy.
+- Treat second-brand validation as the real test of brand agnosticism.

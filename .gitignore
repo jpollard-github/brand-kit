@@ -13,3 +13,6 @@ node_modules/
 # Generated previews
 generators/business-cards/generator/cards.html
 archive/business-cards/generator/cards.html
+
+# Local integration config
+integrations/*.local.json

@@ -31,6 +31,25 @@ The brand should feel cinematic and intimate, not slick or generic.
 
 These rules matter more than any single font size, glow effect, or layout treatment.
 
+Those same rules now also live in the design-system config so generators can reference a reusable shape instead of relying only on prose.
+
+## Theme Variants
+
+Allowed variant directions:
+
+- `default`
+- `synthwave`
+- `winter`
+- `conference`
+- `minimal-print`
+- `holiday`
+
+These are intended to be safe palette-level shifts, not excuses to reinvent ArcadeGhosts from scratch for each output.
+
+See also:
+
+- [theme-variants.md](theme-variants.md)
+
 ## What To Preserve Across Outputs
 
 - clear hierarchy before decoration
@@ -50,5 +69,5 @@ Business cards, mugs, shirts, stickers, and social assets should all feel like t
 
 ## Canonical References
 
-- Keep [site-reference.md](/Users/jasonp/repos/brand-kit/brands/arcadeghosts/site-reference.md) as the canonical website-derived reference.
+- Keep [site-reference.md](site-reference.md) as the canonical website-derived reference.
 - Archive duplicate or transitional notes rather than maintaining two active versions of the same reference.

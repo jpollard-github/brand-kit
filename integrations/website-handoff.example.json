@@ -1,0 +1,13 @@
+{
+  "arcadeghosts": {
+    "repoPath": "/ABSOLUTE/PATH/TO/WEBSITE/REPO",
+    "assetTargets": {
+      "opengraph.png": "public/brand/opengraph.png",
+      "website-hero.png": "public/brand/website-hero.png",
+      "icon.svg": "app/icon.svg",
+      "apple-touch-icon.png": "public/apple-touch-icon.png",
+      "icon-192.png": "public/icon-192.png",
+      "icon-512.png": "public/icon-512.png"
+    }
+  }
+}

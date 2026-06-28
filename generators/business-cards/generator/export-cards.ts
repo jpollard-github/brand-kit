@@ -23,6 +23,7 @@ import {
   getBrandConfig,
   type BrandConfig,
 } from "../../../design-system/brand-config";
+import { readAssetAsDataUrl } from "../../shared/assets";
 import {
   assertVerificationPassed,
   type AssetPaths,
@@ -126,19 +127,6 @@ function splitArcadeBack(lines: string[]) {
     url: cleaned[0] ?? "",
     descriptor: cleaned.slice(1),
   };
-}
-
-async function readAssetAsDataUrl(filePath: string) {
-  const data = await fs.readFile(filePath);
-  const ext = path.extname(filePath).toLowerCase();
-  const mimeType =
-    ext === ".svg"
-      ? "image/svg+xml"
-      : ext === ".webp"
-        ? "image/webp"
-        : "image/png";
-
-  return `data:${mimeType};base64,${data.toString("base64")}`;
 }
 
 async function requireAsset(filePath: string, label: string) {

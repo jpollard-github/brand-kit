@@ -4,6 +4,7 @@ export type BrandMetadata = {
   workWithMeUrl: string;
   canonicalDomain: string;
   contactEmail: string;
+  contactName: string;
   toneRules: string[];
   sourceReference: string;
 };
@@ -17,8 +18,9 @@ export function createMetadata(
     workWithMeUrl: "https://example.com/work-with-me",
     canonicalDomain: "example.com",
     contactEmail: "hello@example.com",
+    contactName: "Example Contact",
     toneRules: ["clear", "distinctive", "human"],
-    sourceReference: "brands/arcadeghosts/site-reference.md",
+    sourceReference: "brands/example/site-reference.md",
     ...overrides,
   };
 }
