@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# Generated export artifacts
+**/exports/
+**/export-manifest.json
