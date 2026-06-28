@@ -92,8 +92,8 @@ Worth adding a future merch page or TODO if one of these becomes true:
 ## Immediate TODOs
 
 - [ ] Export the current `ArcadeGhosts` logo in print-friendly sizes
-- [ ] Generate a QR code for `https://arcadeghosts.com/work-with-me`
-- [ ] Generate a QR code for `https://arcadeghosts.com`
+- [ ] Generate a QR code for `https://arcadeghosts.org/work-with-me`
+- [ ] Generate a QR code for `https://arcadeghosts.org`
 - [ ] Create a first `Work With Me` card mockup
 - [ ] Create a first `ArcadeGhosts` card mockup
 - [ ] Order one small business card test batch
@@ -188,7 +188,7 @@ Design direction:
 Recommended copy:
 
 ```text
-arcadeghosts.com/work-with-me
+arcadeghosts.org/work-with-me
 
 Small software projects for:
 - websites and web apps
@@ -206,7 +206,7 @@ Need a useful technical fix,
 workflow cleanup, AI integration,
 or small internal tool?
 
-arcadeghosts.com/work-with-me
+arcadeghosts.org/work-with-me
 jason@arcadeghosts.org
 
 QR code
@@ -246,7 +246,7 @@ Design direction:
 ### ArcadeGhosts Card Back
 
 ```text
-arcadeghosts.com
+arcadeghosts.org
 
 Projects, writing, music, cats,
 and late-night signal chasing.
@@ -265,7 +265,7 @@ Music
 Cats
 Games
 
-arcadeghosts.com
+arcadeghosts.org
 QR code
 ```
 
@@ -283,7 +283,7 @@ QR code
 2. Decide whether the logo appears prominently or only as a subtle mark.
 3. Create a `front` image using the copy in this doc.
 4. Create a `back` image with:
-   - `arcadeghosts.com/work-with-me`
+   - `arcadeghosts.org/work-with-me`
    - `jason@arcadeghosts.org`
    - 3-4 service bullets
    - QR code
@@ -296,7 +296,7 @@ QR code
 1. Reuse the same base logo assets.
 2. Create a more atmospheric `front` image.
 3. Create a simpler `back` image with:
-   - `arcadeghosts.com`
+   - `arcadeghosts.org`
    - optional short descriptor
    - QR code
 4. Upload both sides to `MOO`.

@@ -2,9 +2,9 @@
 
 Reference: 2026-06-28 EDT
 
-This TODO assumes the current merch workspace is being renamed and moved into the new brand-kit repo as a dedicated home for the brand system.
+This TODO now tracks the active build-out of `brand-kit` as the dedicated home for the generator system.
 
-Repo context: this workspace is now the brand-kit repo, so the rename and handoff planning is centered here.
+Repo context: the rename and archive work is largely complete, so the remaining TODOs should focus on brand extraction, new outputs, and cleaner reuse.
 
 Working direction:
 
@@ -21,64 +21,74 @@ Useful context from MERCH.md:
 - use MOO for cards and Printify/Fourthwall for merch experiments
 - avoid building a merch page into the site until the product set is proven
 
+## Current Next Wave
+
+- [x] Add explicit business-card URL/domain verification so `.com` regressions fail fast
+- [x] Add a first `npm run brand:verify` pre-flight check for business cards
+- [x] Extract the real ArcadeGhosts palette from the website and reconcile it with `design-system/colors.ts`
+- [x] Extract the real website metadata/summary language and reconcile it with `design-system/metadata.ts`
+- [ ] Add explicit logo usage rules so future generators use the brand mark consistently
+- [ ] Add the first social/web asset generator, likely starting with GitHub social image or OG image output
+- [ ] Expand the preview sheet to include at least one social/web asset alongside print outputs
+
 ## Recommended Rename
 
 - [x] Rename `merch/` to `brand/`, `brand-kit/`, or `brand-generator/`
 - [x] Move it into a sibling private repo outside this website repo
 - [x] Keep a note in this site repo pointing to the new location once moved
-- [ ] Decide whether generated outputs stay gitignored there or become selectively committed
+- [x] Decide that generated outputs will stay gitignored locally and not be committed to the repo
 
 ## Highest Priority
 
-- [ ] Preserve ArcadeGhosts website brand context in the moved repo
-- [ ] Extract a reusable design-system layer from the current business card generator
-- [ ] Separate brand tokens from generator-specific rendering logic
-- [ ] Keep the current business cards working as the first proof that the architecture is real
+- [x] Preserve ArcadeGhosts website brand context in the moved repo
+- [x] Extract a reusable design-system layer from the current business card generator
+- [x] Separate brand tokens from generator-specific rendering logic
+- [x] Keep the current business cards working as the first proof that the architecture is real
 
 ## Before The Move
 
-- [ ] Carry over [arcadeghosts-site-reference.md](/Users/jasonp/repos/personal/merch/arcadeghosts-site-reference.md)
-- [ ] Carry over the business card generator source files and docs
-- [ ] Carry over the current logo assets and QR assets
-- [ ] Carry over the MOO workflow docs and generator docs
+- [x] Carry over [brands/arcadeghosts/site-reference.md](/Users/jasonp/repos/brand-kit/brands/arcadeghosts/site-reference.md)
+- [x] Carry over the business card generator source files and docs
+- [x] Carry over the current logo assets and QR assets
+- [x] Carry over the MOO workflow docs and generator docs
 - [x] Keep `docs/MERCH.md` material as site-history context and preserve the actionable brand-kit details in the new repo
 
 ## Proposed Future Structure
 
-- [ ] Create a top-level structure like:
-      `brand/`
+- [x] Create a top-level structure like:
+      `brands/`
       `design-system/`
       `assets/`
       `generators/`
       `outputs/`
       `personas/`
-- [ ] Move business cards under `generators/business-cards/`
-- [ ] Create a shared `design-system/` folder for:
+- [x] Move business cards under `generators/business-cards/`
+- [x] Create a shared `design-system/` folder for:
   - colors
   - typography
   - spacing
   - layout helpers
   - metadata
   - brand copy
-- [ ] Decide whether `outputs/` should be generated locally only or partly committed
+- [x] Decide that generated `outputs/` should stay local-only and be gitignored
 
 ## Design System Extraction
 
-- [ ] Extract ArcadeGhosts color tokens from `app/globals.css`
-- [ ] Extract metadata and summary language from `app/seo.ts`
+- [x] Extract ArcadeGhosts color tokens from `app/globals.css`
+- [x] Extract metadata and summary language from `app/seo.ts`
 - [ ] Extract reusable logo references and usage rules
 - [ ] Extract tone rules:
   - professional but personal
   - neon but readable
   - atmospheric but not cluttered
-- [ ] Add a document that explains what makes ArcadeGhosts feel like ArcadeGhosts
+- [x] Add a document that explains what makes ArcadeGhosts feel like ArcadeGhosts
 
 ## Generators To Keep / Expand
 
-- [ ] Keep `business-cards/` as the first stable generator
-- [ ] Add a sticker generator
-- [ ] Add mug layout generation
-- [ ] Add shirt graphic generation
+- [x] Keep the business-card generator as the first stable generator
+- [x] Add a sticker generator
+- [x] Add mug layout generation
+- [x] Add shirt graphic generation
 - [ ] Add social graphic generation
 - [ ] Add LinkedIn banner generation
 - [ ] Add GitHub social image generation
@@ -90,16 +100,24 @@ Useful context from MERCH.md:
 
 ## Cohesion Preview
 
-- [ ] Add a single command like `npm run brand:preview`
-- [ ] Generate a multi-output preview sheet for:
+- [x] Add a single command like `npm run brand:preview`
+- [x] Generate a first multi-output preview sheet for:
   - business cards
   - sticker
   - mug
   - shirt
+- [ ] Expand the preview sheet later to include:
   - social banner
   - OG image
   - email signature
-- [ ] Make it easy to review whether the whole brand still feels cohesive in one pass
+- [x] Make it easy to review whether the whole brand still feels cohesive in one pass
+
+## Repo Hygiene
+
+- [x] Split ArcadeGhosts card copy into canonical per-card source files under `brands/arcadeghosts/copy/`
+- [ ] Decide whether `brands/arcadeghosts/copy/exports/` should stay as tracked reference artifacts or be removed from the repo history and regenerated locally
+- [ ] Add a short README note explaining which files are canonical source, which are generated outputs, and which folders are archive/history only
+- [ ] Consider removing tracked `.DS_Store` artifacts from active generator folders
 
 ## Theme Variants
 
@@ -147,16 +165,26 @@ Useful context from MERCH.md:
 
 ## Practical First Steps After Rename
 
-- [ ] Move the current generator with no structural breakage
-- [ ] Recreate `npm run merch:cards` as `npm run brand:business-cards` or similar
-- [ ] Add `npm run brand:preview`
-- [ ] Create `design-system/colors.ts`
-- [ ] Create `design-system/metadata.ts`
-- [ ] Create `design-system/typography.ts`
-- [ ] Add the first non-card generator, probably stickers or social graphics
+- [x] Move the current generator with no structural breakage
+- [x] Recreate `npm run merch:cards` as `npm run brand:business-cards` or similar
+- [x] Add `npm run brand:preview`
+- [x] Create `design-system/colors.ts`
+- [x] Create `design-system/metadata.ts`
+- [x] Create `design-system/typography.ts`
+- [x] Add the first non-card generator, using a Printify-ready sticker placeholder workflow
+- [x] Move current ArcadeGhosts brand material into `brands/arcadeghosts/` for generator consumption
+- [x] Slim down or remove the legacy `business-cards/` compatibility copy once `generators/business-cards/` is fully settled
+- [x] Decide that `for-me/` can move to `archive/` now that mug and shirt generators are first-class outputs
+
+## Current Working Decisions
+
+- [x] Keep ArcadeGhosts as the first canonical brand under `brands/arcadeghosts/`
+- [x] Keep `brands/arcadeghosts/site-reference.md` as the current home for website-derived brand context
+- [x] Archive the duplicate root `arcadeghosts-site-reference.md` and keep `brands/arcadeghosts/site-reference.md` as the canonical reference
 
 ## Constraints To Preserve
 
+- [x] Fail business-card export if URLs, QR targets, or contact email drift from the brand config
 - [ ] Keep deterministic exports
 - [ ] Keep real text where possible
 - [ ] Keep print-friendly PNG/PDF outputs

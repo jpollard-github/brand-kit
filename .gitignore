@@ -1,6 +1,15 @@
+# Dependencies
+node_modules/
+
 # macOS
 .DS_Store
+**/.DS_Store
 
 # Generated export artifacts
 **/exports/
 **/export-manifest.json
+**/outputs/
+
+# Generated previews
+generators/business-cards/generator/cards.html
+archive/business-cards/generator/cards.html

@@ -1,0 +1,22 @@
+{
+  "name": "brand-kit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "brand:business-cards": "node --import tsx generators/business-cards/generator/export-cards.ts",
+    "brand:business-cards:guides": "node --import tsx generators/business-cards/generator/export-cards.ts --guides",
+    "brand:business-cards:pdf": "node --import tsx generators/business-cards/generator/export-cards.ts --pdf",
+    "brand:verify": "node --import tsx generators/business-cards/generator/verify-brand.ts",
+    "brand:stickers": "node --import tsx generators/stickers/generate-stickers.ts",
+    "brand:mugs": "node --import tsx generators/mugs/generate-mugs.ts",
+    "brand:shirts": "node --import tsx generators/shirts/generate-shirts.ts",
+    "brand:preview-sheet": "node --import tsx generators/preview/generate-preview-sheet.ts",
+    "brand:preview": "npm run brand:business-cards && npm run brand:stickers && npm run brand:mugs && npm run brand:shirts && npm run brand:preview-sheet",
+    "brand:help": "node --import tsx -e \"import { listBrandIds } from './design-system/brand-config.ts'; console.log(listBrandIds().join('\\n'))\""
+  },
+  "dependencies": {
+    "playwright": "^1.49.1",
+    "tsx": "^4.19.0"
+  }
+}
