@@ -213,6 +213,8 @@ export const arcadeghostsBrand: BrandConfig = {
     canonicalDomain: "arcadeghosts.org",
     contactEmail: "jason@arcadeghosts.org",
     contactName: "Jason Pollard",
+    githubUrl: "https://github.com/jpollard-github",
+    linkedinUrl: "https://www.linkedin.com/in/jason-pollard-852b35195/",
     toneRules: toToneRuleLabels(arcadeghostsGuardrails),
     sourceReference: "brands/arcadeghosts/site-reference.md",
   }),

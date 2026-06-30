@@ -108,6 +108,16 @@ export function resolveClientCollateralLink(
       return metadata.workWithMeUrl;
     case "contactEmail":
       return `mailto:${metadata.contactEmail}`;
+    case "github":
+      if (!metadata.githubUrl) {
+        throw new Error("Client collateral link key \"github\" requires brand metadata.githubUrl.");
+      }
+      return metadata.githubUrl;
+    case "linkedin":
+      if (!metadata.linkedinUrl) {
+        throw new Error("Client collateral link key \"linkedin\" requires brand metadata.linkedinUrl.");
+      }
+      return metadata.linkedinUrl;
     default:
       throw new Error(
         `Client collateral link key "${linkKey}" needs consumer-provided business-link data before it can be resolved in Brand Kit.`,

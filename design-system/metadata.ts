@@ -5,6 +5,8 @@ export type BrandMetadata = {
   canonicalDomain: string;
   contactEmail: string;
   contactName: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
   toneRules: string[];
   sourceReference: string;
 };
@@ -19,6 +21,8 @@ export function createMetadata(
     canonicalDomain: "example.com",
     contactEmail: "hello@example.com",
     contactName: "Example Contact",
+    githubUrl: "https://github.com/example",
+    linkedinUrl: "https://linkedin.com/in/example",
     toneRules: ["clear", "distinctive", "human"],
     sourceReference: "brands/example/site-reference.md",
     ...overrides,

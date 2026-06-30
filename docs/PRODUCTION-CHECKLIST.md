@@ -57,6 +57,17 @@ For email signatures specifically, also confirm:
 - no Stripe or discovery payment link appears in first-touch use
 - the generated HTML file is the one installed, not a manually rebuilt version
 
+## Networking Asset Notes
+
+For QR-driven networking assets specifically, also confirm:
+
+- the raw QR image decodes to the expected URL
+- the conference card QR decodes from another phone camera
+- the lock-screen QR decodes after the image is transferred to the phone
+- the lock-screen QR stays clear of top and bottom iOS UI
+- the default QR target still matches the intended meetup/business context
+- the asset feels like a useful personal networking surface, not a pushy sales surface
+
 ## Business Card Notes
 
 For business cards specifically, use [docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md](docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md) and confirm:

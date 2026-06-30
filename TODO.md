@@ -75,6 +75,31 @@ This is the highest-leverage work for winning a first consulting client.
 - [ ] Keep the first-client stack focused and pause new collateral families unless real outreach or client work creates the need.
 - [ ] Keep the one-page collateral family visually consistent:
   same hero structure, typography, spacing rhythm, footer pattern, CTA placement, card radius, and color language across capability sheet, proposal overview, case study, discovery summary, and similar one-page collateral.
+- [ ] Manually proof the networking assets on iPhone:
+  transfer the conference card and lock screen to Photos, scan the QR at normal and dim brightness, and confirm the lock-screen crop stays clear of iOS UI.
+- [ ] If Apple Wallet signing credentials are available, sign the networking pass and test it in Apple Wallet on iPhone:
+  confirm pass install, QR scan behavior, field readability, and whether Wallet is actually more convenient than the conference card at a real meetup.
+- [ ] Decide whether the meetup networking assets should stay as a reusable family after real use:
+  keep them if they prove useful, or tighten them further based on what actually works at events.
+- [ ] Keep the PNG conference card as the primary low-friction networking fallback even if Wallet pass support improves:
+  the Wallet path should stay optional rather than becoming a hidden requirement.
+- [ ] Keep the networking flow documentation operational:
+  `docs/networking-assets.md` should explain the human meetup flow, and `docs/APPLE-WALLET-PASS-SETUP.md` should stay current for signing and installation steps.
+
+### Networking Flow Workstream
+
+This current workstream is tracked here in `Priority 1`, not in a separate TODO file.
+
+- [x] Generate meetup-ready conference card and lock-screen assets with a verified QR target.
+- [x] Add a review-packet workflow for networking assets.
+- [x] Add a sign-ready Apple Wallet pass package and local signing command.
+- [ ] Proof the conference card on the actual iPhone in Photos at meetup-friendly brightness.
+- [ ] Proof the lock screen after wallpaper install and crop.
+- [ ] Sign the Wallet pass with real Apple credentials and install it on iPhone.
+- [ ] Compare whether the Wallet pass is actually better than the conference card in live use.
+- [ ] Decide which networking asset should be the default for future meetups:
+  conference card, lock screen, or Wallet pass.
+- [ ] Keep the networking family if real use validates it; tighten or freeze it if not.
 
 ## Priority 2: Immediate Next Work
 

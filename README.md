@@ -24,12 +24,14 @@ If you are new to the repo, use this order:
 3. [docs/CLIENT-COLLATERAL.md](docs/CLIENT-COLLATERAL.md)
 4. [docs/BUSINESS-LINKS-CONTRACT.md](docs/BUSINESS-LINKS-CONTRACT.md)
 5. [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md)
-6. [docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md](docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md)
-7. [brands/arcadeghosts/README.md](brands/arcadeghosts/README.md)
-8. [brands/arcadeghosts/what-makes-arcadeghosts.md](brands/arcadeghosts/what-makes-arcadeghosts.md)
-9. [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
-10. [design-system/brand-config.ts](design-system/brand-config.ts)
-11. [generators/social/hero-composition.ts](generators/social/hero-composition.ts)
+6. [docs/networking-assets.md](docs/networking-assets.md)
+7. [docs/APPLE-WALLET-PASS-SETUP.md](docs/APPLE-WALLET-PASS-SETUP.md)
+8. [docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md](docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md)
+9. [brands/arcadeghosts/README.md](brands/arcadeghosts/README.md)
+10. [brands/arcadeghosts/what-makes-arcadeghosts.md](brands/arcadeghosts/what-makes-arcadeghosts.md)
+11. [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
+12. [design-system/brand-config.ts](design-system/brand-config.ts)
+13. [generators/social/hero-composition.ts](generators/social/hero-composition.ts)
 
 ## Current approach
 
@@ -87,13 +89,13 @@ From a configured brand, Brand Kit can currently generate:
 - Covers and headers:
   `npm run brand:newsletter`, `npm run brand:project-cover`, `npm run brand:presentation-cover`
 - Event and outreach surfaces:
-  `npm run brand:conference-badge`, `npm run brand:mini-flyer`
+  `npm run brand:conference-badge`, `npm run brand:mini-flyer`, `npm run asset:conference-card`, `npm run asset:lock-screen`, `npm run asset:wallet-pass`, `npm run asset:wallet-pass:sign`, `npm run asset:networking`
 - Wallpapers and video surfaces:
   `npm run brand:wallpapers`, `npm run brand:stream-thumbnail`
 - Merch and physical brand surfaces:
   `npm run brand:stickers`, `npm run brand:sticker-sheet`, `npm run brand:mugs`, `npm run brand:shirts`, `npm run brand:totes`
 - Review and preview utilities:
-  `npm run brand:preview`, `npm run brand:preview:themes`, `npm run brand:packet:client-collateral`
+  `npm run brand:preview`, `npm run brand:preview:themes`, `npm run brand:packet:client-collateral`, `npm run review:packet`
 
 Generator implementations live under `generators/`.
 Improve existing collateral before adding new collateral families.
@@ -126,6 +128,8 @@ This is the current generator-family map:
   Conference badge.
 - `posters`
   Mini flyer.
+- `networking`
+  Conference card, lock screen, Apple Wallet pass scaffolding/signing flow, QR verification, and networking review packet support.
 - `wallpapers`
   Desktop/mobile wallpaper exports.
 - `video`
@@ -187,6 +191,7 @@ This is the practical status snapshot after the latest verification and smoke-ge
   `business-cards`
 - `Production Candidate`
   `client-collateral` proposal cover, capability sheet, and discovery call guide
+  `networking`
   `email`
   `documents`
   `social`
@@ -249,13 +254,20 @@ Use these most often:
 npm run brand:verify
 npm run brand:audit-source
 npm run brand:preview
+npm run asset:networking
+npm run review:packet
 ```
 
 - `brand:verify` now checks business-card source-of-truth details plus social hero manifests/preflight metadata for OG, LinkedIn, and GitHub outputs.
 - `brand:verify` is the main preflight command before trusting outputs for real use. It now checks business-card source-of-truth details plus manifest/preflight coverage for social hero outputs, website hero, icons, email signature, and capability sheet.
 - `brand:audit-source` is a reusable-code hygiene check. Its purpose is to catch places where shared code still leaks ArcadeGhosts-specific strings so the repo can become genuinely multi-brand over time, without blocking normal work yet.
+- `asset:networking` generates the current phone-first meetup stack: conference card, lock screen, wallet pass package, business-card support outputs, and QR verification.
+- `review:packet` packages the networking assets for human or ChatGPT review.
 - `brand:preview` generates the current output set and refreshes the multi-output review page.
 - `brand:packet:client-collateral` gathers the current first-client collateral stack into a review-friendly packet.
+- `asset:networking` generates the meetup-ready networking assets, business-card regeneration support, and QR verification in one path.
+- `qr:verify` programmatically decodes the generated networking QR assets and confirms they still point to the expected URL.
+- `review:packet` gathers the networking assets into a review-friendly packet.
 
 Useful extra workflows:
 
@@ -265,6 +277,11 @@ Useful extra workflows:
 - `npm run brand:verify:icons`
 - `npm run brand:verify:email`
 - `npm run brand:verify:capability-sheet`
+- `npm run asset:conference-card`
+- `npm run asset:lock-screen`
+- `npm run asset:networking`
+- `npm run qr:verify`
+- `npm run review:packet`
 - `npm run brand:preview:themes`
 - `npm run test:unit`
 
@@ -292,6 +309,7 @@ Useful specialized docs:
 
 - [docs/repo-map.md](docs/repo-map.md)
 - [docs/CLIENT-COLLATERAL.md](docs/CLIENT-COLLATERAL.md)
+- [docs/networking-assets.md](docs/networking-assets.md)
 - [docs/BUSINESS-LINKS-CONTRACT.md](docs/BUSINESS-LINKS-CONTRACT.md)
 - [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md)
 - [docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md](docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md)
@@ -304,6 +322,7 @@ Useful specialized docs:
 - [generators/business-cards/generator/README.md](generators/business-cards/generator/README.md)
 - [brands/arcadeghosts/workflows/MOO-upload-checklist.md](brands/arcadeghosts/workflows/MOO-upload-checklist.md)
 - [brands/arcadeghosts/theme-variants.md](brands/arcadeghosts/theme-variants.md)
+- [generators/networking/README.md](generators/networking/README.md)
 - [generators/website/README.md](generators/website/README.md)
 - generator-family upload notes under `generators/*/README.md`
 

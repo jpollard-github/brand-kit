@@ -68,20 +68,29 @@ review-packets/2026-06-28/client-collateral-1730/
 review-packets/brand-kit-client-collateral-2026-06-28-1730.zip
 ```
 
+Networking review packets follow the same pattern:
+
+```text
+review-packets/2026-06-29/networking-assets-2125/
+review-packets/brand-kit-networking-assets-2026-06-29-2125.zip
+```
+
 Optional convenience copy:
 
 ```text
 review-packets/latest-client-collateral/
+review-packets/latest-networking-assets/
 ```
 
 The timestamped folder and timestamped zip should be preserved.
-Only the optional `latest-client-collateral/` convenience copy may be overwritten.
+Only the optional `latest-*` convenience copies may be overwritten.
 
 Every review packet should include:
 
 - `REVIEW.md`
 - a top-level `outputs/` convenience layer for review
 - a top-level `source/` convenience layer for docs, config, and generators
+- a top-level `diagnostics/` layer for command logs, git diff context, and review-specific screenshots or overlays
 - the generated files being reviewed
 - the source files that control those outputs
 - relevant manifests
@@ -118,6 +127,7 @@ Include when available:
 - discovery guide outputs
 - invoice outputs
 - business-card outputs and manifests
+- networking conference card, lock screen, raw QR, Wallet pass package, preview PNG, and verification report
 - `README.md`
 - `TODO.md`
 - `docs/CLIENT-COLLATERAL.md`
@@ -172,6 +182,16 @@ Shared CTA/config behavior:
 
 - `design-system/client-collateral.ts`
 - `docs/BUSINESS-LINKS-CONTRACT.md`
+
+Networking assets and Wallet pass:
+
+- `generators/networking/generate-networking-assets.ts`
+- `generators/networking/generate-wallet-pass.ts`
+- `scripts/verify-qr.ts`
+- `scripts/sign-wallet-pass.ts`
+- `design-system/networking.ts`
+- `brands/arcadeghosts/networking.ts`
+- `docs/networking-assets.md`
 
 ## Review Order
 
