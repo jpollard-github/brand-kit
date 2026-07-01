@@ -45,6 +45,7 @@ Do not default meetup assets to `/work-with-me` unless there is a deliberate rea
 - conference card preview PNG and SVG
 - lock screen PNG and SVG
 - minimal lock screen PNG and SVG
+- minimal installed-tuned lock screen PNG and SVG
 - wallet pass package folder
 - wallet pass unsigned `.pkpass.zip`
 - wallet pass preview PNG
@@ -53,6 +54,7 @@ Do not default meetup assets to `/work-with-me` unless there is a deliberate rea
 - QR verification report JSON and TXT
 - lock-screen notes TXT
 - `PHONE-IMPORT/` folder with iPhone-ready transfer files
+- `PHONE-IMPORT/WALLPAPER-CYCLE/` convenience folder with the current wallpaper candidates only
 - review packet
 
 The networking review packet now also includes:
@@ -104,9 +106,25 @@ Use any of these:
 1. AirDrop the files from `generators/outputs/networking/PHONE-IMPORT/` to your iPhone 17.
 2. Save the images to Photos if they do not land there automatically.
 3. Favorite the conference card in Photos.
-4. Set the lock screen or minimal lock screen if you want the ambient QR option.
+4. Set the installed-tuned minimal lock screen if you want the ambient QR option.
 5. Test the QR from another phone.
 6. At the meetup, open the conference card full-screen from Photos when someone asks what you do.
+
+## Faster Wallpaper Iteration Cycle
+
+Use this when you are tuning the lock screen and do not want to repeat the full folder-cleanup ritual every pass.
+
+1. Regenerate only the wallpaper assets:
+   `npm run asset:lock-screen`
+2. AirDrop only the files in `generators/outputs/networking/PHONE-IMPORT/WALLPAPER-CYCLE/`.
+3. Start with `2-arcadeghosts-lock-screen-minimal-installed-tuned.png`.
+4. On iPhone, open that file from Files and tap `Share -> Save Image`.
+5. Keep a small Photos album such as `Wallpaper Tests` and save each pass there.
+6. Create the wallpaper from the latest saved photo in that album.
+7. Take one screenshot after install and compare it against the previous pass.
+8. Batch-delete old Files copies later instead of stopping each iteration to clean them up.
+
+This keeps the cycle focused on one or two candidate files rather than the whole `PHONE-IMPORT/` bundle.
 
 ## How To Set The Lock Screen
 
@@ -118,6 +136,13 @@ Use any of these:
 6. Tap Add.
 7. Choose Set as Wallpaper Pair or Customize Home Screen.
 8. On iPhone 17, double-check the final crop with the actual time/widgets layout you plan to use.
+
+Current preferred minimal wallpaper candidate:
+
+- `arcadeghosts-lock-screen-minimal-installed-tuned.png`
+- fallback baseline: `arcadeghosts-lock-screen-minimal.png`
+
+Treat the installed-tuned file as the default minimal lock-screen option unless a future device-proof pass shows a clear regression.
 
 ## How To Use The Conference Card
 

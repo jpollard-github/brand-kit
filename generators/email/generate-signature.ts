@@ -67,9 +67,10 @@ async function writeSignatureFiles(args: SignatureArgs) {
   const data = await buildHeroCompositionData(args.brandId, args.sceneId);
   const brand = data.brand;
   const collateral = getClientCollateralConfig(brand.id);
-  const serviceChips = collateral.services
+  const serviceLine = collateral.services
     .slice(0, 3)
-    .map((service) => service.name);
+    .map((service) => service.name)
+    .join(" | ");
   const websiteUrl = resolveClientCollateralLink(brand.metadata, "website");
   const websiteDisplayUrl = brand.metadata.homeUrl.replace(/^https:\/\//, "");
   const primaryCtaUrl = resolveClientCollateralLink(
@@ -84,11 +85,6 @@ async function writeSignatureFiles(args: SignatureArgs) {
   const subline =
     collateral.email?.subline ??
     `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
-  const serviceTags = serviceChips
-    .map(
-      (service) => `<span style="display:inline-block;margin:0 8px 8px 0;padding:6px 10px;border-radius:999px;background:#16343b;border:1px solid #23545e;color:${brand.palette.text};font-size:12px;font-weight:700;line-height:1.2;">${escapeXml(service)}</span>`,
-    )
-    .join("");
   const html = `<!doctype html>
 <html lang="en">
   <head>
@@ -98,13 +94,13 @@ async function writeSignatureFiles(args: SignatureArgs) {
     <style>
       body {
         margin: 0;
-        padding: 24px;
+        padding: 16px;
         background: #f4f0e8;
         font-family: ${brand.typography.fontStack};
       }
 
       .signature {
-        width: 760px;
+        width: 340px;
       }
 
       table {
@@ -113,32 +109,41 @@ async function writeSignatureFiles(args: SignatureArgs) {
     </style>
   </head>
   <body>
-    <table class="signature" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:760px;max-width:760px;background:${brand.palette.background};background-image:linear-gradient(135deg, ${brand.palette.backgroundDeep} 0%, ${brand.palette.background} 100%);border:1px solid ${brand.palette.border};border-radius:20px;color:${brand.palette.text};font-family:${brand.typography.fontStack};">
+    <table class="signature" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:340px;max-width:340px;background:${brand.palette.background};background-image:linear-gradient(135deg, ${brand.palette.backgroundDeep} 0%, ${brand.palette.background} 100%);border:1px solid ${brand.palette.border};border-radius:20px;color:${brand.palette.text};font-family:${brand.typography.fontStack};">
       <tr>
-        <td style="padding:24px 22px 24px 24px;vertical-align:top;width:136px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:120px;height:120px;background:#11161c;border:1px solid rgba(248,239,227,0.08);border-radius:18px;">
+        <td style="padding:22px 22px 0 22px;vertical-align:top;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:88px;height:88px;background:#11161c;border:1px solid rgba(248,239,227,0.08);border-radius:16px;">
             <tr>
-              <td align="center" valign="middle" style="width:120px;height:120px;padding:8px;">
-                <img src="${data.logoDataUrl}" alt="${escapeXml(brand.displayName)} logo" width="96" height="96" style="display:block;width:96px;height:96px;border:0;outline:none;text-decoration:none;" />
+              <td align="center" valign="middle" style="width:88px;height:88px;padding:6px;">
+                <img src="${data.logoDataUrl}" alt="${escapeXml(brand.displayName)} logo" width="68" height="68" style="display:block;width:68px;height:68px;border:0;outline:none;text-decoration:none;" />
               </td>
             </tr>
           </table>
         </td>
-        <td style="padding:22px 24px 22px 0;vertical-align:top;">
-          <div style="color:${brand.palette.amber};font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;margin:0 0 8px 0;">${escapeXml(brand.labels.workWithMe)}</div>
-          <div style="color:${brand.palette.text};font-size:30px;font-weight:800;line-height:1.05;margin:0 0 8px 0;">${escapeXml(brand.metadata.contactName)}</div>
-          <div style="color:${brand.palette.textMuted};font-size:16px;line-height:1.35;margin:0 0 14px 0;">${escapeXml(roleLine)}</div>
-          <div style="margin:0 0 10px 0;line-height:1;">${serviceTags}</div>
+      </tr>
+      <tr>
+        <td style="padding:16px 22px 22px 22px;vertical-align:top;">
+          <div style="color:${brand.palette.amber};font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin:0 0 8px 0;">${escapeXml(brand.labels.workWithMe)}</div>
+          <div style="color:${brand.palette.text};font-size:18px;font-weight:800;line-height:1.2;margin:0 0 6px 0;">${escapeXml(brand.metadata.contactName)}</div>
+          <div style="color:${brand.palette.textMuted};font-size:15px;line-height:1.4;margin:0 0 8px 0;">${escapeXml(roleLine)}</div>
+          <div style="color:${brand.palette.textMuted};font-size:14px;line-height:1.45;margin:0 0 14px 0;">${escapeXml(serviceLine)}</div>
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px 0;">
             <tr>
-              <td style="padding:0 8px 8px 0;">
-                <a href="${escapeXml(contactEmailUrl)}" style="display:inline-block;padding:9px 12px;border-radius:999px;background:#11161c;border:1px solid rgba(248,239,227,0.08);color:${brand.palette.text};font-size:13px;font-weight:650;line-height:1.2;text-decoration:none;">${escapeXml(brand.metadata.contactEmail)}</a>
+              <td style="padding:0 0 8px 0;color:${brand.palette.textMuted};font-size:14px;line-height:1.45;">
+                <span style="color:${brand.palette.text};font-weight:700;">Email:</span>
+                <a href="${escapeXml(contactEmailUrl)}" style="color:${brand.palette.text};text-decoration:none;">${escapeXml(brand.metadata.contactEmail)}</a>
               </td>
-              <td style="padding:0 8px 8px 0;">
-                <a href="${escapeXml(websiteUrl)}" style="display:inline-block;padding:9px 12px;border-radius:999px;background:#11161c;border:1px solid rgba(248,239,227,0.08);color:${brand.palette.text};font-size:13px;font-weight:650;line-height:1.2;text-decoration:none;">${escapeXml(websiteDisplayUrl)}</a>
+            </tr>
+            <tr>
+              <td style="padding:0 0 14px 0;color:${brand.palette.textMuted};font-size:14px;line-height:1.45;">
+                <span style="color:${brand.palette.text};font-weight:700;">Web:</span>
+                <a href="${escapeXml(websiteUrl)}" style="color:${brand.palette.text};text-decoration:none;">${escapeXml(websiteDisplayUrl)}</a>
               </td>
-              <td style="padding:0 0 8px 0;">
-                <a href="${escapeXml(primaryCtaUrl)}" style="display:inline-block;padding:10px 14px;border-radius:999px;background:#1b454e;border:1px solid #327784;color:${brand.palette.text};font-size:13px;font-weight:800;line-height:1.2;text-decoration:none;">${escapeXml(collateral.ctas.primaryCTA.label)}</a>
+            </tr>
+            <tr>
+              <td style="padding:0;">
+                <div style="color:${brand.palette.textMuted};font-size:14px;line-height:1.45;margin:0 0 8px 0;">Need help with AI tools, internal software, or automation?</div>
+                <a href="${escapeXml(primaryCtaUrl)}" style="display:inline-block;padding:12px 16px;border-radius:999px;background:#1b454e;border:1px solid #327784;color:${brand.palette.text};font-size:15px;font-weight:800;line-height:1.2;text-decoration:none;">${escapeXml(collateral.ctas.primaryCTA.label)}</a>
               </td>
             </tr>
           </table>
@@ -159,7 +164,7 @@ async function renderHtmlPreview(html: string, pngPath: string) {
 
   try {
     const page = await browser.newPage({
-      viewport: { width: 900, height: 420 },
+      viewport: { width: 520, height: 520 },
       deviceScaleFactor: 1,
     });
     await page.setContent(html, { waitUntil: "load" });

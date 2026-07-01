@@ -26,12 +26,16 @@ Typical outputs include:
 - conference card PNG and SVG
 - conference card preview PNG and SVG
 - lock screen PNG and SVG
+- minimal lock screen PNG and SVG
+- minimal installed-tuned lock screen PNG and SVG
 - wallet pass package folder
 - wallet pass unsigned `.pkpass.zip`
 - wallet pass preview PNG
 - wallet pass signing report
 - QR verification report JSON and TXT
 - lock screen notes TXT
+- `PHONE-IMPORT/` convenience bundle
+- `PHONE-IMPORT/WALLPAPER-CYCLE/` one-step wallpaper iteration bundle
 
 ## QR Behavior
 
@@ -41,6 +45,28 @@ Typical outputs include:
   `--qr-target https://example.com`
 - QR generation is source-generated, not AI-generated.
 - QR verification is programmatic and the generator fails if verification does not match the expected URL.
+
+## Wallpaper Iteration
+
+When tuning only the phone wallpaper, prefer:
+
+```bash
+npm run asset:lock-screen
+```
+
+Then AirDrop just the files under:
+
+```text
+generators/outputs/networking/PHONE-IMPORT/WALLPAPER-CYCLE/
+```
+
+That folder is meant to reduce friction during repeated on-device wallpaper proofing.
+
+Current preferred minimal wallpaper candidate:
+
+- `2-arcadeghosts-lock-screen-minimal-installed-tuned.png`
+
+Keep the plain minimal variant as a fallback comparison, but treat the installed-tuned file as the default option for current iPhone proofing.
 
 ## Business Card Support
 

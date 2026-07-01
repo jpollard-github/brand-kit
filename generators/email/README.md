@@ -28,6 +28,15 @@ npm run brand:email-signature
 The HTML output is the one to adapt into an email client.
 The PNG is only for review/proofing.
 
+The default layout is intentionally mobile-first:
+
+- narrow fixed width around `340px`
+- larger text sizing for phones:
+  name `18px`, role `15px`, contact text `14px`, CTA `15px`
+- single-column structure with one primary CTA instead of a wide multi-button row
+
+This is deliberate because many mobile mail clients shrink wide signatures until they become unreadable.
+
 ## First Real Use
 
 - Install the HTML-based signature into the email client you will actually use for outreach.
@@ -35,6 +44,7 @@ The PNG is only for review/proofing.
   desktop, mobile, Gmail, Outlook, and Apple Mail where practical.
 - Verify link targets, spacing, image rendering, and dark-mode behavior.
 - Keep this as a consulting touchpoint, not a decorative brand artifact.
+- If a change makes the signature much wider again, treat that as a regression unless there is a proven client-specific reason.
 
 ## Recommended Variants
 

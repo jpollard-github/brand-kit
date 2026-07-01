@@ -47,6 +47,7 @@ type GeneratedAssets = {
   conferenceCardPreviewPngPath?: string;
   lockScreenPngPath?: string;
   lockScreenMinimalPngPath?: string;
+  lockScreenMinimalInstalledTunedPngPath?: string;
   reportJsonPath: string;
   reportTxtPath: string;
   notesPath: string;
@@ -60,7 +61,7 @@ type VerificationRow = {
   matchesExpected: boolean;
 };
 
-type LockScreenLayoutMode = "default" | "minimal";
+type LockScreenLayoutMode = "default" | "minimal" | "minimal-installed-tuned";
 
 type LockScreenLayout = {
   visualCenterX: number;
@@ -143,8 +144,16 @@ function currentDateTimeStamp() {
 
 function createLockScreenLayout(mode: LockScreenLayoutMode): LockScreenLayout {
   const canvasCenterX = Math.round(lockScreenSize.width / 2);
-  const opticalCenterOffsetX = -34;
-  const visualCenterX = canvasCenterX + opticalCenterOffsetX;
+  const defaultOpticalCenterOffsetX = -34;
+  const minimalOpticalCenterOffsetX = -72;
+  const installedTunedOpticalCenterOffsetX = -164;
+  const visualCenterX =
+    canvasCenterX +
+    (mode === "minimal-installed-tuned"
+      ? installedTunedOpticalCenterOffsetX
+      : mode === "minimal"
+        ? minimalOpticalCenterOffsetX
+        : defaultOpticalCenterOffsetX);
 
   if (mode === "default") {
     const clockSafeAreaBottom = 880;
@@ -173,24 +182,24 @@ function createLockScreenLayout(mode: LockScreenLayoutMode): LockScreenLayout {
   }
 
   const clockSafeAreaBottom = 920;
-  const logoTopY = 1082;
-  const logoRadius = 150;
+  const logoTopY = mode === "minimal-installed-tuned" ? 1214 : 1170;
+  const logoRadius = mode === "minimal-installed-tuned" ? 142 : 150;
   const logoCenterY = logoTopY + logoRadius;
-  const qrCardSize = 596;
-  const qrCardY = 1786;
+  const qrCardSize = mode === "minimal-installed-tuned" ? 620 : 596;
+  const qrCardY = mode === "minimal-installed-tuned" ? 1804 : 1786;
   return {
     visualCenterX,
     clockSafeAreaBottom,
     logoTopY,
     logoCenterY,
     logoRadius,
-    logoImageSize: 256,
-    urlY: 1534,
+    logoImageSize: mode === "minimal-installed-tuned" ? 236 : 256,
+    urlY: mode === "minimal-installed-tuned" ? 1688 : 1638,
     qrCardSize,
     qrCardY,
     qrCornerRadius: 40,
-    qrImageSize: 454,
-    qrInsetTop: 63,
+    qrImageSize: mode === "minimal-installed-tuned" ? 468 : 454,
+    qrInsetTop: mode === "minimal-installed-tuned" ? 76 : 63,
     qrBottomMargin: lockScreenSize.height - (qrCardY + qrCardSize),
   };
 }
@@ -375,9 +384,17 @@ function buildMinimalLockScreenSvg(args: {
   brandPalette: Awaited<ReturnType<typeof buildHeroCompositionData>>["brand"]["palette"];
   qrDataUrl: string;
   displayUrl: string;
+  mode?: Extract<LockScreenLayoutMode, "minimal" | "minimal-installed-tuned">;
 }) {
-  const { logoDataUrl, fontStack, brandPalette, qrDataUrl, displayUrl } = args;
-  const layout = createLockScreenLayout("minimal");
+  const {
+    logoDataUrl,
+    fontStack,
+    brandPalette,
+    qrDataUrl,
+    displayUrl,
+    mode = "minimal",
+  } = args;
+  const layout = createLockScreenLayout(mode);
   const logoImageX = layout.visualCenterX - layout.logoImageSize / 2;
   const qrCardX = layout.visualCenterX - layout.qrCardSize / 2;
   const qrImageX = layout.visualCenterX - layout.qrImageSize / 2;
@@ -411,6 +428,7 @@ async function writePhoneImportReadme(args: {
   conferenceCardFileName: string;
   lockScreenFileName: string;
   minimalLockScreenFileName: string;
+  minimalInstalledTunedLockScreenFileName: string;
   qrFileName: string;
 }) {
   const readmePath = path.join(phoneImportDir, "README-FIRST.md");
@@ -426,7 +444,19 @@ async function writePhoneImportReadme(args: {
       `- Conference card: \`${args.conferenceCardFileName}\``,
       `- Lock screen: \`${args.lockScreenFileName}\``,
       `- Minimal lock screen: \`${args.minimalLockScreenFileName}\``,
+      `- Minimal installed-tuned lock screen: \`${args.minimalInstalledTunedLockScreenFileName}\``,
       `- Raw QR: \`${args.qrFileName}\``,
+      "",
+      "## Fast wallpaper cycle",
+      "",
+      "Use `WALLPAPER-CYCLE/` when you are iterating on wallpaper proofing.",
+      "",
+      `- Start with \`2-${args.minimalInstalledTunedLockScreenFileName}\` for on-device wallpaper tests.`,
+      `- Use \`1-${args.minimalLockScreenFileName}\` when you want the simpler baseline.`,
+      "- AirDrop only one wallpaper candidate at a time instead of the whole PHONE-IMPORT folder.",
+      "- After the image lands in Files on iPhone, open it once and tap Share -> Save Image.",
+      "- In Photos, keep a small album like `Wallpaper Tests` so the latest pass is easy to find.",
+      "- Clean up old Files copies later in one batch instead of during every iteration.",
       "",
       "## AirDrop to iPhone",
       "",
@@ -443,7 +473,7 @@ async function writePhoneImportReadme(args: {
       "## Set the lock screen",
       "",
       "1. Open Photos on iPhone 17.",
-      `2. Choose \`${args.lockScreenFileName}\` or \`${args.minimalLockScreenFileName}\`.`,
+      `2. Choose \`${args.lockScreenFileName}\`, \`${args.minimalLockScreenFileName}\`, or \`${args.minimalInstalledTunedLockScreenFileName}\`.`,
       "3. Tap Share -> Use as Wallpaper.",
       "4. Adjust the crop carefully.",
       "5. Make sure the QR stays clear of time, widgets, and bottom controls.",
@@ -472,6 +502,7 @@ async function buildPhoneImportFolder(files: {
   conferenceCardPngPath?: string;
   lockScreenPngPath?: string;
   lockScreenMinimalPngPath?: string;
+  lockScreenMinimalInstalledTunedPngPath?: string;
   qrPngPath: string;
 }) {
   const existingConferenceCardPngPath =
@@ -492,9 +523,21 @@ async function buildPhoneImportFolder(files: {
       outputDir,
       `${createBrandOutputName(files.brandId, "lock-screen-minimal", process.env.BRAND_THEME)}.png`,
     );
+  const existingMinimalInstalledTunedLockScreenPngPath =
+    files.lockScreenMinimalInstalledTunedPngPath ??
+    path.join(
+      outputDir,
+      `${createBrandOutputName(
+        files.brandId,
+        "lock-screen-minimal-installed-tuned",
+        process.env.BRAND_THEME,
+      )}.png`,
+    );
 
   await fs.rm(phoneImportDir, { recursive: true, force: true });
   await fs.mkdir(phoneImportDir, { recursive: true });
+  const wallpaperCycleDir = path.join(phoneImportDir, "WALLPAPER-CYCLE");
+  await fs.mkdir(wallpaperCycleDir, { recursive: true });
 
   if (await pathExists(existingConferenceCardPngPath)) {
     await fs.copyFile(
@@ -513,6 +556,29 @@ async function buildPhoneImportFolder(files: {
       existingMinimalLockScreenPngPath,
       path.join(phoneImportDir, path.basename(existingMinimalLockScreenPngPath)),
     );
+    await fs.copyFile(
+      existingMinimalLockScreenPngPath,
+      path.join(
+        wallpaperCycleDir,
+        `1-${path.basename(existingMinimalLockScreenPngPath)}`,
+      ),
+    );
+  }
+  if (await pathExists(existingMinimalInstalledTunedLockScreenPngPath)) {
+    await fs.copyFile(
+      existingMinimalInstalledTunedLockScreenPngPath,
+      path.join(
+        phoneImportDir,
+        path.basename(existingMinimalInstalledTunedLockScreenPngPath),
+      ),
+    );
+    await fs.copyFile(
+      existingMinimalInstalledTunedLockScreenPngPath,
+      path.join(
+        wallpaperCycleDir,
+        `2-${path.basename(existingMinimalInstalledTunedLockScreenPngPath)}`,
+      ),
+    );
   }
   await fs.copyFile(files.qrPngPath, path.join(phoneImportDir, path.basename(files.qrPngPath)));
 
@@ -520,6 +586,9 @@ async function buildPhoneImportFolder(files: {
     conferenceCardFileName: path.basename(existingConferenceCardPngPath),
     lockScreenFileName: path.basename(existingLockScreenPngPath),
     minimalLockScreenFileName: path.basename(existingMinimalLockScreenPngPath),
+    minimalInstalledTunedLockScreenFileName: path.basename(
+      existingMinimalInstalledTunedLockScreenPngPath,
+    ),
     qrFileName: path.basename(files.qrPngPath),
   });
 }
@@ -562,6 +631,7 @@ async function generateAssets(args: GeneratorArgs): Promise<GeneratedAssets> {
   let conferenceCardPreviewPngPath: string | undefined;
   let lockScreenPngPath: string | undefined;
   let lockScreenMinimalPngPath: string | undefined;
+  let lockScreenMinimalInstalledTunedPngPath: string | undefined;
 
   if (args.asset === "conference-card" || args.asset === "all") {
     const conferenceCard = await writeAssetFiles(
@@ -606,6 +676,25 @@ async function generateAssets(args: GeneratorArgs): Promise<GeneratedAssets> {
       lockScreenSize,
     );
     lockScreenMinimalPngPath = minimalLockScreen.pngPath;
+
+    const minimalInstalledTunedLockScreen = await writeAssetFiles(
+      createBrandOutputName(
+        args.brandId,
+        "lock-screen-minimal-installed-tuned",
+        process.env.BRAND_THEME,
+      ),
+      buildMinimalLockScreenSvg({
+        logoDataUrl: data.logoDataUrl,
+        fontStack: data.fontStack,
+        brandPalette: data.brand.palette,
+        qrDataUrl: escapeXml(qrDataUrl),
+        displayUrl,
+        mode: "minimal-installed-tuned",
+      }),
+      lockScreenSize,
+    );
+    lockScreenMinimalInstalledTunedPngPath =
+      minimalInstalledTunedLockScreen.pngPath;
   }
 
   const notesPath = path.join(
@@ -634,6 +723,7 @@ async function generateAssets(args: GeneratorArgs): Promise<GeneratedAssets> {
     ["Conference preview", conferenceCardPreviewPngPath],
     ["Lock screen", lockScreenPngPath],
     ["Minimal lock screen", lockScreenMinimalPngPath],
+    ["Minimal installed-tuned lock screen", lockScreenMinimalInstalledTunedPngPath],
   ] as const) {
     if (!assetPath) {
       continue;
@@ -667,6 +757,9 @@ async function generateAssets(args: GeneratorArgs): Promise<GeneratedAssets> {
       conferenceCardPreviewPngPath ? relativePath(conferenceCardPreviewPngPath) : null,
       lockScreenPngPath ? relativePath(lockScreenPngPath) : null,
       lockScreenMinimalPngPath ? relativePath(lockScreenMinimalPngPath) : null,
+      lockScreenMinimalInstalledTunedPngPath
+        ? relativePath(lockScreenMinimalInstalledTunedPngPath)
+        : null,
       relativePath(notesPath),
     ].filter(Boolean),
     verifications: verificationRows,
@@ -677,6 +770,7 @@ async function generateAssets(args: GeneratorArgs): Promise<GeneratedAssets> {
     conferenceCardPngPath,
     lockScreenPngPath,
     lockScreenMinimalPngPath,
+    lockScreenMinimalInstalledTunedPngPath,
     qrPngPath,
   });
 
@@ -716,6 +810,7 @@ async function generateAssets(args: GeneratorArgs): Promise<GeneratedAssets> {
     conferenceCardPreviewPngPath,
     lockScreenPngPath,
     lockScreenMinimalPngPath,
+    lockScreenMinimalInstalledTunedPngPath,
     reportJsonPath,
     reportTxtPath,
     notesPath,
@@ -740,6 +835,11 @@ async function main() {
   }
   if (assets.lockScreenMinimalPngPath) {
     console.log(`Minimal lock screen PNG written to ${relativePath(assets.lockScreenMinimalPngPath)}`);
+  }
+  if (assets.lockScreenMinimalInstalledTunedPngPath) {
+    console.log(
+      `Minimal installed-tuned lock screen PNG written to ${relativePath(assets.lockScreenMinimalInstalledTunedPngPath)}`,
+    );
   }
   console.log(`Networking report written to ${relativePath(assets.reportTxtPath)}`);
   console.log(`Lock screen notes written to ${relativePath(assets.notesPath)}`);

@@ -66,6 +66,17 @@ async function main() {
       ),
     },
     {
+      asset: "Minimal installed-tuned lock screen",
+      path: path.join(
+        outputDir,
+        `${createBrandOutputName(
+          brandId,
+          "lock-screen-minimal-installed-tuned",
+          process.env.BRAND_THEME,
+        )}.png`,
+      ),
+    },
+    {
       asset: "Conference preview",
       path: path.join(
         outputDir,

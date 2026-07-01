@@ -28,6 +28,10 @@ Highest priority. Protect the repo from silent drift, accidental machine-specifi
 
 This is the highest-leverage work for winning a first consulting client.
 
+Manual step-by-step help for the highest-value items now lives in:
+
+- [docs/MANUAL-INSTRUCTIONS.md](docs/MANUAL-INSTRUCTIONS.md)
+
 - [x] Proof the email signature in the real outreach client before treating it as operationally useful.
   Current status: installed and working in the actual email setup; keep `docs/EMAIL-SIGNATURE-PROOFING.md` for any broader cross-client pass before promoting beyond `Production Candidate`.
 - [ ] Keep the email signature `Production Candidate` until manual proofing is complete in:

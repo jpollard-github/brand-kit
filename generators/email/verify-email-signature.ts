@@ -182,6 +182,20 @@ async function main() {
         `${dimensions.width}x${dimensions.height}`,
       );
     }
+
+    if (dimensions.width > 380) {
+      addFail(
+        report,
+        "email mobile-first width",
+        `expected width <= 380px for phone-friendly rendering, found ${dimensions.width}px`,
+      );
+    } else {
+      addPass(
+        report,
+        "email mobile-first width",
+        `${dimensions.width}px`,
+      );
+    }
   }
 
   if (htmlExists) {
