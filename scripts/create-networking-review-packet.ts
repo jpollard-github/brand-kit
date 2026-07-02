@@ -431,14 +431,16 @@ Reference: ${currentDateStamp()} EDT
 6. Review the raw QR PNG and QR report.
 7. Review the \`outputs/PHONE-IMPORT/\` folder and \`README-FIRST.md\`.
 8. Review \`source/docs/NETWORKING-REVIEW-CHECKLIST.md\`.
-9. Review command logs, git diff context, and config files under \`diagnostics/\` and \`source/\`.
-10. Transfer the assets to iPhone 17 and test from Photos.
+9. Review any supporting docs you need under \`source/docs/\`.
+10. Review command logs, git diff context, and config files under \`diagnostics/\` and \`source/\`.
+11. Transfer the assets to iPhone 17 and test from Photos.
 
 ## Packet Layout
 
 - networking review assets are under \`outputs/\`
 - iPhone-ready transfer files are under \`outputs/PHONE-IMPORT/\`
 - docs, config, scripts, assets, and generators are under \`source/\`
+- the full repo \`docs/\` folder is included under \`source/docs/\`
 - command logs, git diff context, and overlay review artifacts are under \`diagnostics/\`
 - \`REVIEW.md\` is the top-level guide for this packet
 
@@ -456,6 +458,8 @@ Reference: ${currentDateStamp()} EDT
 - \`outputs/networking/arcadeghosts-networking-report.txt\`
 - \`outputs/PHONE-IMPORT/README-FIRST.md\`
 - \`source/docs/NETWORKING-REVIEW-CHECKLIST.md\`
+- \`source/docs/MANUAL-INSTRUCTIONS.md\`
+- \`source/docs/OUTPUTS-AND-REVIEW-PACKETS.md\`
 - \`diagnostics/git/git-diff-stat.txt\`
 - \`diagnostics/git/git-diff.patch\`
 
@@ -475,7 +479,7 @@ ${preflightLines.join("\n")}
 
 ## Included Source
 
-- networking docs and usage instructions
+- full \`docs/\` folder contents
 - networking generator and QR verification source
 - wallet pass generator and signing helper
 - package metadata and lockfile
@@ -532,17 +536,13 @@ async function buildPacket(results: CommandResult[]) {
   await copyDirToPacket("generators/business-cards/work-with-me/exports", packetRoot, "outputs/business-cards/work-with-me");
   await copyDirToPacket("generators/business-cards/arcadeghosts/exports", packetRoot, "outputs/business-cards/arcadeghosts-general");
   await copyDirToPacket("generators/outputs/networking/review-context", packetRoot, "diagnostics");
+  await copyDirToPacket("docs", packetRoot, "source/docs");
 
   for (const file of [
     "README.md",
     "TODO.md",
     "package.json",
     "package-lock.json",
-    "docs/networking-assets.md",
-    "docs/APPLE-WALLET-PASS-SETUP.md",
-    "docs/NETWORKING-REVIEW-CHECKLIST.md",
-    "docs/PRODUCTION-CHECKLIST.md",
-    "docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md",
     "generators/networking/README.md",
     "generators/networking/generate-networking-assets.ts",
     "generators/networking/generate-wallet-pass.ts",
