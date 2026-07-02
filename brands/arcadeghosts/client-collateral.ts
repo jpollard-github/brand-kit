@@ -24,10 +24,10 @@ export const arcadeghostsClientCollateral = {
     ],
   },
   email: {
-    roleLine: "Software Consultant | Internal Tools & AI Workflows",
+    roleLine: "Software Consultant | Workflow Cleanup & Internal Tools",
     roleLineOptions: [
       "Independent Software Consultant",
-      "Software Consultant | Internal Tools & AI Workflows",
+      "Software Consultant | Workflow Cleanup & Internal Tools",
       "Internal tools • Workflow automation • AI workflows",
     ],
     subline: "Need help with intake, approvals, reporting, or workflow cleanup?",
@@ -125,20 +125,19 @@ export const arcadeghostsClientCollateral = {
   },
   capability: {
     eyebrow: "Capability Sheet",
-    title: "How Jason can help",
+    title: "Practical software help for messy workflows",
     intro:
-      "Small software projects for websites, web apps, automation, AI-assisted systems, internal tools, technical cleanup, and existing codebases.",
+      "A one-page overview for warm leads who need a clearer workflow, better internal tool, simpler reporting path, or cleaner existing system.",
     outcomes: [
-      "Clearer visibility into requests, approvals, code, and status.",
-      "Less repeated data entry, copy-paste work, and system confusion.",
-      "Faster intake, reporting, internal coordination, and technical decision-making.",
+      "Clearer visibility into requests, approvals, reports, and current status.",
+      "Less repeated data entry, copy-paste work, and follow-up confusion.",
+      "Faster intake, smoother coordination, and simpler next steps for the team.",
     ],
     problemPatterns: [
       "Spreadsheet request tracking that keeps losing status visibility.",
       "Approvals buried in long email threads or manual follow-up.",
       "Repetitive reports assembled by hand every week or month.",
       "Forms, PDFs, or intake details that are hard to search and coordinate.",
-      "An existing codebase or GitHub repo that is hard to understand, change, or trust.",
     ],
     engagementModes: [
       "Small scoped projects",
@@ -151,11 +150,11 @@ export const arcadeghostsClientCollateral = {
       "Improve the workflow, the tool, or the codebase without adding unnecessary complexity.",
     ],
     howToStart: [
-      "Share the current workflow and where it gets messy.",
+      "Share the workflow or handoff that feels messiest right now.",
       "Pick the smallest problem worth fixing first.",
-      "Decide whether a short recommendation, discovery call, or scoped project makes sense.",
+      "Start at arcadeghosts.org/work-with-me.",
     ],
-    ctaHeadline: "Start with one problem.",
+    ctaHeadline: "Start with one problem, not a giant project.",
     ctaHeadlineOptions: [
       "Let's fix one annoying workflow.",
       "Start with one problem.",

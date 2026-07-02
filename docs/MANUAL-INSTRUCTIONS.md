@@ -8,11 +8,17 @@ Use this when you want to move the repo forward without re-reading the whole roa
 
 ## Recommended Order
 
-1. Email signature proofing
-2. Capability sheet proofing
-3. Networking proofing
-4. Business-card production verification
+1. Capability sheet proofing
+2. Email signature proofing
+3. Business-card production verification
+4. Networking proofing
 5. Wallet pass proofing, only if Apple signing credentials are available
+
+Current funnel priority:
+
+1. Capability sheet as the primary warm-lead leave-behind
+2. Email signature and Work-With-Me business card as first-touch support assets
+3. Discovery-call and proposal surfaces only after the P0 assets are in good shape
 
 ## 1. Email Signature Proofing
 
@@ -197,7 +203,6 @@ Decision question:
 
 If you only want the shortest answer:
 
-1. Finish email-signature proofing.
-2. Finish capability-sheet proofing.
-3. Do one real networking proof pass with the conference card and installed-tuned lock screen.
-
+1. Finish capability-sheet proofing.
+2. Finish email-signature proofing.
+3. Finish business-card production verification.

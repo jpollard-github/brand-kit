@@ -768,15 +768,10 @@ function buildAssets(
         <h2>${escapeXml(collateral.positioning.oneLiner)}</h2>
         <p>${escapeXml(serviceLine)}</p>
       </section>
-      <section class="section">
-        <div class="service-grid">
-          ${renderServiceCards(services)}
-        </div>
-      </section>
       <div class="grid two">
         <div class="detail-stack">
           <section class="section panel">
-            <h3>Problems I help fix</h3>
+            <h3>Common situations I help with</h3>
             ${renderList(collateral.capability.problemPatterns)}
           </section>
           <section class="section panel dark">
@@ -786,7 +781,7 @@ function buildAssets(
         </div>
         <div class="detail-stack">
           <section class="section panel">
-            <h3>How projects usually start</h3>
+            <h3>Ways I usually help</h3>
             ${renderChipRow(collateral.capability.engagementModes)}
             ${
               collateral.capability.processNotes?.length
@@ -809,6 +804,11 @@ function buildAssets(
           }
         </div>
       </div>
+      <section class="section">
+        <div class="service-grid">
+          ${renderServiceCards(services, 4)}
+        </div>
+      </section>
       <section class="section panel dark cta-panel how-to-start">
         <h3>${escapeXml(collateral.ctas.primaryCTA.label)}</h3>
         <p class="cta-headline">${escapeXml(
@@ -824,7 +824,7 @@ function buildAssets(
                 .join("")}</div>`
             : ""
         }
-        <p class="cta-line">Start with a short conversation: ${escapeXml(primaryCtaDisplayUrl)}</p>
+        <p class="cta-line">Warm-lead next step: ${escapeXml(primaryCtaDisplayUrl)}</p>
       </section>
       <div class="footer-band">
         <div class="footer-note">${escapeXml(footerServiceLine)}</div>

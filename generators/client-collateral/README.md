@@ -27,12 +27,13 @@ Current assets:
 - discovery call guide
 - case study template
 
-The capability sheet is the next-best warm-lead/referral asset after the email signature.
+The capability sheet is the primary warm-lead leave-behind for Work With Me follow-up.
 
 ## What To Use First
 
 - `capability-sheet.pdf`
   send this after someone says, "Tell me more."
+  This is the main warm-lead follow-up asset.
 - `capability-sheet.png`
   use this for quick review or lightweight inline sharing.
 - `capability-sheet.html`
@@ -48,10 +49,13 @@ The capability sheet is the next-best warm-lead/referral asset after the email s
   primary CTA first, more qualified CTAs later.
 - Expect iteration on wording, proof points, and layout once real outreach and client conversations begin.
 - Keep the capability sheet to one page and favor clarity over polish perfection.
+- Keep the capability sheet centered on 3-4 concrete client pain patterns, not a giant list of everything Jason can do.
+- Keep the primary CTA pointed at `Work With Me` or inquiry flow, not a paid discovery link.
 - Keep rendered client-facing outputs free of internal metadata language such as usage notes or CTA labels written as implementation details.
 - Keep the service language consistent with the rest of the first-client collateral family:
   websites, web apps, automation, AI-assisted systems, internal tools, technical cleanup, and existing codebases where relevant.
 - Treat complex codebases and repo support as a secondary capability, not the whole headline.
+- Keep discovery-call and proposal assets secondary to the warm-lead capability-sheet use case unless a real prospect is already deeper in the funnel.
 
 ## Verification
 

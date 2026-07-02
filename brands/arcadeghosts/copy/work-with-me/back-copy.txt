@@ -1,10 +1,10 @@
 arcadeghosts.org/work-with-me
 jason@arcadeghosts.org
 
-Small software projects for:
-- websites and web apps
-- automation and workflows
+Small software help for:
+- workflow cleanup
+- internal tools
 - AI-assisted systems
-- internal tools and technical cleanup
+- websites and forms
 
 QR code

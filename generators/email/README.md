@@ -28,12 +28,12 @@ npm run brand:email-signature
 The HTML output is the one to adapt into an email client.
 The PNG is only for review/proofing.
 
-The default layout is intentionally mobile-first:
+The default layout is intentionally mobile-first and slimmer than the earlier review-heavy card:
 
-- narrow fixed width around `340px`
+- narrow fixed width around `360px`
 - larger text sizing for phones:
-  name `18px`, role `15px`, contact text `14px`, CTA `15px`
-- single-column structure with one primary CTA instead of a wide multi-button row
+  name `19px`, role `14px`, contact text `13px`, CTA `14px`
+- compact logo treatment, tighter spacing, and one primary CTA instead of a wide multi-button row
 
 This is deliberate because many mobile mail clients shrink wide signatures until they become unreadable.
 

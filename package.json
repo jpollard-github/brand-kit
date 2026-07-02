@@ -53,8 +53,10 @@
     "brand:audit-source": "node --import tsx scripts/brand-audit-source.ts",
     "brand:packet:client-collateral": "node --import tsx scripts/create-client-collateral-packet.ts",
     "brand:packet:networking": "node --import tsx scripts/create-networking-review-packet.ts",
+    "brand:packet:work-with-me": "node --import tsx scripts/create-work-with-me-review-packet.ts",
     "qr:verify": "node --import tsx scripts/verify-qr.ts",
     "review:packet": "node --import tsx scripts/create-networking-review-packet.ts",
+    "review:work-with-me": "node --import tsx scripts/create-work-with-me-review-packet.ts",
     "test:unit": "vitest run tests/unit",
     "test:unit:watch": "vitest tests/unit"
   },

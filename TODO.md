@@ -12,6 +12,92 @@ This is the active working roadmap for `brand-kit`.
 - Verification matters because these outputs can cost real money.
 - Add new output families only after existing families are validated.
 
+## Work-With-Me / First Client Collateral
+
+Accepted Work-With-Me recommendations from `consulting-business/repo-todos/brand-kit/2026-07-02-151713/recommended-todo.md`.
+
+These items are now the highest-priority business work in `brand-kit`.
+
+### Immediate
+
+- [ ] Make the capability sheet the primary warm-lead leave-behind by aligning its copy, CTA, and proofing bar to the current consulting offer and first-client funnel.
+  Suggested priority: P0
+  Current status: copy and CTA direction were updated on 2026-07-02 so the capability sheet now leads with concrete pain patterns and points to `arcadeghosts.org/work-with-me`.
+  Missing to complete: real outreach proofing, PDF readability review, and confirmation that the asset truly works as the primary warm-lead leave-behind in practice.
+  Rationale: The consulting-business source of truth now makes the capability sheet the main warm-lead asset, so brand-kit should treat it as the most important sendable follow-up surface after initial interest exists.
+  Consulting-business source docs: `docs/SERVICE-CATALOG.md`, `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`
+  Inspected downstream evidence:
+  - `TODO.md`: [ ] Proof the capability sheet in a real outreach context and against [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md).
+  - `docs/CLIENT-COLLATERAL.md`: The newest generator work already added proposal cover, capability sheet, discovery call, and case study template outputs.
+  - `docs/PRODUCTION-CHECKLIST.md`: ## Capability Sheet Notes
+  Affected downstream file/route: `TODO.md`, `docs/CLIENT-COLLATERAL.md`, `docs/PRODUCTION-CHECKLIST.md`, `capability-sheet generator outputs`
+  Acceptance criteria:
+  - Capability sheet copy matches the current consulting service catalog, first-client funnel, and Work With Me positioning.
+  - The asset clearly works as a warm-lead leave-behind rather than a first-touch pitch or late-stage proposal substitute.
+  - The exported PDF stays client-facing, one-page, legible, and free of internal review or CTA metadata.
+  - The primary CTA points to Work With Me or inquiry flow, not a paid discovery link.
+
+- [ ] Keep the email signature and Work-With-Me business card firmly in the first-touch support role so they reinforce outreach credibility without trying to replace the capability sheet.
+  Suggested priority: P0
+  Current status: the signature was slimmed for production use and the Work-With-Me card copy was tightened on 2026-07-02 to keep both assets concise and Work-With-Me-oriented.
+  Missing to complete: real mail-client proofing for the signature and checklist-driven print/scan proofing for the business card.
+  Rationale: The business now has a clearer funnel: email signature and business card support first touch, but they should not drift into acting like miniature capability sheets or proposal substitutes.
+  Consulting-business source docs: `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`, `docs/LEADS-PLAYBOOK.md`
+  Inspected downstream evidence:
+  - `docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`: Email signature is the first collateral surface to prioritize for real outbound use.
+  - `docs/CLIENT-COLLATERAL.md`: That is useful progress, but it slightly conflicts with the stricter first-client priority order below, where the email signature should be treated as the first operational collateral surface.
+  - `brands/arcadeghosts/README.md`: # ArcadeGhosts Brand
+  Affected downstream file/route: `TODO.md`, `docs/CLIENT-COLLATERAL.md`, `email-signature outputs`, `business-card outputs`
+  Acceptance criteria:
+  - Email signature and Work-With-Me business card point into the same Work With Me path and use consistent service framing.
+  - Neither asset tries to carry the full warm-lead explanation that belongs in the capability sheet.
+  - First-touch assets stay concise, credible, and easy to use in real outreach or meetup contexts.
+
+### Near-term
+
+- [ ] Define a reproducible Work-With-Me handoff export pack so Brand Kit can generate the exact collateral set ArcadeGhosts outreach needs without turning generated files into source of truth.
+  Suggested priority: P1
+  Rationale: The cross-repo handoff model is documented, but the current brand-kit output still needs a concrete export bundle definition for outreach-ready assets and explicit reviewable copy steps.
+  Consulting-business source docs: `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`, `docs/LEADS-PLAYBOOK.md`
+  Inspected downstream evidence:
+  - `docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`: Generated outputs stay local/generated unless they are intentionally copied into another repo or handoff folder.
+  - `TODO.md`: [x] Keep generated output organization and review-packet conventions quiet and consistent through [docs/OUTPUTS-AND-REVIEW-PACKETS.md](docs/OUTPUTS-AND-REVIEW-PACKETS.md).
+  Affected downstream file/route: `TODO.md`, `docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`, `docs/BUSINESS-LINKS-CONTRACT.md`, `generated collateral handoff/export workflow`
+  Acceptance criteria:
+  - The handoff pack explicitly names which generated assets support first-touch outreach and warm-lead follow-up.
+  - Each export references logical CTA intent instead of deployment-specific hardcoding.
+  - The export flow is reproducible and reviewable before anything is copied into another repo or sent to a prospect.
+
+- [ ] Run a client-facing PDF quality pass across the first-client collateral family so sendable exports clear the real viewer and print checks, not just local generation.
+  Suggested priority: P1
+  Rationale: The client-facing documents look close, but the current production checklist shows the gap between successful generation and operational confidence in PDF viewers, print, and real-world review contexts.
+  Consulting-business source docs: `docs/CLIENT-JOURNEY.md`, `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/BUSINESS-METRICS.md`
+  Inspected downstream evidence:
+  - `docs/PRODUCTION-CHECKLIST.md`: PDF opens cleanly
+  - `docs/MANUAL-INSTRUCTIONS.md`: 2. Capability sheet proofing
+  - `TODO.md`: [ ] Promote assets from `Production Candidate` to `Production Ready` only after checklist-driven proofing and real-world usage.
+  Affected downstream file/route: `TODO.md`, `docs/PRODUCTION-CHECKLIST.md`, `docs/MANUAL-INSTRUCTIONS.md`, `client-facing PDF outputs`
+  Acceptance criteria:
+  - Each first-client PDF opens cleanly in the real viewer(s) Jason will actually use.
+  - Layout, footer contact info, CTA clarity, and page length are verified in a human proofing pass.
+  - Any PDF that fails proofing stays explicitly below `Production Ready`.
+
+### Later
+
+- [ ] Keep presentation, business-card, and email-signature work strictly subordinate to the consulting funnel by using them only when they reinforce Work With Me outreach and the capability-sheet leave-behind.
+  Suggested priority: P2
+  Rationale: These surfaces are useful, but the brand-kit business goal is not more collateral variety. It is a tighter first-client funnel where outreach-support assets reinforce the same offer and next step.
+  Consulting-business source docs: `docs/LEADS-PLAYBOOK.md`, `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/SERVICE-CATALOG.md`
+  Inspected downstream evidence:
+  - `docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`: Email signature is the first collateral surface to prioritize for real outbound use.
+  - `docs/CLIENT-COLLATERAL.md`: That is useful progress, but it slightly conflicts with the stricter first-client priority order below, where the email signature should be treated as the first operational collateral surface.
+  - `TODO.md`: [ ] Keep client-facing collateral ahead of additional merch work unless a merch task directly supports client acquisition.
+  Affected downstream file/route: `TODO.md`, `docs/CLIENT-COLLATERAL.md`, `docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`, `email-signature and networking-support outputs`
+  Acceptance criteria:
+  - Email signature, business-card, and presentation support all point into the same Work With Me funnel.
+  - No outreach-support asset outranks the capability sheet or distracts from the primary consulting offer.
+  - Secondary collateral is advanced only when it directly improves first-touch outreach or warm-lead follow-up.
+
 ## Priority 0: Safety / Source-of-Truth
 
 Highest priority. Protect the repo from silent drift, accidental machine-specific coupling, and expensive output mistakes.
@@ -36,8 +122,17 @@ Manual step-by-step help for the highest-value items now lives in:
   Current status: installed and working in the actual email setup; keep `docs/EMAIL-SIGNATURE-PROOFING.md` for any broader cross-client pass before promoting beyond `Production Candidate`.
 - [ ] Keep the email signature `Production Candidate` until manual proofing is complete in:
   Outlook mobile, at least one non-Outlook client, reply/forward behavior, and real sent-email rendering.
+  Current status: the slimmer production-oriented signature was regenerated and `npm run brand:verify:email` passed on 2026-07-02.
+  Missing to complete: Outlook mobile, one non-Outlook client, reply behavior, forward behavior, and real sent-email rendering checks.
 - [ ] Proof the capability sheet in a real outreach context and against [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md).
+  Current status: the capability sheet was regenerated with updated warm-lead copy and `npm run brand:verify:capability-sheet` passed on 2026-07-02.
+  Missing to complete: human PDF review in real viewing contexts plus an actual “would I send this to a warm lead right now?” check.
 - [ ] Keep the capability sheet `Production Candidate` until PDF readability, CTA clarity, footer legibility, and one-page fit are confirmed in a real review pass.
+  Current status: generator output now reflects the new warm-lead positioning, but manual proofing is still pending.
+- [x] Keep the capability sheet focused on 3-4 concrete client pain patterns instead of trying to summarize every service Jason can offer.
+  Current status: the capability sheet copy was narrowed to four concrete problem patterns on 2026-07-02.
+- [x] Keep the capability-sheet CTA pointed at `arcadeghosts.org/work-with-me` and/or the inquiry flow, not a paid discovery path.
+  Current status: the capability-sheet CTA now points to `arcadeghosts.org/work-with-me`, and verification passed on 2026-07-02.
 - [x] Keep internal or meta language out of client-facing collateral renders:
   current sendable capability-sheet and related client-collateral outputs now avoid `Primary CTA`, usage-note footers, and internal review instructions in the rendered asset itself.
 - [x] Keep service vocabulary aligned across business cards, email signature, capability sheet, proposal cover, and discovery guide:
@@ -48,6 +143,14 @@ Manual step-by-step help for the highest-value items now lives in:
   Current status: MOO order placed on 2026-06-28.
 - [ ] Complete business-card production verification with the manual checks in [docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md](docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md):
   QR scan speed on iPhone and Android, margins, bleed, safe area, and final paper choice, plus a received-print sanity check after delivery.
+  Current status: regenerated Work-With-Me exports and guide proofs passed `npm run brand:verify:business-cards` on 2026-07-02.
+  Missing to complete: actual phone scanning, MOO-safe-area/bleed review, paper choice confirmation, and received-print sanity check.
+- [x] Keep the email signature on the slimmer production path so it fits real mail-client constraints better than the review-oriented preview version.
+  Current status: the default generator now produces a slimmer 360px production-oriented signature, and `npm run brand:verify:email` passed on 2026-07-02.
+- [ ] Keep the Work With Me business card on the checklist-driven proofing path:
+  QR, safe area, bleed, legibility, and print-readiness must all be confirmed before treating the card itself as `Production Ready`.
+  Current status: regenerated proof exports and guide PDFs are current as of 2026-07-02.
+  Missing to complete: the checklist-driven human proofing itself.
 - [x] Add a lightweight review-packet command for first-client collateral.
 - [x] Keep generated output organization and review-packet conventions quiet and consistent through [docs/OUTPUTS-AND-REVIEW-PACKETS.md](docs/OUTPUTS-AND-REVIEW-PACKETS.md).
   Current status: generated outputs stay canonical under `generators/outputs/`, and timestamped review packets now live under `review-packets/` with both folder and zip review paths.

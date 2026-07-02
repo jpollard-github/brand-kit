@@ -27,6 +27,7 @@ This checklist works alongside the shared collateral maturity terminology:
 - `Deprecated`
 
 An asset should not be treated as `Production Ready` just because it looks finished. It should clear the operational checks above too.
+No asset should be marked `Production Ready` without checklist-driven proofing in its real delivery context.
 
 ## Capability Sheet Notes
 

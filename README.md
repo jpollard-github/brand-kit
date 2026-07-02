@@ -179,7 +179,7 @@ Use these levels as workflow expectations, not as a judgment on visual quality:
 - `Production Candidate`
   useful assets that are close to operationally real, but still need broader workflow proof. Current examples include OG image, LinkedIn banner, GitHub social, website hero, icons, newsletter header, project cover, presentation cover, conference badge, wallpapers, documents, email signature, proposal cover, capability sheet, and discovery call guide.
 - `Production Ready`
-  repeatable outputs with clear handoff and stronger verification confidence. Business cards are the strongest current example.
+  repeatable workflows with clear handoff and stronger verification confidence. The business-card workflow is the strongest current example, but individual card assets still need checklist proofing before they should be called `Production Ready`.
 - `Deprecated`
   intentionally historical or no-longer-active material, including `archive/` and older conversation/context folders under `vschats/`.
 
@@ -188,7 +188,7 @@ Use these levels as workflow expectations, not as a judgment on visual quality:
 This is the practical status snapshot after the latest verification and smoke-generation pass.
 
 - `Production Ready`
-  `business-cards`
+  `business-cards` workflow
 - `Production Candidate`
   `client-collateral` proposal cover, capability sheet, and discovery call guide
   `networking`

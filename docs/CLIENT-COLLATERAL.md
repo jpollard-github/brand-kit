@@ -9,7 +9,10 @@ The first implementation can absolutely lean on the ArcadeGhosts `Work With Me` 
 Recent-work note:
 
 - The newest generator work already added proposal cover, capability sheet, discovery call, and case study template outputs.
-- That is useful progress, but it slightly conflicts with the stricter first-client priority order below, where the email signature should be treated as the first operational collateral surface.
+- That is useful progress, but the stricter first-client priority order should now be:
+  capability sheet as the primary warm-lead leave-behind;
+  email signature and Work-With-Me business card as first-touch support assets;
+  discovery call and proposal cover as later-stage support.
 
 ## Intended Asset Set
 
@@ -29,7 +32,7 @@ Recent-work note:
 ### Capability Sheet
 
 - Purpose:
-  summarize services, strengths, engagement types, and contact information in one page.
+  summarize the most common client pain patterns, the kinds of fixes Jason delivers, and the easiest next step in one page.
 - Audience:
   warm leads, referrals, conference contacts, and anyone who needs a fast overview before a call.
 - Generator status:
@@ -45,6 +48,7 @@ Recent-work note:
 - Current content standard:
   rendered output should stay client-facing.
   Keep internal notes like usage guidance, CTA metadata, or review instructions in docs and config comments, not in the PDF itself.
+  Lead with 3-4 concrete business pain patterns rather than a broad everything-I-can-do skills catalog.
 
 ### Discovery Call PDF
 
@@ -102,7 +106,8 @@ Recent-work note:
 - Verification status:
   now includes a lightweight manifest and `npm run brand:verify:email` preflight check.
 - Layout direction:
-  preserve the current dark premium card, left logo block, `WORK WITH ME` eyebrow, large Jason Pollard name, concise role line, contact/action chips, and one focused `Work With Me` CTA as the production-default signature direction.
+  preserve the current Work-With-Me framing, but prefer the slimmer production layout:
+  compact logo treatment, concise role line, minimal contact rows, and one focused `Work With Me` CTA that survives real email clients.
 
 ### Conference Badge
 
@@ -149,15 +154,17 @@ Useful now for acquiring consulting work:
 
 - `business cards`
   strongest current workflow; especially the `Work With Me` card set because it already points to a contact-oriented next step.
-- `email signature`
-  the best first operational collateral asset because it directly supports every outbound message and follow-up, but it still needs real-client email-client proofing.
-  Keep default messaging stable across themes, and keep `Work With Me` as the primary first-touch CTA.
+  Treat the card as a first-touch support asset, not a tiny capability sheet.
 - `capability sheet`
-  one of the clearest warm-lead and referral assets because it answers what Jason helps with, what problems he solves, and how to start.
+  the primary warm-lead and referral asset because it answers what Jason helps with, which concrete problems he solves, and how to start.
+- `email signature`
+  the best first operational support asset because it directly supports every outbound message and follow-up, but it still needs real-client email-client proofing.
+  Keep default messaging stable across themes, and keep `Work With Me` as the primary first-touch CTA.
 - `proposal cover`
   useful once a prospect is warm enough for a scoped recommendation or proposal.
 - `discovery call PDF`
   useful before or after a first conversation because it makes the process feel calm and concrete.
+  Keep it secondary to the capability sheet in the current funnel.
 - `mini flyer`
   potentially useful for local leave-behind or event use, but should still follow the email signature and capability sheet in practical attention and does not currently earn first-client focus.
 - `conference badge`
@@ -236,14 +243,14 @@ Complex-codebase and repository support should appear as a secondary capability 
 
 Operational path:
 
-`Business Card -> Website -> Work With Me -> Capability Sheet -> Discovery Call -> Proposal -> Invoice`
+`Business Card or Email Signature -> Work With Me -> Capability Sheet -> Discovery Call -> Proposal -> Invoice`
 
 ### Awareness
 
 - `business cards`
-  production ready and still the strongest proven physical asset.
+  strongest proven physical workflow, but each card still needs checklist proofing before it should be called `Production Ready`.
 - `email signature`
-  production candidate and the highest immediate outreach-value asset.
+  production candidate and the highest immediate first-touch support asset.
 - `LinkedIn / website links`
   supporting paths that should usually route people toward `Work With Me`.
 - `mini flyer`
@@ -254,7 +261,7 @@ Operational path:
 - `Work With Me`
   canonical public entry point.
 - `capability sheet`
-  production candidate and the next-best warm-lead/referral asset.
+  production candidate and the primary warm-lead leave-behind.
   Keep it `Production Candidate` until it has been visually proofed, reviewed in a real outreach context, checked for print/PDF readability, confirmed to export cleanly as one page or with intentional page breaks, stripped of internal/meta wording, and confirmed against the production checklist.
 
 ### Evaluation
