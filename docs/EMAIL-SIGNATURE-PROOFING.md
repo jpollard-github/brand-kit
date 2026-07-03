@@ -26,14 +26,14 @@ Recommended review surfaces:
 
 ## What To Check
 
-- name, role, website, and `Work With Me` CTA all appear
+- brand line, name, role, and `Work With Me` CTA all appear
 - text stays comfortably readable on phone without pinch-zoom:
-  aim for roughly `18px` name, `15px` role / CTA, and `14px` contact or support text
+  aim for roughly `20px` name, `15px` role, and `14px` contact text
 - the signature stays narrow enough that mobile clients do not shrink it aggressively:
   roughly `320px` to `360px` wide is the target range
 - links point to the expected destinations
 - spacing does not collapse awkwardly
-- the logo image renders instead of showing a broken placeholder
+- the text-first layout still looks complete even if a client strips some styling
 - dark mode does not make text unreadable
 - the signature still feels like consulting communication, not promo art
 

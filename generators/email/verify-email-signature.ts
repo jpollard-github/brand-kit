@@ -201,13 +201,17 @@ async function main() {
   if (htmlExists) {
     const html = await fs.readFile(htmlPath, "utf8");
     const requiredHtmlFields = [
+      brand.displayName,
       brand.metadata.contactName,
       collateral.email?.roleLine ?? collateral.positioning.primaryRole,
       brand.metadata.contactEmail,
-      brand.metadata.homeUrl,
       brand.metadata.workWithMeUrl,
       collateral.ctas.primaryCTA.label,
     ];
+
+    if (brand.metadata.linkedinUrl) {
+      requiredHtmlFields.push("LinkedIn");
+    }
 
     const subline =
       collateral.email?.subline ??
@@ -230,7 +234,7 @@ async function main() {
       addPass(
         report,
         "email required HTML fields",
-        "name, role, email, website, Work With Me link, CTA, and tagline present",
+        "brand, name, role, email, Work With Me link, tagline, and optional LinkedIn present",
       );
     }
   }

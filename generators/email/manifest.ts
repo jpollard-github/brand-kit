@@ -34,6 +34,7 @@ export type EmailSignatureManifest = {
     manifestPath: string;
   };
   sourceMetadata: {
+    brandName?: string;
     contactName: string;
     primaryRole: string;
     roleLine: string;
@@ -43,6 +44,7 @@ export type EmailSignatureManifest = {
     displayUrl: string;
     primaryCtaLabel: string;
     subline?: string;
+    linkedinUrl?: string;
   };
   vendorReadiness: "production-candidate";
   preflight: {
@@ -71,13 +73,17 @@ function verifyRequiredHtmlFields(options: {
 }) {
   const { html, data, collateral } = options;
   const requiredFields = [
+    data.brand.displayName,
     data.brand.metadata.contactName,
     collateral.email?.roleLine ?? collateral.positioning.primaryRole,
     data.brand.metadata.contactEmail,
-    data.brand.metadata.homeUrl,
     data.brand.metadata.workWithMeUrl,
     collateral.ctas.primaryCTA.label,
   ];
+
+  if (data.brand.metadata.linkedinUrl) {
+    requiredFields.push("LinkedIn");
+  }
 
   const subline =
     collateral.email?.subline ??
@@ -140,6 +146,7 @@ export async function writeEmailSignatureManifest(options: {
       manifestPath: path.relative(process.cwd(), manifestPath),
     },
     sourceMetadata: {
+      brandName: data.brand.displayName,
       contactName: data.brand.metadata.contactName,
       primaryRole: collateral.positioning.primaryRole,
       roleLine: collateral.email?.roleLine ?? collateral.positioning.primaryRole,
@@ -148,6 +155,9 @@ export async function writeEmailSignatureManifest(options: {
       workWithMeUrl: data.brand.metadata.workWithMeUrl,
       displayUrl: toDisplayUrl(data.brand.metadata.homeUrl),
       primaryCtaLabel: collateral.ctas.primaryCTA.label,
+      ...(data.brand.metadata.linkedinUrl
+        ? { linkedinUrl: data.brand.metadata.linkedinUrl }
+        : {}),
       ...((collateral.email?.subline ??
         `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`)
         ? {

@@ -67,12 +67,6 @@ async function writeSignatureFiles(args: SignatureArgs) {
   const data = await buildHeroCompositionData(args.brandId, args.sceneId);
   const brand = data.brand;
   const collateral = getClientCollateralConfig(brand.id);
-  const serviceLine =
-    collateral.positioning.footerLine ??
-    collateral.positioning.tagline ??
-    collateral.positioning.oneLiner;
-  const websiteUrl = resolveClientCollateralLink(brand.metadata, "website");
-  const websiteDisplayUrl = brand.metadata.homeUrl.replace(/^https:\/\//, "");
   const primaryCtaUrl = resolveClientCollateralLink(
     brand.metadata,
     collateral.ctas.primaryCTA.linkKey,
@@ -82,6 +76,9 @@ async function writeSignatureFiles(args: SignatureArgs) {
     brand.metadata,
     collateral.ctas.contactCTA.linkKey,
   );
+  const linkedinUrl = brand.metadata.linkedinUrl
+    ? resolveClientCollateralLink(brand.metadata, "linkedin")
+    : undefined;
   const roleLine = collateral.email?.roleLine ?? collateral.positioning.primaryRole;
   const subline =
     collateral.email?.subline ??
@@ -101,63 +98,39 @@ async function writeSignatureFiles(args: SignatureArgs) {
       }
 
       .signature {
-        width: 360px;
+        width: 356px;
       }
 
       table {
-        border-collapse: separate;
+        border-collapse: collapse;
       }
     </style>
   </head>
   <body>
-    <table class="signature" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:360px;max-width:360px;background:${brand.palette.background};background-image:linear-gradient(135deg, ${brand.palette.backgroundDeep} 0%, ${brand.palette.background} 100%);border:1px solid ${brand.palette.border};border-radius:18px;color:${brand.palette.text};font-family:${brand.typography.fontStack};">
+    <table class="signature" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:356px;max-width:356px;background:#fbf8f3;border:1px solid #ddd3c5;color:#1b1f24;font-family:${brand.typography.fontStack};">
       <tr>
-        <td style="padding:18px 18px 0 18px;vertical-align:top;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
-            <tr>
-              <td valign="top" style="width:68px;padding:0;">
-                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:56px;height:56px;background:#11161c;border:1px solid rgba(248,239,227,0.08);border-radius:14px;">
-                  <tr>
-                    <td align="center" valign="middle" style="width:56px;height:56px;padding:5px;">
-                      <img src="${data.logoDataUrl}" alt="${escapeXml(brand.displayName)} logo" width="42" height="42" style="display:block;width:42px;height:42px;border:0;outline:none;text-decoration:none;" />
-                    </td>
-                  </tr>
-                </table>
-              </td>
-              <td valign="top" style="padding:0;">
-                <div style="color:${brand.palette.amber};font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin:0 0 5px 0;">${escapeXml(brand.labels.workWithMe)}</div>
-                <div style="color:${brand.palette.text};font-size:19px;font-weight:800;line-height:1.15;margin:0 0 4px 0;">${escapeXml(brand.metadata.contactName)}</div>
-                <div style="color:${brand.palette.textMuted};font-size:14px;line-height:1.35;margin:0 0 6px 0;">${escapeXml(roleLine)}</div>
-                <div style="color:${brand.palette.textMuted};font-size:13px;line-height:1.4;margin:0;">${escapeXml(subline)}</div>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td style="padding:12px 18px 18px 18px;vertical-align:top;">
-          <div style="color:${brand.palette.textMuted};font-size:12px;line-height:1.35;margin:0 0 10px 0;">${escapeXml(serviceLine)}</div>
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0;width:100%;">
-            <tr>
-              <td style="padding:0 0 7px 0;color:${brand.palette.textMuted};font-size:13px;line-height:1.4;">
-                <span style="color:${brand.palette.text};font-weight:700;">Email:</span>
-                <a href="${escapeXml(contactEmailUrl)}" style="color:${brand.palette.text};text-decoration:none;">${escapeXml(brand.metadata.contactEmail)}</a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:0 0 12px 0;color:${brand.palette.textMuted};font-size:13px;line-height:1.4;">
-                <span style="color:${brand.palette.text};font-weight:700;">Web:</span>
-                <a href="${escapeXml(websiteUrl)}" style="color:${brand.palette.text};text-decoration:none;">${escapeXml(websiteDisplayUrl)}</a>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:0;">
-                <div style="color:${brand.palette.textMuted};font-size:13px;line-height:1.4;margin:0 0 7px 0;">Start with a short conversation.</div>
-                <a href="${escapeXml(primaryCtaUrl)}" style="display:inline-block;padding:10px 14px;border-radius:999px;background:#1b454e;border:1px solid #327784;color:${brand.palette.text};font-size:14px;font-weight:800;line-height:1.2;text-decoration:none;">${escapeXml(collateral.ctas.primaryCTA.label)}</a>
-                <div style="color:${brand.palette.textMuted};font-size:12px;line-height:1.35;margin:7px 0 0 0;">${escapeXml(primaryCtaDisplayUrl)}</div>
-              </td>
-            </tr>
-          </table>
+        <td style="width:4px;background:#2f6770;font-size:0;line-height:0;">&nbsp;</td>
+        <td style="padding:14px 16px 14px 14px;vertical-align:top;">
+          <div style="color:#8d6730;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 6px 0;">${escapeXml(brand.displayName)}</div>
+          <div style="color:#1b1f24;font-size:20px;font-weight:800;line-height:1.15;margin:0 0 5px 0;">${escapeXml(brand.metadata.contactName)}</div>
+          <div style="color:#2c3642;font-size:15px;line-height:1.35;margin:0 0 8px 0;">${escapeXml(roleLine)}</div>
+          <div style="color:#5f6974;font-size:13px;line-height:1.45;margin:0 0 12px 0;">${escapeXml(subline)}</div>
+          <div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0 0 4px 0;">
+            <span style="font-weight:700;color:#1b1f24;">Email:</span>
+            <a href="${escapeXml(contactEmailUrl)}" style="color:#2c3642;text-decoration:none;">${escapeXml(brand.metadata.contactEmail)}</a>
+          </div>
+          <div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0 0 4px 0;">
+            <span style="font-weight:700;color:#1b1f24;">${escapeXml(collateral.ctas.primaryCTA.label)}:</span>
+            <a href="${escapeXml(primaryCtaUrl)}" style="color:#2c3642;text-decoration:none;">${escapeXml(primaryCtaDisplayUrl)}</a>
+          </div>
+          ${
+            linkedinUrl
+              ? `<div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0;">
+            <span style="font-weight:700;color:#1b1f24;">LinkedIn:</span>
+            <a href="${escapeXml(linkedinUrl)}" style="color:#2c3642;text-decoration:none;">LinkedIn profile</a>
+          </div>`
+              : ""
+          }
         </td>
       </tr>
     </table>

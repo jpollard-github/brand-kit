@@ -24,14 +24,16 @@ export const arcadeghostsClientCollateral = {
     ],
   },
   email: {
-    roleLine: "Software Consultant | Internal Tools, Workflow Cleanup, Modernization",
+    roleLine: "Software Developer / Small Software & Workflow Improvements",
     roleLineOptions: [
       "Independent Software Consultant",
       "Software Consultant | Internal Tools, Workflow Cleanup, Modernization",
+      "Software Developer / Small Software & Workflow Improvements",
       "Workflow cleanup • Internal tools • Modernization",
     ],
-    subline: "Need help with a messy workflow, aging app, or small internal tool?",
+    subline: "Thoughtful software. Clear scope. Practical next steps.",
     sublineOptions: [
+      "Thoughtful software. Clear scope. Practical next steps.",
       "Let's fix one frustrating workflow.",
       "Need help with a messy workflow, aging app, or small internal tool?",
       "Need a better internal tool? Let's talk.",

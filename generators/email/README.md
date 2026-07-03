@@ -28,21 +28,23 @@ npm run brand:email-signature
 The HTML output is the one to adapt into an email client.
 The PNG is only for review/proofing.
 
-The default layout is intentionally mobile-first and slimmer than the earlier review-heavy card:
+The default layout is intentionally mobile-first and simpler than the earlier review-heavy card:
 
-- narrow fixed width around `360px`
+- narrow fixed width around `356px`
 - larger text sizing for phones:
-  name `19px`, role `14px`, contact text `13px`, CTA `14px`
-- compact logo treatment, tighter spacing, and one primary CTA instead of a wide multi-button row
+  name `20px`, role `15px`, contact text `14px`, support text `13px`
+- text-first structure with no button row and no required image asset
+- one clear `Work With Me` path plus direct email, with optional LinkedIn support
 
 This is deliberate because many mobile mail clients shrink wide signatures until they become unreadable.
+It also reduces the chance that first-touch outreach looks decorative or too salesy.
 
 ## First Real Use
 
 - Install the HTML-based signature into the email client you will actually use for outreach.
 - Send test emails to yourself before calling it done:
   desktop, mobile, Gmail, Outlook, and Apple Mail where practical.
-- Verify link targets, spacing, image rendering, and dark-mode behavior.
+- Verify link targets, spacing, dark-mode behavior, and that the layout still reads clearly if some styling is stripped.
 - Keep this as a consulting touchpoint, not a decorative brand artifact.
 - If a change makes the signature much wider again, treat that as a regression unless there is a proven client-specific reason.
 
@@ -70,7 +72,7 @@ Themes should mostly change visual treatment, not core business messaging.
 - Local generation and manifest/preflight checks are covered in-repo.
 - Real email-client proof is still a manual step before this should be treated as `Production Ready`.
 - Use [docs/EMAIL-SIGNATURE-PROOFING.md](../../docs/EMAIL-SIGNATURE-PROOFING.md) as the manual review checklist.
-- Use the generated HTML file directly in Outlook web rather than manually rebuilding the signature.
+- Use the generated HTML file directly in Gmail or Outlook where possible rather than manually rebuilding the signature.
 
 ## CTA Model
 
