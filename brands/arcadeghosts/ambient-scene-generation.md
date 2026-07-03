@@ -98,6 +98,37 @@ The intended workflow is:
 
 The goal is small reviewed batches rather than generating dozens of images at once.
 
+## Production Options
+
+There are three supported ways to create Ambient Scenes:
+
+### 1. Dedicated image-generation UI
+
+- Use the `brand-kit` master prompt.
+- Generate one category at a time.
+- Select the best separate `16:9` images manually.
+- Best for fast visual exploration.
+
+### 2. API or batch generation
+
+- Future option only.
+- Useful for repeatable generation, file naming, prompt metadata, and larger libraries.
+- Do not implement yet.
+
+### 3. Photography / curated sources
+
+- Jason may use his own photos, properly licensed images, or hybrid AI/photo sources.
+- Treat Ambient Scenes as curated visual material, not disposable placeholders.
+- Real photos can include desks, cats, rain windows, lamps, books, street textures, and arcade-like light.
+
+### Practical Guidance
+
+- Do not rely on collage output for production scenes.
+- Prefer four separate image files.
+- If using ChatGPT image generation, generate one image at a time.
+- If using a dedicated image tool, generate batches but import only selected images.
+- `brand-kit` owns prompt and art direction, not the actual image files.
+
 ## Current Planned Categories
 
 - Cozy Desks

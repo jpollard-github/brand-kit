@@ -71,13 +71,18 @@ async function writeSignatureFiles(args: SignatureArgs) {
     brand.metadata,
     collateral.ctas.primaryCTA.linkKey,
   );
-  const primaryCtaDisplayUrl = primaryCtaUrl.replace(/^https:\/\//, "");
+  const primaryCtaDisplayLabel = "View services";
   const contactEmailUrl = resolveClientCollateralLink(
     brand.metadata,
     collateral.ctas.contactCTA.linkKey,
   );
   const linkedinUrl = brand.metadata.linkedinUrl
     ? resolveClientCollateralLink(brand.metadata, "linkedin")
+    : undefined;
+  const linkedinDisplayUrl = linkedinUrl
+    ? linkedinUrl
+        .replace(/^https?:\/\//, "")
+        .replace(/^www\./, "")
     : undefined;
   const roleLine = collateral.email?.roleLine ?? collateral.positioning.primaryRole;
   const subline =
@@ -115,19 +120,19 @@ async function writeSignatureFiles(args: SignatureArgs) {
           <div style="color:#1b1f24;font-size:20px;font-weight:800;line-height:1.15;margin:0 0 5px 0;">${escapeXml(brand.metadata.contactName)}</div>
           <div style="color:#2c3642;font-size:15px;line-height:1.35;margin:0 0 8px 0;">${escapeXml(roleLine)}</div>
           <div style="color:#5f6974;font-size:13px;line-height:1.45;margin:0 0 12px 0;">${escapeXml(subline)}</div>
-          <div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0 0 4px 0;">
+          <div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0 0 6px 0;">
             <span style="font-weight:700;color:#1b1f24;">Email:</span>
             <a href="${escapeXml(contactEmailUrl)}" style="color:#2c3642;text-decoration:none;">${escapeXml(brand.metadata.contactEmail)}</a>
           </div>
-          <div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0 0 4px 0;">
+          <div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0 0 6px 0;">
             <span style="font-weight:700;color:#1b1f24;">${escapeXml(collateral.ctas.primaryCTA.label)}:</span>
-            <a href="${escapeXml(primaryCtaUrl)}" style="color:#2c3642;text-decoration:none;">${escapeXml(primaryCtaDisplayUrl)}</a>
+            <a href="${escapeXml(primaryCtaUrl)}" style="color:#2c3642;text-decoration:none;">${escapeXml(primaryCtaDisplayLabel)}</a>
           </div>
           ${
             linkedinUrl
               ? `<div style="color:#2c3642;font-size:14px;line-height:1.5;margin:0;">
             <span style="font-weight:700;color:#1b1f24;">LinkedIn:</span>
-            <a href="${escapeXml(linkedinUrl)}" style="color:#2c3642;text-decoration:none;">LinkedIn profile</a>
+            <a href="${escapeXml(linkedinUrl)}" style="color:#2c3642;text-decoration:none;">${escapeXml(linkedinDisplayUrl ?? linkedinUrl)}</a>
           </div>`
               : ""
           }

@@ -10,7 +10,7 @@ Useful anchors:
 - [what-makes-arcadeghosts.md](what-makes-arcadeghosts.md)
 - [logo-usage-rules.md](logo-usage-rules.md)
 - [ambient-scene-generation.md](ambient-scene-generation.md)
-  Ambient-specific workflow and master prompt wrapper; read after `visual-language.md`
+  Ambient-specific workflow and master prompt wrapper; read after `visual-language.md`, especially the production-options guidance for separate scene files
 
 Scene intent:
 

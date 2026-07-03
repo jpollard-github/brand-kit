@@ -409,6 +409,7 @@ This is documentation-only for now.
   Expected future canonicals may include `visual-language.md`, `photography-style.md`, `illustration-style.md`, `social-card-style.md`, and `wallpaper-style.md`.
 - [ ] If ArcadeGhosts Ambient later hands reusable visual-language guidance into `brand-kit`, treat it as future documentation/import work first rather than immediate asset generation.
   Current shared guidance: `brands/arcadeghosts/visual-language.md`
+  Ambient production reminder: prefer separate selected scene files over collage-style outputs; see `brands/arcadeghosts/ambient-scene-generation.md`.
   Ownership boundary: ArcadeGhosts owns Ambient scene files, manifest, and rendering today; `consulting-business` owns cross-repo workflow strategy; `brand-kit` may later own reusable guidance plus import/validation/review support.
 - [ ] Consider whether review packets eventually need a broader `chatgpt:packet` wrapper beyond the current first-client collateral packet command.
 - [ ] Normalize default output names toward `<brand>-<asset>-<theme>.<ext>` if a future cleanup can do it without disrupting verification, docs, or review habits.
