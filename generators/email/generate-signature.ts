@@ -67,10 +67,10 @@ async function writeSignatureFiles(args: SignatureArgs) {
   const data = await buildHeroCompositionData(args.brandId, args.sceneId);
   const brand = data.brand;
   const collateral = getClientCollateralConfig(brand.id);
-  const serviceLine = collateral.services
-    .slice(0, 3)
-    .map((service) => service.name)
-    .join(" • ");
+  const serviceLine =
+    collateral.positioning.footerLine ??
+    collateral.positioning.tagline ??
+    collateral.positioning.oneLiner;
   const websiteUrl = resolveClientCollateralLink(brand.metadata, "website");
   const websiteDisplayUrl = brand.metadata.homeUrl.replace(/^https:\/\//, "");
   const primaryCtaUrl = resolveClientCollateralLink(
@@ -152,7 +152,7 @@ async function writeSignatureFiles(args: SignatureArgs) {
             </tr>
             <tr>
               <td style="padding:0;">
-                <div style="color:${brand.palette.textMuted};font-size:13px;line-height:1.4;margin:0 0 7px 0;">Need help with one messy workflow or internal process?</div>
+                <div style="color:${brand.palette.textMuted};font-size:13px;line-height:1.4;margin:0 0 7px 0;">Start with a short conversation.</div>
                 <a href="${escapeXml(primaryCtaUrl)}" style="display:inline-block;padding:10px 14px;border-radius:999px;background:#1b454e;border:1px solid #327784;color:${brand.palette.text};font-size:14px;font-weight:800;line-height:1.2;text-decoration:none;">${escapeXml(collateral.ctas.primaryCTA.label)}</a>
                 <div style="color:${brand.palette.textMuted};font-size:12px;line-height:1.35;margin:7px 0 0 0;">${escapeXml(primaryCtaDisplayUrl)}</div>
               </td>

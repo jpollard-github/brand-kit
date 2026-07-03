@@ -67,7 +67,7 @@ When to mark progress in TODO:
 ## 2. Capability Sheet Proofing
 
 Goal:
-Confirm the capability sheet is readable, credible, and ready for real first-touch outreach.
+Confirm the capability sheet is readable, credible, and ready for real warm-lead follow-up.
 
 Prep:
 

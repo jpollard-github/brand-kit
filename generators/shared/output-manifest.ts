@@ -14,6 +14,19 @@ export async function readPngDimensions(filePath: string) {
   };
 }
 
+export async function readPdfPageCount(filePath: string) {
+  const buffer = await fs.readFile(filePath);
+  const contents = buffer.toString("latin1");
+  const matches = contents.match(/\/Type\s*\/Page\b/g);
+  const pageCount = matches?.length ?? 0;
+
+  if (!Number.isFinite(pageCount) || pageCount < 1) {
+    throw new Error(`Unable to determine PDF page count for ${filePath}`);
+  }
+
+  return pageCount;
+}
+
 export function toDisplayUrl(urlValue: string) {
   return urlValue.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }

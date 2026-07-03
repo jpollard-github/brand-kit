@@ -3,7 +3,11 @@ import path from "node:path";
 
 import type { ClientCollateralConfig } from "../../design-system/client-collateral";
 import type { HeroCompositionData } from "../social/hero-composition";
-import { readPngDimensions, toDisplayUrl } from "../shared/output-manifest";
+import {
+  readPdfPageCount,
+  readPngDimensions,
+  toDisplayUrl,
+} from "../shared/output-manifest";
 
 export type CapabilitySheetManifest = {
   generatorFamily: "client-collateral";
@@ -23,6 +27,7 @@ export type CapabilitySheetManifest = {
     htmlPath: string;
     pngPath: string;
     pdfPath: string;
+    pdfPageCount: number;
     manifestPath: string;
   };
   sourceMetadata: {
@@ -42,6 +47,7 @@ export type CapabilitySheetManifest = {
     outputCompletenessVerified: boolean;
     dimensionsVerified: boolean;
     requiredFieldsVerified: boolean;
+    pdfPageCountVerified: boolean;
     expectedDisplayUrl: string;
     expectedWorkWithMeUrl: string;
   };
@@ -107,6 +113,7 @@ export async function writeCapabilitySheetManifest(options: {
   }
 
   const dimensions = await readPngDimensions(pngPath);
+  const pdfPageCount = await readPdfPageCount(pdfPath);
   const requiredFieldsVerified = verifyRequiredHtmlFields({
     html,
     data,
@@ -115,6 +122,10 @@ export async function writeCapabilitySheetManifest(options: {
 
   if (!requiredFieldsVerified) {
     throw new Error(`Capability sheet required-field check failed for ${outputName}`);
+  }
+
+  if (pdfPageCount !== 1) {
+    throw new Error(`Capability sheet page-count check failed for ${outputName}: expected 1, found ${pdfPageCount}`);
   }
 
   const manifest: CapabilitySheetManifest = {
@@ -132,6 +143,7 @@ export async function writeCapabilitySheetManifest(options: {
       htmlPath: path.relative(process.cwd(), htmlPath),
       pngPath: path.relative(process.cwd(), pngPath),
       pdfPath: path.relative(process.cwd(), pdfPath),
+      pdfPageCount,
       manifestPath: path.relative(process.cwd(), manifestPath),
     },
     sourceMetadata: {
@@ -154,6 +166,7 @@ export async function writeCapabilitySheetManifest(options: {
       outputCompletenessVerified: true,
       dimensionsVerified: true,
       requiredFieldsVerified: true,
+      pdfPageCountVerified: true,
       expectedDisplayUrl: toDisplayUrl(data.brand.metadata.homeUrl),
       expectedWorkWithMeUrl: data.brand.metadata.workWithMeUrl,
     },

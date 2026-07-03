@@ -9,7 +9,7 @@ import {
 import { getClientCollateralConfig } from "../../design-system/client-collateral";
 import { createThemedOutputName } from "../../design-system/themes";
 import { repoRootDir } from "../social/hero-composition";
-import { readPngDimensions, toDisplayUrl } from "../shared/output-manifest";
+import { readPdfPageCount, readPngDimensions, toDisplayUrl } from "../shared/output-manifest";
 import type { CapabilitySheetManifest } from "./manifest";
 
 type VerificationItem = {
@@ -173,6 +173,21 @@ async function main() {
     }
   }
 
+  if (pdfExists) {
+    const pageCount = await readPdfPageCount(pdfPath);
+    if (pageCount !== manifest.outputs.pdfPageCount) {
+      addFail(
+        report,
+        "capability PDF page count",
+        `expected manifest ${manifest.outputs.pdfPageCount}, found ${pageCount}`,
+      );
+    } else if (pageCount !== 1) {
+      addFail(report, "capability PDF page count", `expected 1 page, found ${pageCount}`);
+    } else {
+      addPass(report, "capability PDF page count", `${pageCount} page`);
+    }
+  }
+
   if (htmlExists) {
     const html = await fs.readFile(htmlPath, "utf8");
     const displayedWorkWithMeUrl = brand.metadata.workWithMeUrl.replace(
@@ -229,7 +244,8 @@ async function main() {
     !manifest.preflight.assetExistenceVerified ||
     !manifest.preflight.outputCompletenessVerified ||
     !manifest.preflight.dimensionsVerified ||
-    !manifest.preflight.requiredFieldsVerified
+    !manifest.preflight.requiredFieldsVerified ||
+    !manifest.preflight.pdfPageCountVerified
   ) {
     addFail(report, "capability preflight flags", JSON.stringify(manifest.preflight));
   } else {

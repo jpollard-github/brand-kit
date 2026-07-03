@@ -76,6 +76,19 @@ const outputCopies = [
   "generators/business-cards/work-with-me/exports/back-final-guides.pdf",
 ];
 
+const sourceBundle =
+  "consulting-business/repo-todos/brand-kit/2026-07-02-204231/";
+const acceptedWorkOrders = [
+  "BK-WO-001 - Capability Sheet Warm-Lead Refresh",
+  "BK-WO-002 - First-Touch Asset Alignment",
+  "BK-WO-003 - Discovery Guide Post-Interest Alignment (narrow scope)",
+];
+const deferredWorkOrders = [
+  "BK-WO-004 - Work-With-Me Handoff Pack",
+  "BK-WO-005 - First-Client Asset Proofing",
+  "BK-WO-006 - Proposal Cover Later-Stage Alignment",
+];
+
 function createTimestamp(now = new Date()): string {
   const year = String(now.getFullYear());
   const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -361,10 +374,10 @@ function buildReadinessVerdicts(todoSummary: TodoSectionSummary, outputRecords: 
     {
       asset: "Discovery Call PDF",
       exists: discoveryCallExists,
-      currentStatus: discoveryCallExists ? "generated" : "missing",
-      clientSendable: discoveryCallExists ? "no / needs alignment" : "no / missing output",
+      currentStatus: discoveryCallExists ? "production-candidate / post-interest asset" : "missing",
+      clientSendable: discoveryCallExists ? "yes / after proofing in scheduled-call use" : "no / missing output",
       blockingIssue: discoveryCallExists
-        ? "CTA hierarchy and packet role still need alignment"
+        ? "post-interest proofing and packet review still required"
         : "discovery-call PDF output missing",
     },
   ];
@@ -385,6 +398,14 @@ async function writeReadme(packetRoot: string, timestamp: string) {
     "",
     `Generated: ${timestamp}`,
     "Purpose: focused review packet for Work-With-Me / first-client collateral progress.",
+    "",
+    `Source bundle: \`${sourceBundle}\``,
+    "",
+    "Targeted work orders:",
+    ...acceptedWorkOrders.map((workOrder) => `- ${workOrder}`),
+    "",
+    "Deferred work orders:",
+    ...deferredWorkOrders.map((workOrder) => `- ${workOrder}`),
     "",
     "Files:",
     "- executive-summary.md",
@@ -415,6 +436,12 @@ async function writeExecutiveSummary(
     "# Executive Summary",
     "",
     "This packet reviews the current Work-With-Me / first-client collateral workstream in `brand-kit`.",
+    "",
+    "## Review Scope",
+    "",
+    `- Source bundle: \`${sourceBundle}\``,
+    ...acceptedWorkOrders.map((workOrder) => `- Targeted: ${workOrder}`),
+    ...deferredWorkOrders.map((workOrder) => `- Deferred: ${workOrder}`),
     "",
     "## Current Status",
     "",

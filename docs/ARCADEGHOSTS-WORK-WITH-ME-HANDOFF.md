@@ -75,9 +75,10 @@ This handoff doc stays focused on ArcadeGhosts-specific ownership and reproducib
 - `Work With Me` is the canonical public entry point.
 - `Project Inquiry` is secondary.
 - `Discovery Session` is post-qualification only.
-- Email signature is the first collateral surface to prioritize for real outbound use.
-- Capability sheet is the next best leave-behind for warm leads and referrals.
-- Proposal cover and discovery call PDF should support early conversations without becoming bloated sales material.
+- Email signature and the Work-With-Me business card are concise first-touch support assets for real outbound use.
+- Capability sheet is the primary warm-lead leave-behind for referrals and interested prospects.
+- Discovery call PDF is a post-interest qualification aid and should not read like cold-outreach collateral.
+- Proposal cover should support later-stage conversations without becoming bloated sales material.
 - Case study template stays proof-of-concept until real client work exists.
 - Mini flyer can support local outreach or in-person leave-behind workflows, but should not outrank the email signature or capability sheet.
 

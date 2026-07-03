@@ -32,9 +32,9 @@ Recent-work note:
 ### Capability Sheet
 
 - Purpose:
-  summarize the most common client pain patterns, the kinds of fixes Jason delivers, and the easiest next step in one page.
+  summarize the most common client pain patterns, the current consulting service packages, and the easiest warm-lead next step in one page.
 - Audience:
-  warm leads, referrals, conference contacts, and anyone who needs a fast overview before a call.
+  warm leads, referrals, and anyone who needs a fast overview after interest exists and before or around a call.
 - Generator status:
   existing generator: `npm run brand:capability-sheet` or `npm run brand:client-collateral`.
 - Production maturity:
@@ -53,9 +53,9 @@ Recent-work note:
 ### Discovery Call PDF
 
 - Purpose:
-  give prospects a concise, branded leave-behind before or after a discovery call.
+  give warm leads a concise, branded qualification aid before or around a discovery call.
 - Audience:
-  people considering an intro call who need structure, reassurance, and a clear next step.
+  people with real interest who need structure, reassurance, and a clear post-interest next step.
 - Generator status:
   existing generator: `npm run brand:discovery-call` or `npm run brand:client-collateral`.
 - Production maturity:
@@ -156,14 +156,14 @@ Useful now for acquiring consulting work:
   strongest current workflow; especially the `Work With Me` card set because it already points to a contact-oriented next step.
   Treat the card as a first-touch support asset, not a tiny capability sheet.
 - `capability sheet`
-  the primary warm-lead and referral asset because it answers what Jason helps with, which concrete problems he solves, and how to start.
+  the primary warm-lead and referral asset because it answers what Jason helps with, which service packages fit, which concrete problems he solves, and how to start.
 - `email signature`
   the best first operational support asset because it directly supports every outbound message and follow-up, but it still needs real-client email-client proofing.
   Keep default messaging stable across themes, and keep `Work With Me` as the primary first-touch CTA.
 - `proposal cover`
   useful once a prospect is warm enough for a scoped recommendation or proposal.
 - `discovery call PDF`
-  useful before or after a first conversation because it makes the process feel calm and concrete.
+  useful after real interest exists because it makes qualification feel calm and concrete without replacing the capability sheet.
   Keep it secondary to the capability sheet in the current funnel.
 - `mini flyer`
   potentially useful for local leave-behind or event use, but should still follow the email signature and capability sheet in practical attention and does not currently earn first-client focus.
@@ -232,9 +232,9 @@ Across the first-client collateral family, keep the service language compatible 
 - Short:
   `Software Consultant | Internal Tools & AI Workflows`
 - Medium:
-  `Websites, web apps, automation, AI-assisted systems, internal tools, and technical cleanup.`
+  `Workflow assessments, internal tools, modernization, and practical AI-assisted delivery.`
 - Expanded:
-  `I help small and mid-sized businesses fix messy workflows, websites, forms, reports, internal tools, AI-assisted processes, and existing codebases.`
+  `I help small and mid-sized businesses clean up workflows, modernize existing software, and build small internal tools with practical AI where it helps.`
 
 The business problem should lead.
 Complex-codebase and repository support should appear as a secondary capability rather than the main headline.
@@ -270,6 +270,7 @@ Operational path:
   production candidate.
 - `discovery call guide`
   production candidate.
+  Treat it as a secondary post-interest qualification asset, not a cold-outreach leave-behind.
 - `case study template`
   proof of concept until real client work exists.
 

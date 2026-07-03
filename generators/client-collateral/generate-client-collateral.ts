@@ -9,6 +9,7 @@ import {
 } from "../../design-system/client-collateral";
 import { writeCapabilitySheetManifest } from "./manifest";
 import { buildHeroCompositionData, escapeXml, repoRootDir } from "../social/hero-composition";
+import { readPdfPageCount } from "../shared/output-manifest";
 import { createBrandOutputName, parseCliFlag, resolveBrandId } from "../shared/cli";
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
@@ -847,9 +848,9 @@ function buildAssets(
     </section>
     <section class="body">
       <div class="meta-row">
-        <span class="meta-chip">20-30 minute intro</span>
-        <span class="meta-chip">Low pressure</span>
-        <span class="meta-chip">Practical next steps</span>
+        <span class="meta-chip">Warm-lead follow-up</span>
+        <span class="meta-chip">20-30 minutes</span>
+        <span class="meta-chip">Qualification first</span>
       </div>
       <div class="grid two">
         <div>
@@ -865,12 +866,7 @@ function buildAssets(
         <div>
           <section class="section panel">
             <h3>Common problem patterns</h3>
-            ${renderList([
-              "Requests disappear into email threads or shared spreadsheets.",
-              "Approvals depend on manual follow-up and status-checking.",
-              "Reports are assembled by hand every week or month.",
-              "PDFs, forms, or intake details are hard to search and coordinate.",
-            ])}
+            ${renderList(collateral.capability.problemPatterns.slice(0, 4))}
           </section>
           <section class="section panel dark">
             <h3>What happens after the call</h3>
@@ -1022,6 +1018,11 @@ async function renderAssetFiles(asset: AssetDefinition) {
     await page.close();
   } finally {
     await browser.close();
+  }
+
+  const pdfPageCount = await readPdfPageCount(pdfPath);
+  if (pdfPageCount !== 1) {
+    throw new Error(`${asset.title} PDF overflowed to ${pdfPageCount} pages; expected a single-page export.`);
   }
 
   return { htmlPath, pngPath, pdfPath };

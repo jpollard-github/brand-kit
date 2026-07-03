@@ -4,7 +4,6 @@ jason@arcadeghosts.org
 Small software help for:
 - workflow cleanup
 - internal tools
-- AI-assisted systems
-- websites and forms
+- modernization
 
 QR code

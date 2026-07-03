@@ -35,6 +35,7 @@ For capability sheets specifically, also confirm:
 
 - PDF opens cleanly
 - PDF is one page or uses intentional page breaks
+- exported PDF page count is verified before promotion
 - text is readable at print size
 - footer contact info is legible
 - `Work With Me` URL is correct

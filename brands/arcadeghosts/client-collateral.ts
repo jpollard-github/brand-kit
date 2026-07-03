@@ -2,21 +2,21 @@ export const arcadeghostsClientCollateral = {
   positioning: {
     primaryRole: "Independent Software Consultant",
     oneLiner:
-      "I help small and mid-sized businesses fix messy workflows, websites, forms, reports, internal tools, AI-assisted processes, and existing codebases.",
+      "I help small and mid-sized businesses clean up workflows, modernize existing software, and build small internal tools with practical AI where it helps.",
     serviceLine:
-      "Small software projects for websites, web apps, automation, AI-assisted systems, internal tools, technical cleanup, and existing codebases.",
+      "Workflow assessments, internal tool prototypes, legacy modernization, repository health checks, and engineering advisor support.",
     footerLine:
-      "Websites, web apps, automation, AI-assisted systems, internal tools, and technical cleanup.",
-    shortPromise: "Small projects. Clear problems. Personal attention.",
+      "Workflow assessments, internal tools, modernization, and practical AI-assisted delivery.",
+    shortPromise: "Small projects. Clear next steps. Personal attention.",
     promiseOptions: [
       "I build simple internal tools that eliminate repetitive manual work.",
       "I turn spreadsheet-and-email chaos into simple internal software.",
       "Small tools for messy workflows.",
     ],
     tagline:
-      "Websites, web apps, automation, AI-assisted systems, internal tools, and technical cleanup.",
+      "Workflow assessments, internal tools, modernization, and practical AI-assisted delivery.",
     problemSummary:
-      "Need a better website, internal tool, workflow, report, or existing codebase cleaned up?",
+      "Need a messy workflow cleaned up, an aging app improved, or a small internal tool built?",
     audience: [
       "Small and mid-sized businesses that run on spreadsheets, email, PDFs, and manual coordination.",
       "Operations-heavy teams that need clearer status, smoother intake, or less repetitive admin work.",
@@ -24,20 +24,19 @@ export const arcadeghostsClientCollateral = {
     ],
   },
   email: {
-    roleLine: "Software Consultant | Workflow Cleanup & Internal Tools",
+    roleLine: "Software Consultant | Internal Tools, Workflow Cleanup, Modernization",
     roleLineOptions: [
       "Independent Software Consultant",
-      "Software Consultant | Workflow Cleanup & Internal Tools",
-      "Internal tools • Workflow automation • AI workflows",
+      "Software Consultant | Internal Tools, Workflow Cleanup, Modernization",
+      "Workflow cleanup • Internal tools • Modernization",
     ],
-    subline: "Need help with intake, approvals, reporting, or workflow cleanup?",
+    subline: "Need help with a messy workflow, aging app, or small internal tool?",
     sublineOptions: [
       "Let's fix one frustrating workflow.",
+      "Need help with a messy workflow, aging app, or small internal tool?",
       "Need a better internal tool? Let's talk.",
-      "Have a repetitive process? I can automate it.",
-      "Need help with intake, approvals, reporting, or workflow cleanup?",
-      "Internal tools that eliminate repetitive work.",
-      "I build simple software that saves businesses time.",
+      "Workflow cleanup without a big-agency process.",
+      "Internal tools and modernization for practical teams.",
     ],
   },
   ctas: {
@@ -74,60 +73,54 @@ export const arcadeghostsClientCollateral = {
   },
   services: [
     {
-      name: "Websites & web apps",
+      name: "Workflow Assessment",
       summary:
-        "Small websites and web apps that fix clumsy forms, improve usability, and make existing tools easier to use.",
-      highlights: ["Web apps", "Forms", "Fixes"],
+        "Review a workflow, handoff, or reporting problem and identify the smallest practical improvement path.",
+      highlights: ["Current state", "Pain points", "Next steps"],
     },
     {
-      name: "Internal tools",
+      name: "Internal Tool Prototype",
       summary:
-        "Small tools for intake, approvals, dashboards, reports, and shared team visibility.",
-      highlights: ["Intake", "Dashboards", "Reports"],
+        "Build a focused internal app for intake, approvals, dashboards, reporting, or day-to-day coordination.",
+      highlights: ["Intake", "Approvals", "Dashboards"],
     },
     {
-      name: "Workflow automation",
+      name: "Legacy Modernization",
       summary:
-        "Reduce copy-paste, manual handoffs, and repetitive admin work with simpler processes and better system flow.",
-      highlights: ["Handoffs", "Status", "Cleanup"],
+        "Improve an aging application without forcing a rewrite by cleaning up rough edges, reducing friction, and modernizing delivery practices.",
+      highlights: ["Refactoring", "Cleanup", "Testing"],
     },
     {
-      name: "AI-assisted systems",
+      name: "Engineering Advisor",
       summary:
-        "Practical AI-assisted systems for summaries, drafting, structured data, and internal knowledge work.",
-      highlights: ["Summaries", "Drafting", "Knowledge"],
+        "Provide senior-level guidance on architecture, modernization, AI-assisted development, and technical decision making.",
+      highlights: ["Architecture", "Reviews", "Mentoring"],
     },
     {
-      name: "Technical cleanup",
+      name: "Repository Health Check",
       summary:
-        "Fix awkward forms, reporting friction, integration pain, and rough edges that slow a team down.",
-      highlights: ["Forms", "Reports", "Integrations"],
-    },
-    {
-      name: "Existing codebases",
-      summary:
-        "Understand, clean up, and improve complex codebases and GitHub repositories across older and newer stacks.",
-      highlights: ["GitHub repos", "Legacy systems", "Code review"],
+        "Review an existing codebase, surface technical debt, and recommend a focused cleanup roadmap or next engagement.",
+      highlights: ["Code review", "Debt", "Roadmap"],
     },
   ],
   proofSignals: [
-    "Start with one real bottleneck instead of turning everything into a giant software project.",
+    "Start with a focused assessment, prototype, or cleanup pass instead of turning everything into a giant software project.",
     "Work with the tools a team already has where possible, including forms, spreadsheets, email, and existing repos.",
-    "Keep communication direct, practical, and understandable for non-technical clients.",
+    "Use practical AI-assisted delivery to move faster without turning the process into a gimmick.",
   ],
   proposal: {
     eyebrow: "Proposal Cover",
     title: "Practical software help for teams that have outgrown manual processes.",
     subtitle:
-      "Small software projects for websites, web apps, automation, AI-assisted systems, internal tools, technical cleanup, and existing codebases.",
+      "Workflow assessments, internal tool prototypes, modernization work, repository health checks, and hands-on engineering advisor support.",
     footerNote:
-      "Small projects. Clear problems. Practical software help.",
+      "Small projects. Clear next steps. Practical software help.",
   },
   capability: {
     eyebrow: "Capability Sheet",
-    title: "Practical software help for messy workflows",
+    title: "Practical software help for teams stuck in manual work",
     intro:
-      "A one-page overview for warm leads who need a clearer workflow, better internal tool, simpler reporting path, or cleaner existing system.",
+      "A one-page warm-lead overview for teams exploring workflow cleanup, modernization, internal tools, or hands-on engineering support.",
     outcomes: [
       "Clearer visibility into requests, approvals, reports, and current status.",
       "Less repeated data entry, copy-paste work, and follow-up confusion.",
@@ -137,21 +130,21 @@ export const arcadeghostsClientCollateral = {
       "Spreadsheet request tracking that keeps losing status visibility.",
       "Approvals buried in long email threads or manual follow-up.",
       "Repetitive reports assembled by hand every week or month.",
-      "Forms, PDFs, or intake details that are hard to search and coordinate.",
+      "An aging internal app or codebase that nobody wants to touch anymore.",
     ],
     engagementModes: [
-      "Small scoped projects",
-      "Workflow and codebase cleanup",
-      "Automation and AI implementation",
+      "Focused assessments",
+      "Small build projects",
+      "Advisor support",
     ],
     processNotes: [
-      "Start with the bottleneck that is easiest to explain and most worth fixing.",
-      "Keep scope practical enough to ship and evaluate quickly.",
-      "Improve the workflow, the tool, or the codebase without adding unnecessary complexity.",
+      "Start with the workflow, tool, or codebase problem that is easiest to explain and most worth fixing.",
+      "Choose the smallest useful next step: assessment, prototype, modernization pass, or advisor support.",
+      "Keep scope practical enough to ship, learn, and evaluate quickly.",
     ],
     howToStart: [
-      "Share the workflow or handoff that feels messiest right now.",
-      "Pick the smallest problem worth fixing first.",
+      "Share the workflow, internal tool, or codebase problem that feels most expensive right now.",
+      "Decide whether a workflow assessment, small prototype, modernization pass, or advisory sprint makes the most sense.",
       "Start at arcadeghosts.org/work-with-me.",
     ],
     ctaHeadline: "Start with one problem, not a giant project.",
@@ -165,9 +158,9 @@ export const arcadeghostsClientCollateral = {
       ["Email", "Dashboard", "Done"],
     ],
     codebaseSupport: {
-      title: "Complex codebases and existing repos",
+      title: "Repository health checks and codebase cleanup",
       summary:
-        "Need help understanding or improving an existing codebase? Jason can work across older and newer stacks, including C#, VB.NET, ASP.NET, Java, JavaScript, TypeScript, Python, and GitHub-based repositories.",
+        "Need help understanding or improving an existing codebase? Jason can review, clean up, and modernize older and newer stacks without turning the work into an unnecessary rewrite.",
       stacks: [
         "GitHub repos",
         "C#",
@@ -182,13 +175,13 @@ export const arcadeghostsClientCollateral = {
   },
   discovery: {
     eyebrow: "Discovery Call Guide",
-    title: "What a first conversation looks like",
+    title: "What a discovery conversation is for",
     subtitle:
-      "A calm, low-pressure conversation about the workflow, website, report, internal tool, or codebase that is slowing your team down.",
+      "A short post-interest conversation for warm leads who want to qualify a workflow, modernization, internal-tool, or codebase problem before a proposal.",
     agenda: [
-      "Understand the current process and where it gets messy.",
-      "Identify the highest-friction manual steps, delays, or repeated questions.",
-      "Discuss a smallest-useful next step, including whether the problem is worth solving right now.",
+      "Clarify the current workflow, codebase, or internal-tool problem and where it gets expensive.",
+      "Identify the highest-friction delays, manual steps, or modernization risks worth discussing first.",
+      "Decide on the smallest useful next step, including whether the problem is worth solving right now.",
     ],
     prepQuestions: [
       "What work is currently tracked in spreadsheets, inboxes, PDFs, or shared docs?",
@@ -197,7 +190,7 @@ export const arcadeghostsClientCollateral = {
       "If one process felt dramatically easier next month, which one would matter most?",
     ],
     nextStep:
-      "If the fit seems good, the follow-up is a simple recommendation or proposal rather than a vague promise.",
+      "If the fit seems good, the follow-up is a short recommendation, scoped next step, or proposal rather than a vague promise.",
   },
   caseStudy: {
     eyebrow: "Case Study Template",

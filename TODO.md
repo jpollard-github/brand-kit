@@ -14,46 +14,100 @@ This is the active working roadmap for `brand-kit`.
 
 ## Work-With-Me / First Client Collateral
 
-Accepted Work-With-Me recommendations from `consulting-business/repo-todos/brand-kit/2026-07-02-151713/recommended-todo.md`.
+Imported consulting-business work bundle:
+`consulting-business/repo-todos/brand-kit/2026-07-02-204231/`
 
-These items are now the highest-priority business work in `brand-kit`.
+Earlier recommendation phrasing from `2026-07-02-151713` informed this section.
+Local compiler feedback:
+
+- future `consulting-business` bundles should separate code-enforceable acceptance criteria from manual proofing acceptance criteria
+
+The current accepted structured work orders are:
+
+- `BK-WO-001` accepted
+- `BK-WO-002` accepted
+- `BK-WO-003` accepted with narrow scope limited to discovery-guide positioning and CTA role alignment
+
+Deferred unless a P0 dependency changes:
+
+- `BK-WO-004`
+- `BK-WO-005`
+- `BK-WO-006`
+
+These items are the current highest-priority business work in `brand-kit`.
 
 ### Immediate
 
-- [ ] Make the capability sheet the primary warm-lead leave-behind by aligning its copy, CTA, and proofing bar to the current consulting offer and first-client funnel.
+- [x] Make the capability sheet the primary warm-lead leave-behind by aligning its copy, CTA, and code-enforceable readiness checks to the current consulting offer and first-client funnel.
   Suggested priority: P0
-  Current status: copy and CTA direction were updated on 2026-07-02 so the capability sheet now leads with concrete pain patterns and points to `arcadeghosts.org/work-with-me`.
-  Missing to complete: real outreach proofing, PDF readability review, and confirmation that the asset truly works as the primary warm-lead leave-behind in practice.
+  Current status: implementation complete on 2026-07-02. The capability sheet now uses the current service-catalog framing, points to `arcadeghosts.org/work-with-me`, exports as a one-page PDF, and stays client-facing in generated output.
+  Production status: `Production Candidate`
   Rationale: The consulting-business source of truth now makes the capability sheet the main warm-lead asset, so brand-kit should treat it as the most important sendable follow-up surface after initial interest exists.
   Consulting-business source docs: `docs/SERVICE-CATALOG.md`, `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`
-  Inspected downstream evidence:
-  - `TODO.md`: [ ] Proof the capability sheet in a real outreach context and against [docs/PRODUCTION-CHECKLIST.md](docs/PRODUCTION-CHECKLIST.md).
-  - `docs/CLIENT-COLLATERAL.md`: The newest generator work already added proposal cover, capability sheet, discovery call, and case study template outputs.
-  - `docs/PRODUCTION-CHECKLIST.md`: ## Capability Sheet Notes
+  Code-enforceable evidence:
+  - `npm run brand:verify:capability-sheet` passes
+  - `generators/outputs/client-collateral/arcadeghosts-capability-sheet.manifest.json` confirms `pdfPageCount: 1`
+  - rendered output points to `arcadeghosts.org/work-with-me`
+  - rendered output does not include internal review metadata such as `Primary CTA` or usage-note language
   Affected downstream file/route: `TODO.md`, `docs/CLIENT-COLLATERAL.md`, `docs/PRODUCTION-CHECKLIST.md`, `capability-sheet generator outputs`
-  Acceptance criteria:
-  - Capability sheet copy matches the current consulting service catalog, first-client funnel, and Work With Me positioning.
-  - The asset clearly works as a warm-lead leave-behind rather than a first-touch pitch or late-stage proposal substitute.
-  - The exported PDF stays client-facing, one-page, legible, and free of internal review or CTA metadata.
-  - The primary CTA points to Work With Me or inquiry flow, not a paid discovery link.
+  Manual proofing remains open below before any move to `Production Ready`.
 
-- [ ] Keep the email signature and Work-With-Me business card firmly in the first-touch support role so they reinforce outreach credibility without trying to replace the capability sheet.
+- [x] Keep the email signature and Work-With-Me business card firmly in the first-touch support role so they reinforce outreach credibility without trying to replace the capability sheet.
   Suggested priority: P0
-  Current status: the signature was slimmed for production use and the Work-With-Me card copy was tightened on 2026-07-02 to keep both assets concise and Work-With-Me-oriented.
-  Missing to complete: real mail-client proofing for the signature and checklist-driven print/scan proofing for the business card.
+  Current status: implementation complete on 2026-07-02. The signature stays slim and Work-With-Me-oriented, and the business card keeps a concise first-touch message with the same CTA path.
+  Production status:
+  - email signature: `Production Candidate`
+  - Work-With-Me business card: production-ready generator workflow, asset still `Production Candidate` pending print/scan proofing
   Rationale: The business now has a clearer funnel: email signature and business card support first touch, but they should not drift into acting like miniature capability sheets or proposal substitutes.
   Consulting-business source docs: `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`, `docs/LEADS-PLAYBOOK.md`
-  Inspected downstream evidence:
-  - `docs/ARCADEGHOSTS-WORK-WITH-ME-HANDOFF.md`: Email signature is the first collateral surface to prioritize for real outbound use.
-  - `docs/CLIENT-COLLATERAL.md`: That is useful progress, but it slightly conflicts with the stricter first-client priority order below, where the email signature should be treated as the first operational collateral surface.
-  - `brands/arcadeghosts/README.md`: # ArcadeGhosts Brand
+  Code-enforceable evidence:
+  - `npm run brand:verify:email` passes
+  - `generators/outputs/email/arcadeghosts-email-signature.manifest.json` confirms a `360px`-wide output and the `Work With Me` CTA
+  - `npm run brand:verify:business-cards` passes
+  - Work-With-Me card exports confirm the expected URL, email, QR target, and guide/no-guide proof set
   Affected downstream file/route: `TODO.md`, `docs/CLIENT-COLLATERAL.md`, `email-signature outputs`, `business-card outputs`
-  Acceptance criteria:
-  - Email signature and Work-With-Me business card point into the same Work With Me path and use consistent service framing.
-  - Neither asset tries to carry the full warm-lead explanation that belongs in the capability sheet.
-  - First-touch assets stay concise, credible, and easy to use in real outreach or meetup contexts.
+  Manual proofing remains open below before any move to `Production Ready`.
+
+- [ ] Capability sheet manual proofing for `Production Ready`.
+  Asset status today: `Production Candidate`
+  Human proofing still required:
+  - confirm the PDF opens cleanly in the real viewer(s) Jason will actually use
+  - confirm headline, body copy, and footer stay comfortably readable on Mac and phone
+  - confirm the sheet still feels client-facing and warm-lead appropriate in a draft email or real send context
+  - answer the practical question: “would I send this to a warm lead right now?”
+
+- [ ] Email signature manual proofing for `Production Ready`.
+  Asset status today: `Production Candidate`
+  Human proofing still required:
+  - Outlook mobile
+  - at least one non-Outlook client
+  - reply behavior
+  - forward behavior
+  - real sent-email rendering
+
+- [ ] Work-With-Me business card manual proofing for `Production Ready`.
+  Asset status today: `Production Candidate`
+  Human proofing still required:
+  - QR scan speed on iPhone
+  - QR scan speed on Android, if available
+  - margins / bleed / trim / safe area review against the MOO template
+  - paper / finish confirmation
+  - received-print sanity check after delivery
 
 ### Near-term
+
+- [x] Keep the discovery-call guide secondary and post-interest by refining it as a qualification aid used only after someone expresses real interest.
+  Suggested priority: P1
+  Current status: implementation complete on 2026-07-02. The generated guide now frames itself as warm-lead follow-up, uses `Qualification first`, and points to a post-interest next step rather than cold outreach.
+  Production status: `Production Candidate`
+  Rationale: The source-of-truth funnel now makes the discovery-call guide a secondary asset, so brand-kit should keep it helpful and polished without letting it drift into cold outreach or capability-sheet territory.
+  Consulting-business source docs: `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`, `docs/SERVICE-CATALOG.md`
+  Code-enforceable evidence:
+  - generated discovery-call output describes itself as a short post-interest conversation for warm leads
+  - rendered output includes `Warm-lead follow-up` and `Qualification first`
+  - footer CTA remains `arcadeghosts.org/work-with-me`
+  Affected downstream file/route: `TODO.md`, `docs/CLIENT-COLLATERAL.md`, `discovery-call generator outputs`
+  Manual proofing can stay bundled into broader packet review work rather than blocking the immediate P0 assets.
 
 - [ ] Define a reproducible Work-With-Me handoff export pack so Brand Kit can generate the exact collateral set ArcadeGhosts outreach needs without turning generated files into source of truth.
   Suggested priority: P1
@@ -170,6 +224,8 @@ Manual step-by-step help for the highest-value items now lives in:
   First pass now exists under `npm run brand:proposal-cover`.
 - [x] Create a discovery call PDF generator or workflow for a polished pre-call leave-behind.
   First pass now exists under `npm run brand:discovery-call`.
+- [x] Keep the discovery-call guide positioned as a post-interest qualification asset rather than a cold-outreach leave-behind.
+  Current status: the generated guide now frames itself as warm-lead follow-up and a qualification conversation on 2026-07-02.
 - [x] Create a case study template generator or workflow that can be reused once real client work exists.
   First pass now exists under `npm run brand:case-study-template`, but it should stay `Proof of Concept` until real client work informs it.
 - [x] Decide whether the mini flyer belongs in the first consulting-collateral stack as a real local leave-behind, then refine it for that use if yes.
