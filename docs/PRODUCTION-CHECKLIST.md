@@ -16,17 +16,16 @@ Use this checklist when deciding whether a collateral asset is truly `Production
 - tested in its real destination:
   email client, PDF viewer, print flow, browser surface, or other actual delivery context
 
-## Maturity Reminder
+## Readiness Reminder
 
-This checklist works alongside the shared collateral maturity terminology:
+This checklist is for the staged work-order lifecycle, not for broader generator-family maturity labels.
 
-- `Prototype`
-- `Proof of Concept`
-- `Production Candidate`
-- `Production Ready`
-- `Deprecated`
+- `Implementation Complete` means implementation acceptance criteria are satisfied.
+- `Production Candidate` means implementation and code-enforceable validation are complete, but manual or physical proofing may still be open.
+- `Production Ready` requires the relevant manual proofing and physical proofing to be complete.
+- `Field Validated` requires real-world usage feedback after the asset leaves the repo.
 
-An asset should not be treated as `Production Ready` just because it looks finished. It should clear the operational checks above too.
+An asset should not be treated as `Production Ready` just because it looks finished or passes code validation.
 No asset should be marked `Production Ready` without checklist-driven proofing in its real delivery context.
 
 ## Capability Sheet Notes

@@ -77,7 +77,7 @@ const outputCopies = [
 ];
 
 const sourceBundle =
-  "consulting-business/repo-todos/brand-kit/2026-07-02-204231/";
+  "consulting-business/repo-todos/brand-kit/2026-07-02-211756/";
 const acceptedWorkOrders = [
   "BK-WO-001 - Capability Sheet Warm-Lead Refresh",
   "BK-WO-002 - First-Touch Asset Alignment",
@@ -338,7 +338,7 @@ function buildReadinessVerdicts(todoSummary: TodoSectionSummary, outputRecords: 
     {
       asset: "Email Signature",
       exists: emailSignatureExists,
-      currentStatus: emailSignatureExists ? "production-candidate" : "missing",
+      currentStatus: emailSignatureExists ? "Production Candidate" : "missing",
       clientSendable: emailSignatureExists ? "yes / after mail-client proofing" : "no / missing output",
       blockingIssue: emailSignatureExists
         ? "real sent-email, mobile, and reply/forward proofing still required"
@@ -347,7 +347,7 @@ function buildReadinessVerdicts(todoSummary: TodoSectionSummary, outputRecords: 
     {
       asset: "Capability Sheet PDF",
       exists: capabilitySheetExists,
-      currentStatus: capabilitySheetExists ? "production-candidate" : "missing",
+      currentStatus: capabilitySheetExists ? "Production Candidate" : "missing",
       clientSendable: capabilitySheetExists && !hasOpenTask(todoSummary, "capability sheet") ? "yes" : "no / needs proofing",
       blockingIssue: capabilitySheetExists
         ? "warm-lead copy and real outreach proofing not yet validated"
@@ -356,7 +356,7 @@ function buildReadinessVerdicts(todoSummary: TodoSectionSummary, outputRecords: 
     {
       asset: "Work With Me Business Card",
       exists: workCardExists,
-      currentStatus: workCardExists ? "production-ready workflow / asset still proofing" : "missing",
+      currentStatus: workCardExists ? "Production Candidate" : "missing",
       clientSendable: workCardExists ? "yes / after checklist proofing" : "no / missing output",
       blockingIssue: workCardExists
         ? "QR, safe area, bleed, legibility, and print-readiness still require checklist proofing"
@@ -365,7 +365,7 @@ function buildReadinessVerdicts(todoSummary: TodoSectionSummary, outputRecords: 
     {
       asset: "Proposal Cover PDF",
       exists: proposalCoverExists,
-      currentStatus: proposalCoverExists ? "generated" : "missing",
+      currentStatus: proposalCoverExists ? "Deferred" : "missing",
       clientSendable: proposalCoverExists ? "no / needs alignment" : "no / missing output",
       blockingIssue: proposalCoverExists
         ? "not yet aligned into the first-conversation collateral packet"
@@ -374,7 +374,7 @@ function buildReadinessVerdicts(todoSummary: TodoSectionSummary, outputRecords: 
     {
       asset: "Discovery Call PDF",
       exists: discoveryCallExists,
-      currentStatus: discoveryCallExists ? "production-candidate / post-interest asset" : "missing",
+      currentStatus: discoveryCallExists ? "Implementation Complete / Production Candidate" : "missing",
       clientSendable: discoveryCallExists ? "yes / after proofing in scheduled-call use" : "no / missing output",
       blockingIssue: discoveryCallExists
         ? "post-interest proofing and packet review still required"

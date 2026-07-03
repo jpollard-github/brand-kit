@@ -168,9 +168,10 @@ The repo now has two primary scene families for ArcadeGhosts:
 
 The goal is to adapt one composition family across aspect ratios instead of redesigning the same idea from scratch for every surface.
 
-## Collateral Maturity
+## Generator Maturity
 
-Use these levels as workflow expectations, not as a judgment on visual quality:
+Use these levels as generator-family workflow expectations, not as a judgment on visual quality.
+They are separate from the consulting-business work-order lifecycle used in `TODO.md`, where `Implementation Complete`, `Production Candidate`, `Production Ready`, and `Field Validated` describe staged readiness for accepted downstream work.
 
 - `Prototype`
   early or architecture-validating surfaces that still need clearer operational use, such as mini flyer and preview-oriented review surfaces.

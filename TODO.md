@@ -15,18 +15,16 @@ This is the active working roadmap for `brand-kit`.
 ## Work-With-Me / First Client Collateral
 
 Imported consulting-business work bundle:
-`consulting-business/repo-todos/brand-kit/2026-07-02-204231/`
+`consulting-business/repo-todos/brand-kit/2026-07-02-211756/`
 
 Earlier recommendation phrasing from `2026-07-02-151713` informed this section.
-Local compiler feedback:
-
-- future `consulting-business` bundles should separate code-enforceable acceptance criteria from manual proofing acceptance criteria
+This latest bundle already separates implementation acceptance, code validation, manual proofing, physical proofing, and field validation.
 
 The current accepted structured work orders are:
 
-- `BK-WO-001` accepted
-- `BK-WO-002` accepted
-- `BK-WO-003` accepted with narrow scope limited to discovery-guide positioning and CTA role alignment
+- `BK-WO-001` Accepted
+- `BK-WO-002` Accepted
+- `BK-WO-003` Accepted with narrow scope limited to discovery-guide positioning and CTA role alignment
 
 Deferred unless a P0 dependency changes:
 
@@ -36,11 +34,29 @@ Deferred unless a P0 dependency changes:
 
 These items are the current highest-priority business work in `brand-kit`.
 
+Work-order lifecycle used in this repo:
+
+- `Accepted`: the generated Work Order is approved for downstream use.
+- `Implementation Complete`: implementation acceptance criteria are satisfied.
+- `Production Candidate`: implementation is complete and code-enforceable validation passes, but manual or physical proofing may still be open.
+- `Production Ready`: required manual proofing and physical proofing are complete.
+- `Field Validated`: real-world usage confirms the asset works as intended.
+- `Deferred`: intentionally not being implemented in this pass.
+
+Important distinction:
+
+- implementation tasks change code, copy, config, or generators
+- code validation confirms deterministic checks and generated-output expectations
+- manual proofing confirms human review in the real viewer or delivery context
+- physical proofing confirms print or tangible-format behavior where applicable
+- field validation confirms the asset works in actual outreach or in-person use
+- code validation alone never implies `Production Ready`
+
 ### Immediate
 
 - [x] Make the capability sheet the primary warm-lead leave-behind by aligning its copy, CTA, and code-enforceable readiness checks to the current consulting offer and first-client funnel.
   Suggested priority: P0
-  Current status: implementation complete on 2026-07-02. The capability sheet now uses the current service-catalog framing, points to `arcadeghosts.org/work-with-me`, exports as a one-page PDF, and stays client-facing in generated output.
+  Current status: `Implementation Complete` on 2026-07-02. The capability sheet now uses the current service-catalog framing, points to `arcadeghosts.org/work-with-me`, exports as a one-page PDF, and stays client-facing in generated output.
   Production status: `Production Candidate`
   Rationale: The consulting-business source of truth now makes the capability sheet the main warm-lead asset, so brand-kit should treat it as the most important sendable follow-up surface after initial interest exists.
   Consulting-business source docs: `docs/SERVICE-CATALOG.md`, `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`
@@ -54,7 +70,7 @@ These items are the current highest-priority business work in `brand-kit`.
 
 - [x] Keep the email signature and Work-With-Me business card firmly in the first-touch support role so they reinforce outreach credibility without trying to replace the capability sheet.
   Suggested priority: P0
-  Current status: implementation complete on 2026-07-02. The signature stays slim and Work-With-Me-oriented, and the business card keeps a concise first-touch message with the same CTA path.
+  Current status: `Implementation Complete` on 2026-07-02. The signature stays slim and Work-With-Me-oriented, and the business card keeps a concise first-touch message with the same CTA path.
   Production status:
   - email signature: `Production Candidate`
   - Work-With-Me business card: production-ready generator workflow, asset still `Production Candidate` pending print/scan proofing
@@ -98,7 +114,7 @@ These items are the current highest-priority business work in `brand-kit`.
 
 - [x] Keep the discovery-call guide secondary and post-interest by refining it as a qualification aid used only after someone expresses real interest.
   Suggested priority: P1
-  Current status: implementation complete on 2026-07-02. The generated guide now frames itself as warm-lead follow-up, uses `Qualification first`, and points to a post-interest next step rather than cold outreach.
+  Current status: `Implementation Complete` on 2026-07-02. The generated guide now frames itself as warm-lead follow-up, uses `Qualification first`, and points to a post-interest next step rather than cold outreach.
   Production status: `Production Candidate`
   Rationale: The source-of-truth funnel now makes the discovery-call guide a secondary asset, so brand-kit should keep it helpful and polished without letting it drift into cold outreach or capability-sheet territory.
   Consulting-business source docs: `docs/WORK-WITH-ME-PLAYBOOK.md`, `docs/CLIENT-JOURNEY.md`, `docs/SERVICE-CATALOG.md`
@@ -328,6 +344,11 @@ This is the work Jason can realistically do tomorrow after the client-collateral
 ## Priority 7: Collateral Maturity
 
 Use these labels as workflow expectations, not visual judgments.
+
+### Generator Family Maturity
+
+These labels are separate from the Work-Order lifecycle above.
+They describe generator-family maturity, not whether a specific accepted Work Order is merely implemented, proofed, or field validated.
 
 ### Prototype
 

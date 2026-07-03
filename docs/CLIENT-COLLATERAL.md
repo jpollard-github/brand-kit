@@ -14,6 +14,12 @@ Recent-work note:
   email signature and Work-With-Me business card as first-touch support assets;
   discovery call and proposal cover as later-stage support.
 
+Work-order readiness note:
+
+- Use the consulting-business lifecycle terms consistently: `Accepted`, `Implementation Complete`, `Production Candidate`, `Production Ready`, `Field Validated`, and `Deferred`.
+- Treat implementation, code validation, manual proofing, physical proofing, and field validation as separate stages.
+- Code validation or successful generation alone must never be read as `Production Ready`.
+
 ## Intended Asset Set
 
 ### Proposal Cover

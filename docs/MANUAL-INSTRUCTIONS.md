@@ -6,6 +6,13 @@ This doc turns the highest-value manual TODO items into concrete checklists.
 
 Use this when you want to move the repo forward without re-reading the whole roadmap in [TODO.md](../TODO.md).
 
+Status reminder:
+
+- These checklists primarily move assets from `Production Candidate` toward `Production Ready`.
+- Manual proofing is separate from implementation completion and separate from code validation.
+- Physical proofing still applies where the asset has a printed or tangible form factor.
+- `Field Validated` is later and requires real-world use, not just repo review.
+
 ## Recommended Order
 
 1. Capability sheet proofing
@@ -62,7 +69,7 @@ What to check:
 
 When to mark progress in TODO:
 
-1. If Outlook mobile, one non-Outlook client, reply behavior, forward behavior, and real sent-email rendering all look good, you can treat that TODO item as complete.
+1. If Outlook mobile, one non-Outlook client, reply behavior, forward behavior, and real sent-email rendering all look good, you can treat the manual-proofing TODO item as complete and promote the asset to `Production Ready` if no separate physical proofing remains.
 
 ## 2. Capability Sheet Proofing
 
@@ -100,7 +107,7 @@ Good decision question:
 
 When to mark progress in TODO:
 
-1. If readability, CTA clarity, footer legibility, and one-page fit all feel solid in a real review pass, you can close the capability-sheet proofing items.
+1. If readability, CTA clarity, footer legibility, and one-page fit all feel solid in a real review pass, you can close the capability-sheet manual-proofing items and promote the asset to `Production Ready`.
 
 ## 3. Networking Proofing
 
@@ -171,7 +178,7 @@ Manual check pass:
 
 When to mark progress in TODO:
 
-1. Close this only after the real manual checks are done, not just after exports succeed.
+1. Close this only after the real manual and physical checks are done, not just after exports succeed.
 
 ## 5. Wallet Pass Proofing
 
