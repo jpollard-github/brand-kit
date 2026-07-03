@@ -12,7 +12,13 @@ npm run asset:wallet-pass:sign
 npm run asset:networking
 npm run qr:verify
 npm run review:packet
+npm run review:packet:refresh
 ```
+
+- `review:packet`
+  package the current networking outputs into a review packet without rerunning validation
+- `review:packet:refresh`
+  rerun tests, verification, and networking generation before packaging
 
 ## Outputs
 

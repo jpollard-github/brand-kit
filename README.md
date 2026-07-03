@@ -217,11 +217,9 @@ This is the practical status snapshot after the latest verification and smoke-ge
 
 Latest repo-level confidence check:
 
-- `npm run test:unit`
-- `npm run brand:audit-source`
-- `npm run brand:verify`
-- `npm run brand:preview`
-- `npm run brand:client-collateral`
+- `npm run verify`
+- `npm run brand:preview:timed`
+- `npm run brand:packet:client-collateral:timed`
 
 These passed on 2026-06-28, which means the current generator set is in a healthy operational state even though several families still need real-world proof before promotion.
 
@@ -252,26 +250,25 @@ The all-themes sweep currently focuses on the hero-composition family and the wo
 Use these most often:
 
 ```bash
-npm run brand:verify
-npm run brand:audit-source
-npm run brand:preview
-npm run asset:networking
-npm run review:packet
+npm run verify:fast
+npm run verify
+npm run verify:full
+npm run brand:preview:timed
+npm run review:packet:timed
 ```
 
-- `brand:verify` now checks business-card source-of-truth details plus social hero manifests/preflight metadata for OG, LinkedIn, and GitHub outputs.
-- `brand:verify` is the main preflight command before trusting outputs for real use. It now checks business-card source-of-truth details plus manifest/preflight coverage for social hero outputs, website hero, icons, email signature, and capability sheet.
-- `brand:audit-source` is a reusable-code hygiene check. Its purpose is to catch places where shared code still leaks ArcadeGhosts-specific strings so the repo can become genuinely multi-brand over time, without blocking normal work yet.
-- `asset:networking` generates the current phone-first meetup stack: conference card, lock screen, wallet pass package, business-card support outputs, and QR verification.
-- `review:packet` packages the networking assets for human or ChatGPT review.
-- `brand:preview` generates the current output set and refreshes the multi-output review page.
+- `lint` maps to `brand:audit-source` in this repo. It is the current lightweight source-hygiene check and its output stays visible.
+- `verify:fast` is the shortest useful local loop: timed lint plus timed unit tests.
+- `verify` is the default confidence pass before reporting code changes. It adds timed `brand:verify` manifest/output checks.
+- `verify:full` is the milestone alias for the same trusted validation set as `verify`. This repo does not currently have a separate reliable typecheck/build gate beyond lint, unit tests, and manifest/output verification.
+- `asset:networking:timed` is the heavier networking generation path. Run it when you changed the meetup asset family or want QR/generation feedback, but keep it separate from the default confidence loop because it is slower and more environment-sensitive.
+- `brand:preview:timed` is the broad visual refresh path.
+- `review:packet` now packages the current networking outputs without rerunning validation. Use `review:packet:refresh` when you explicitly want packet generation to rerun tests, verification, and networking asset generation first.
 - `brand:packet:client-collateral` gathers the current first-client collateral stack into a review-friendly packet.
-- `asset:networking` generates the meetup-ready networking assets, business-card regeneration support, and QR verification in one path.
-- `qr:verify` programmatically decodes the generated networking QR assets and confirms they still point to the expected URL.
-- `review:packet` gathers the networking assets into a review-friendly packet.
 
 Useful extra workflows:
 
+- `npm run lint:timed`
 - `npm run brand:verify:social`
 - `npm run brand:verify:business-cards`
 - `npm run brand:verify:website`
@@ -281,8 +278,10 @@ Useful extra workflows:
 - `npm run asset:conference-card`
 - `npm run asset:lock-screen`
 - `npm run asset:networking`
+- `npm run asset:networking:timed`
 - `npm run qr:verify`
 - `npm run review:packet`
+- `npm run review:packet:refresh`
 - `npm run brand:preview:themes`
 - `npm run test:unit`
 
@@ -352,12 +351,44 @@ Run them with:
 npm run test:unit
 ```
 
-Useful verification commands:
+Recommended validation flow:
 
 ```bash
-npm run brand:verify
-npm run brand:verify:social
-npm run brand:audit-source
+npm run verify:fast
+npm run verify
+npm run verify:full
+```
+
+- `verify:fast`
+  fastest useful feedback during local iteration
+- `verify`
+  default code-change confidence pass for Jason and Codex before calling a change complete
+- `verify:full`
+  milestone confidence alias for the trusted default validation set in this repo
+
+Visual review stays separate from code validation:
+
+- `npm run brand:preview:timed`
+- `npm run review:packet:timed`
+- `npm run brand:packet:client-collateral:timed`
+
+Codex reporting format:
+
+```text
+Changed files:
+- ...
+
+Validation:
+- npm run lint: passed in Xs
+- npm run test:unit: passed in Xs
+- npm run brand:verify: passed in Xs
+
+Visual review:
+- review packet generated in Xs
+- screenshots saved to ...
+
+Notes:
+- ...
 ```
 
 Current test coverage is intentionally focused on design-system and helper logic rather than full generator rendering.

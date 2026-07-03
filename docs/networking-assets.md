@@ -28,7 +28,13 @@ npm run asset:business-card
 npm run asset:networking
 npm run qr:verify
 npm run review:packet
+npm run review:packet:refresh
 ```
+
+- `review:packet`
+  package the current networking outputs for review without rerunning validation
+- `review:packet:refresh`
+  rerun tests, repo verification, networking generation, and then build the packet
 
 ## Current Default QR Target
 

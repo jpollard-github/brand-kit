@@ -17,6 +17,9 @@ type CommandResult = {
   stdout: string;
   stderr: string;
   logPath: string;
+  startedAt: string;
+  completedAt: string;
+  elapsedMs: number;
 };
 
 function currentDateStamp() {
@@ -125,12 +128,16 @@ async function runCommandAndCapture(
 ) {
   const safeLabel = label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   const logPath = path.join(logsDir, `${safeLabel}.log`);
+  const startedAt = new Date();
+  const startedMs = Date.now();
 
   try {
     const result = await execFileAsync(command[0], command.slice(1), {
       cwd: repoRootDir,
       maxBuffer: 10 * 1024 * 1024,
     });
+    const completedAt = new Date();
+    const elapsedMs = Date.now() - startedMs;
     const stdout = result.stdout ?? "";
     const stderr = result.stderr ?? "";
     await writeTextFile(
@@ -138,6 +145,9 @@ async function runCommandAndCapture(
       [
         `Label: ${label}`,
         `Command: ${command.join(" ")}`,
+        `Started: ${startedAt.toISOString()}`,
+        `Completed: ${completedAt.toISOString()}`,
+        `Elapsed ms: ${elapsedMs}`,
         "Exit code: 0",
         "",
         "STDOUT",
@@ -155,8 +165,13 @@ async function runCommandAndCapture(
       stdout,
       stderr,
       logPath,
+      startedAt: startedAt.toISOString(),
+      completedAt: completedAt.toISOString(),
+      elapsedMs,
     } satisfies CommandResult;
   } catch (error) {
+    const completedAt = new Date();
+    const elapsedMs = Date.now() - startedMs;
     const commandError = error as {
       code?: number | string;
       stdout?: string;
@@ -172,6 +187,9 @@ async function runCommandAndCapture(
       [
         `Label: ${label}`,
         `Command: ${command.join(" ")}`,
+        `Started: ${startedAt.toISOString()}`,
+        `Completed: ${completedAt.toISOString()}`,
+        `Elapsed ms: ${elapsedMs}`,
         `Exit code: ${exitCode}`,
         "",
         "STDOUT",
@@ -189,6 +207,9 @@ async function runCommandAndCapture(
       stdout,
       stderr,
       logPath,
+      startedAt: startedAt.toISOString(),
+      completedAt: completedAt.toISOString(),
+      elapsedMs,
     } satisfies CommandResult;
   }
 }
@@ -368,7 +389,11 @@ async function writeLockScreenAdjustmentReport(reportDir: string) {
   );
 }
 
-async function buildReviewContext() {
+function formatElapsed(result: CommandResult) {
+  return `${(result.elapsedMs / 1000).toFixed(2)}s`;
+}
+
+async function buildReviewContext(options: { withPreflight: boolean }) {
   await fs.rm(reviewContextDir, { recursive: true, force: true });
   await ensureDir(reviewContextDir);
   const commandLogsDir = path.join(reviewContextDir, "command-logs");
@@ -378,30 +403,39 @@ async function buildReviewContext() {
   await ensureDir(gitDir);
   await ensureDir(screenshotsDir);
 
-  const commands: Array<{ label: string; command: string[] }> = [
-    { label: "test-unit", command: ["npm", "run", "test:unit"] },
-    { label: "brand-verify", command: ["npm", "run", "brand:verify"] },
-    { label: "brand-audit-source", command: ["npm", "run", "brand:audit-source"] },
-    { label: "asset-networking", command: ["npm", "run", "asset:networking"] },
-  ];
-
   const results: CommandResult[] = [];
-  for (const item of commands) {
-    results.push(await runCommandAndCapture(item.label, item.command, commandLogsDir));
+  if (options.withPreflight) {
+    const commands: Array<{ label: string; command: string[] }> = [
+      { label: "test-unit", command: ["npm", "run", "test:unit"] },
+      { label: "brand-verify", command: ["npm", "run", "brand:verify"] },
+      { label: "brand-audit-source", command: ["npm", "run", "brand:audit-source"] },
+      { label: "asset-networking", command: ["npm", "run", "asset:networking"] },
+    ];
+
+    for (const item of commands) {
+      results.push(await runCommandAndCapture(item.label, item.command, commandLogsDir));
+    }
   }
 
   await captureGitDiagnostics(gitDir);
   await generateLockScreenOverlayMocks(screenshotsDir);
   await writeLockScreenAdjustmentReport(reviewContextDir);
 
-  const summaryLines = [
-    `Generated: ${currentDateTimeStamp()}`,
-    "",
-    ...results.map((result) => {
-      const status = result.exitCode === 0 ? "pass" : "fail";
-      return `${result.label}: ${status} (${result.command.join(" ")})`;
-    }),
-  ];
+  const summaryLines = options.withPreflight
+    ? [
+        `Generated: ${currentDateTimeStamp()}`,
+        "",
+        ...results.map((result) => {
+          const status = result.exitCode === 0 ? "pass" : "fail";
+          return `${result.label}: ${status} in ${formatElapsed(result)} (${result.command.join(" ")})`;
+        }),
+      ]
+    : [
+        `Generated: ${currentDateTimeStamp()}`,
+        "",
+        "Preflight commands were skipped for this packet build.",
+        "Use `npm run review:packet:refresh` when you want this command to rerun tests, verification, and networking asset generation before packaging.",
+      ];
   await writeTextFile(
     path.join(reviewContextDir, "preflight-summary.txt"),
     `${summaryLines.join("\n")}\n`,
@@ -412,10 +446,16 @@ async function buildReviewContext() {
 
 async function writeReviewMd(packetRoot: string, results: CommandResult[]) {
   const reviewPath = path.join(packetRoot, "REVIEW.md");
-  const preflightLines = results.map((result) => {
-    const status = result.exitCode === 0 ? "pass" : "fail";
-    return `- \`${result.label}\`: ${status} (see \`diagnostics/command-logs/${path.basename(result.logPath)}\`)`;
-  });
+  const preflightLines =
+    results.length > 0
+      ? results.map((result) => {
+          const status = result.exitCode === 0 ? "pass" : "fail";
+          return `- \`${result.label}\`: ${status} in ${formatElapsed(result)} (see \`diagnostics/command-logs/${path.basename(result.logPath)}\`)`;
+        })
+      : [
+          "- no preflight commands were rerun for this packet build",
+          "- use `npm run review:packet:refresh` if you want packet generation to rerun tests, verification, and networking asset regeneration first",
+        ];
 
   const contents = `# Review
 
@@ -498,9 +538,15 @@ ${preflightLines.join("\n")}
 
 async function writePacketMetadata(packetRoot: string, results: CommandResult[]) {
   const metadataPath = path.join(packetRoot, "PACKET-INFO.txt");
-  const commandSummary = results
-    .map((result) => `${result.label}: ${result.exitCode === 0 ? "pass" : "fail"}`)
-    .join("\n");
+  const commandSummary =
+    results.length > 0
+      ? results
+          .map(
+            (result) =>
+              `${result.label}: ${result.exitCode === 0 ? "pass" : "fail"} in ${formatElapsed(result)}`,
+          )
+          .join("\n")
+      : "No preflight commands rerun for this packet build.";
   await fs.writeFile(
     metadataPath,
     [
@@ -604,7 +650,8 @@ async function buildPacket(results: CommandResult[]) {
 }
 
 async function main() {
-  const results = await buildReviewContext();
+  const withPreflight = process.argv.includes("--with-preflight");
+  const results = await buildReviewContext({ withPreflight });
   const { packetRoot, zipPath } = await buildPacket(results);
   const failed = results.filter((result) => result.exitCode !== 0);
 

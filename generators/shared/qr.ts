@@ -1,4 +1,6 @@
 import { execFile } from "node:child_process";
+import { promises as fs } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -14,7 +16,14 @@ export type QrVerificationResult = {
 };
 
 async function runSwiftTool(args: string[]) {
-  const { stdout } = await execFileAsync("swift", [swiftToolPath, ...args]);
+  const moduleCachePath = path.join(os.tmpdir(), "brand-kit-swift-module-cache");
+  await fs.mkdir(moduleCachePath, { recursive: true });
+  const { stdout } = await execFileAsync("swift", [
+    "-module-cache-path",
+    moduleCachePath,
+    swiftToolPath,
+    ...args,
+  ]);
   return stdout.trim();
 }
 
