@@ -7,10 +7,12 @@ Current useful docs:
 - [MOO-upload-checklist.md](MOO-upload-checklist.md)
 - [layout-spec.md](layout-spec.md)
 - [layout-percentages.md](layout-percentages.md)
+- [CARD-DIRECTION-V2.md](CARD-DIRECTION-V2.md)
 
 For the broader generator-to-vendor workflow, start with:
 
 - [docs/vendor-handoffs.md](../../../docs/vendor-handoffs.md)
+- [docs/PRINT-PROOFING.md](../../../docs/PRINT-PROOFING.md)
 
 The canonical business-card generator lives under:
 

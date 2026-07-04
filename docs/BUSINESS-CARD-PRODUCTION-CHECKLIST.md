@@ -4,6 +4,11 @@ Reference: 2026-06-28 EDT
 
 Use this before any real print order.
 
+See also:
+
+- [PRINT-PROOFING.md](PRINT-PROOFING.md)
+- [CARD-DIRECTION-V2.md](../brands/arcadeghosts/workflows/CARD-DIRECTION-V2.md)
+
 ## Automated / In-Repo Checks
 
 - [x] URL verified
@@ -18,6 +23,11 @@ Use this before any real print order.
 
 ## Manual Pre-Order Checks
 
+- [ ] print a `100%` physical proof before ordering
+- [ ] view the proof at `18`, `24`, and `36` inches
+- [ ] review the proof in dim light
+- [ ] review a phone-camera photo of the proof
+- [ ] ask another person what they notice first
 - [ ] final Work With Me card URL confirmed:
   `arcadeghosts.org/work-with-me`
 - [ ] final Work With Me QR destination confirmed:
@@ -33,6 +43,13 @@ Use this before any real print order.
   `*-guides.png` and `*-guides.pdf` are review-only
 - [ ] QR code scan speed tested on iPhone
 - [ ] QR code scan speed tested on Android
+- [ ] the card still works if the QR code is ignored
+- [ ] name, URL, and offer are readable without squinting
+- [ ] the card has one job, not five
+- [ ] the text is not doing the website's job
+- [ ] no placeholder text remains
+- [ ] no line is only readable close-up
+- [ ] the card feels like ArcadeGhosts
 - [ ] margins reviewed in export proofs
 - [ ] bleed reviewed against the MOO template
 - [ ] safe area reviewed against the MOO template
@@ -46,6 +63,7 @@ Use this before any real print order.
 
 - Brand Kit currently treats business cards as the strongest `Production Ready` workflow in the repo.
 - Corrected Work With Me cards were reordered through MOO on 2026-06-28.
+- The next improvement should be stronger physical proofing plus simpler V2 card direction, not just prettier layout tweaks.
 - Manual order-time checks still need to be completed for each real print run.
 - Clean no-guide PNGs are the safest current upload candidates.
 - If clean no-guide PDFs are preferred for upload, generate and verify them intentionally before ordering.

@@ -73,6 +73,7 @@ For QR-driven networking assets specifically, also confirm:
 
 For business cards specifically, use [docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md](docs/BUSINESS-CARD-PRODUCTION-CHECKLIST.md) and confirm:
 
+- physical proofing is completed using [docs/PRINT-PROOFING.md](docs/PRINT-PROOFING.md)
 - QR code scans cleanly on iPhone
 - QR code scans cleanly on Android
 - margins, bleed, and safe area are reviewed against the MOO template

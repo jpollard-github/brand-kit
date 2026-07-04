@@ -10,7 +10,7 @@ Useful anchors:
 - [what-makes-arcadeghosts.md](what-makes-arcadeghosts.md)
 - [logo-usage-rules.md](logo-usage-rules.md)
 - [ambient-scene-generation.md](ambient-scene-generation.md)
-  Ambient-specific workflow and master prompt wrapper; read after `visual-language.md`, especially the production-options guidance for separate scene files
+  Ambient-specific workflow and master prompt wrapper; read after `visual-language.md`, especially the production-options guidance for separate scene files, the ChatGPT one-image-at-a-time path, and the local/free generation spike notes
 
 Scene intent:
 

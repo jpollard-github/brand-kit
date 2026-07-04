@@ -128,6 +128,117 @@ There are three supported ways to create Ambient Scenes:
 - If using ChatGPT image generation, generate one image at a time.
 - If using a dedicated image tool, generate batches but import only selected images.
 - `brand-kit` owns prompt and art direction, not the actual image files.
+- For ChatGPT sessions, use this document plus [visual-language.md](visual-language.md) as the source prompt canon instead of inventing a fresh style prompt.
+
+## Future Spike: Local / Free Scene Generation
+
+Future research only.
+Do not add local generation tooling to `brand-kit` unless it proves itself first.
+
+Goal:
+
+Determine whether Jason's `2023 Mac mini` with `Apple M2 Pro`, `32GB RAM`, and `macOS Tahoe 26.5.2` can generate usable Ambient Scene candidates locally without another paid image-generation subscription.
+
+Questions to answer:
+
+- Which local tool is the best first experiment?
+  - ComfyUI
+  - Draw Things
+  - DiffusionBee
+  - other Apple-Silicon-friendly workflow
+- Which model family is realistic on this hardware?
+  - SDXL
+  - FLUX Schnell / Dev quantized
+  - other local models
+- How long does one `16:9` candidate image take?
+- Can the workflow reliably produce separate images instead of collages?
+- Can it reuse the `brand-kit` master prompt?
+- Can it export files that ArcadeGhosts Codex can import as WebP?
+- Is the setup pleasant enough for Jason to actually use?
+
+Suggested success criteria:
+
+- generate at least `4` separate usable `16:9` Ambient Scene candidates
+- no collages or contact sheets
+- each image can be imported into ArcadeGhosts
+- average generation time feels acceptable
+- workflow does not require a new subscription
+- workflow does not become more annoying than the problem it solves
+
+Recommended experiment shape:
+
+1. Pick one local tool.
+2. Install it manually outside this repo.
+3. Generate one category only, probably `Cozy Desks` or `Rain On Windows`.
+4. Export `4` separate candidate images.
+5. Import them into ArcadeGhosts using the existing Scene Library workflow.
+6. Review them in the tablet-landscape Ambient packet.
+7. Decide whether local generation is worth continuing.
+
+Guidance:
+
+- `brand-kit` owns prompt and art direction.
+- ArcadeGhosts owns imported scene files and manifests.
+- `consulting-business` owns cross-repo workflow strategy.
+- Local generation tooling should not be added to `brand-kit` unless it proves itself.
+
+### Initial Spike Notes
+
+Reference: `2026-07-03 EDT`
+
+First local experiment used `draw-things-cli` on Jason's `M2 Pro / 32GB` Mac mini.
+
+What was learned:
+
+- the CLI install itself was easy enough
+- model setup was heavier than expected
+- `FLUX.2 [klein] 4B (6-bit)` pulled additional hidden dependencies before first render
+- the FLUX path used roughly `7.3G` before cleanup
+- an SDXL fallback was smaller overall after cleanup, but still required multiple support files
+- both FLUX and SDXL failed before first pixel with the same Apple MPS assertion:
+  `Assertion failed: (buffer != nil), function mpobjmalloc, file ccv_nnc_mps.m`
+- the failure reproduced at:
+  - `1344x768`
+  - `1024x576`
+  - `512x512`
+- no image file was produced, so local generation is not yet validated on this workflow
+
+Practical conclusion so far:
+
+- `draw-things-cli` is promising as a lightweight tool surface
+- this specific CLI + model path is not yet pleasant enough to recommend as the ArcadeGhosts local workflow
+- the next sensible experiment should probably be:
+  - Draw Things GUI
+  - DiffusionBee
+  - another Apple-Silicon-friendly tool
+  - or a documented Draw Things / macOS MPS compatibility fix if one exists
+
+Cleanup note:
+
+- FLUX-only downloads were removed after the failed run
+- the SDXL test set was kept as the current fallback experiment
+
+### GUI Follow-up Notes
+
+Reference: `2026-07-04 EDT`
+
+Draw Things GUI was then tested as the manual fallback experiment.
+
+What was learned:
+
+- Draw Things GUI did successfully produce separate `16:9` image files
+- `1024x576` output rendered in roughly `45-60` seconds per image on Jason's Mac mini
+- export files landed cleanly enough to preserve for ArcadeGhosts review/import experiments
+- the tool therefore passed the basic `separate file`, `speed`, and `manual usability` checks better than the CLI path
+- however, the image quality stayed too synthetic, too polished, or too cartoony for the current ArcadeGhosts Ambient bar even after prompt tightening
+- this makes the workflow technically viable but not yet aesthetically strong enough to replace ChatGPT for production-quality Ambient scenes
+
+Current recommendation:
+
+- keep using ChatGPT as the preferred current Ambient image generator when scene quality matters most
+- use `visual-language.md` plus this document as the canonical prompt source for those ChatGPT sessions
+- generate one image at a time in ChatGPT to avoid collage/contact-sheet output
+- treat local/free generation as a future fallback path for experimentation, rough exploration, or later tooling improvement rather than the current default production path
 
 ## Current Planned Categories
 

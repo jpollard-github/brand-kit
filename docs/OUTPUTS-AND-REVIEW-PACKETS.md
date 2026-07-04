@@ -156,6 +156,19 @@ For business cards specifically:
 - `*-guides.png` and `*-guides.pdf` are review-only proof files
 - clean no-guide PDFs should be generated intentionally if Jason wants PDF uploads without guides
 
+Future business-card review packets should also include when practical:
+
+- front and back full-resolution exports
+- actual-size preview
+- enlarged preview
+- grayscale preview
+- phone-photo simulation
+- readability notes
+- hierarchy notes
+- QR verification
+- proof-checklist completion
+- version history
+
 ## Files That Control Outputs
 
 Business cards:

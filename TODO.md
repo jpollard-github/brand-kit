@@ -109,6 +109,8 @@ Important distinction:
   - margins / bleed / trim / safe area review against the MOO template
   - paper / finish confirmation
   - received-print sanity check after delivery
+  Additional lesson from first printed cards:
+  - the printed card must be readable at real handoff distance, not just look premium in close-up review
 
 ### Near-term
 
@@ -215,6 +217,46 @@ Manual step-by-step help for the highest-value items now lives in:
   QR scan speed on iPhone and Android, margins, bleed, safe area, and final paper choice, plus a received-print sanity check after delivery.
   Current status: regenerated Work-With-Me exports and guide proofs passed `npm run brand:verify:business-cards` on 2026-07-02.
   Missing to complete: actual phone scanning, MOO-safe-area/bleed review, paper choice confirmation, and received-print sanity check.
+- [ ] Adopt the print proofing standard before any future card order:
+  use [docs/PRINT-PROOFING.md](docs/PRINT-PROOFING.md)
+  Required proof points:
+  - actual-size print
+  - distance readability at `18`, `24`, and `36` inches
+  - dim-light check
+  - phone-camera readability check
+  - another-person first-impression check
+  - QR scan from physical proof
+- [ ] Create a physical proof sheet PDF before future card orders.
+  Future feature goal:
+  - actual-size front and back
+  - enlarged preview
+  - grayscale preview
+  - QR scan test area
+  - readability checklist
+  - minimum font-size warnings
+  - `what should someone notice first?`
+  - `what can be removed?`
+- [ ] Add the `Three Second Test` to print review and approval.
+  Review question:
+  - what should someone remember after looking at this for three seconds?
+  This should be answered for every future card proof before ordering.
+- [ ] Add the `One Impossible To Miss Thing` rule to print review.
+  Every printed artifact should have one dominant anchor instead of several equally loud elements competing.
+- [ ] Create a V2 `work-with-me-card` with radically simpler copy.
+  Current direction:
+  - front should focus on `ArcadeGhosts`, `Jason Pollard`, `Small Software & Workflow Improvements`, and `arcadeghosts.org`
+  - back should keep the QR large and the text minimal
+  - avoid dense service lists, long taglines, and multi-CTA behavior
+  Canonical guidance: `brands/arcadeghosts/workflows/CARD-DIRECTION-V2.md`
+- [ ] Create a separate `personal-card` for social, creative, and community use.
+  It should point to the main site and feel warmer/weirder than the consulting card without becoming a sales card.
+  Canonical guidance: `brands/arcadeghosts/workflows/CARD-DIRECTION-V2.md`
+- [ ] Keep card-type separation explicit in `brand-kit`.
+  `work-with-me-card` and `personal-card` should stay separate because they solve different problems.
+- [ ] Add practical readability warnings to future print review output.
+  Focus on real reading distance, QR usability, and whether the card still works when the QR is ignored.
+- [ ] Add phone-photo and standing-distance readability checks to future print review output.
+  Printed collateral should survive real-world viewing conditions, not just on-screen zoom.
 - [x] Keep the email signature on the slimmer production path so it fits real mail-client constraints better than the review-oriented preview version.
   Current status: the default generator now produces a slimmer 360px production-oriented signature, and `npm run brand:verify:email` passed on 2026-07-02.
 - [ ] Keep the Work With Me business card on the checklist-driven proofing path:
@@ -255,7 +297,12 @@ Manual step-by-step help for the highest-value items now lives in:
 - [ ] Keep the one-page collateral family visually consistent:
   same hero structure, typography, spacing rhythm, footer pattern, CTA placement, card radius, and color language across capability sheet, proposal overview, case study, discovery summary, and similar one-page collateral.
 - [ ] Manually proof the networking assets on iPhone:
+- [ ] Keep networking and print card guidance connected but separate:
+  networking assets can be more phone-first, but printed cards must still follow [docs/PRINT-PROOFING.md](docs/PRINT-PROOFING.md) before ordering
   transfer the conference card and lock screen to Photos, scan the QR at normal and dim brightness, and confirm the lock-screen crop stays clear of iOS UI.
+- [ ] Add a lightweight physical-collateral catalog roadmap doc later.
+  Future direction:
+  track business cards, personal cards, conference cards, email signature, proposal cover, invoice, name badge, QR sign, stickers, and other tangible or handoff-oriented assets in one maintained place with purpose, owner, proofing rules, version, and lessons learned.
 - [ ] If Apple Wallet signing credentials are available, sign the networking pass and test it in Apple Wallet on iPhone:
   confirm pass install, QR scan behavior, field readability, and whether Wallet is actually more convenient than the conference card at a real meetup.
 - [ ] Decide whether the meetup networking assets should stay as a reusable family after real use:
@@ -264,6 +311,27 @@ Manual step-by-step help for the highest-value items now lives in:
   the Wallet path should stay optional rather than becoming a hidden requirement.
 - [ ] Keep the networking flow documentation operational:
   `docs/networking-assets.md` should explain the human meetup flow, and `docs/APPLE-WALLET-PASS-SETUP.md` should stay current for signing and installation steps.
+- [x] Run a lightweight local/free Ambient Scene generation spike on Jason's Mac mini before considering any new paid image subscription.
+  Scope:
+  - test one Apple-Silicon-friendly tool only
+  - generate one Ambient category only
+  - confirm separate `16:9` images instead of collages
+  - confirm exported files fit the existing ArcadeGhosts import workflow
+  Canonical guidance: `brands/arcadeghosts/ambient-scene-generation.md`
+  Constraint: do not add local generation tooling to `brand-kit` unless the manual experiment proves it is actually worth using.
+  Current status:
+  - `draw-things-cli` was installed and tested on `2026-07-03`
+  - `Cozy Desks` was used as the first category prompt
+  - FLUX and SDXL model paths both failed before first render with the same Apple MPS assertion
+  - FLUX-only downloads were removed after the failed attempt
+  - Draw Things GUI was then tested on `2026-07-04`
+  - Draw Things GUI did produce separate `16:9` images in roughly `45-60` seconds each
+  - exported image files are usable for downstream ArcadeGhosts import experiments
+  - image quality still skewed too synthetic/cartoony to replace ChatGPT for production Ambient scenes
+  Outcome:
+  - the local/free spike was a partial success technically, but not yet a production-quality art-direction win
+  - keep using ChatGPT plus the Brand Kit Ambient canon as the current preferred scene-generation path
+  - revisit local tools later only if a better Apple-Silicon-friendly option proves materially better
 
 ### Networking Flow Workstream
 

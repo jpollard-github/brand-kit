@@ -17,6 +17,12 @@ Included here:
 - a deterministic generator for print-ready exports
 - card specs and ordering notes for MOO
 
+Current direction reminder:
+
+- do not treat one tiny card as both consulting card and personal/social card
+- use [brands/arcadeghosts/workflows/CARD-DIRECTION-V2.md](../../brands/arcadeghosts/workflows/CARD-DIRECTION-V2.md) for the next-round split between `work-with-me-card` and `personal-card`
+- use [docs/PRINT-PROOFING.md](../../docs/PRINT-PROOFING.md) before any future order
+
 Recommended export workflow:
 
 1. use the copy files in each card folder
@@ -42,6 +48,8 @@ Generator reference:
 
 - `generator/README.md`
 - `MOO-upload-checklist.md`
+- `../../docs/PRINT-PROOFING.md`
+- `../../brands/arcadeghosts/workflows/CARD-DIRECTION-V2.md`
 
 ## Card Size Reminder
 
