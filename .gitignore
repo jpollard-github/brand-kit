@@ -19,3 +19,6 @@ integrations/*.local.json
 
 # Local review packets
 review-packets/
+
+# Local repo review archives
+repo-reviews/
