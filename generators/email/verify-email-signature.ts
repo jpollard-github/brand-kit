@@ -33,6 +33,7 @@ type VerificationReport = {
 
 type VerifyOptions = {
   brandId: string;
+  profile: "business" | "personal";
   themeId?: string;
 };
 
@@ -57,6 +58,7 @@ async function fileExists(filePath: string) {
 
 function parseOptions(argv: string[]): VerifyOptions {
   let brandId = DEFAULT_BRAND_ID;
+  let profile: "business" | "personal" = "business";
   let themeId = process.env.BRAND_THEME;
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -66,6 +68,17 @@ function parseOptions(argv: string[]): VerifyOptions {
       index += 1;
     } else if (arg.startsWith("--brand=")) {
       brandId = arg.slice("--brand=".length);
+    } else if (arg === "--profile") {
+      const nextProfile = argv[index + 1];
+      if (nextProfile === "business" || nextProfile === "personal") {
+        profile = nextProfile;
+      }
+      index += 1;
+    } else if (arg.startsWith("--profile=")) {
+      const nextProfile = arg.slice("--profile=".length);
+      if (nextProfile === "business" || nextProfile === "personal") {
+        profile = nextProfile;
+      }
     } else if (arg === "--theme") {
       themeId = argv[index + 1] ?? themeId;
       index += 1;
@@ -74,7 +87,7 @@ function parseOptions(argv: string[]): VerifyOptions {
     }
   }
 
-  return { brandId, themeId };
+  return { brandId, profile, themeId };
 }
 
 async function readManifest(manifestPath: string) {
@@ -103,7 +116,11 @@ async function main() {
   const brand = getBrandConfig(options.brandId);
   const collateral = getClientCollateralConfig(options.brandId);
   const themeVariant = getBrandThemeVariant(options.brandId, options.themeId);
-  const outputName = createThemedOutputName(`${brand.id}-email-signature`, themeVariant.id);
+  const outputBaseName =
+    options.profile === "personal"
+      ? `${brand.id}-email-signature-personal`
+      : `${brand.id}-email-signature`;
+  const outputName = createThemedOutputName(outputBaseName, themeVariant.id);
   const manifestPath = path.join(outputDir, `${outputName}.manifest.json`);
   const report: VerificationReport = {
     passed: [],
@@ -129,6 +146,12 @@ async function main() {
     addFail(report, "email manifest kind", `expected email-signature, found ${manifest.outputKind}`);
   } else {
     addPass(report, "email manifest kind", manifest.outputKind);
+  }
+
+  if (manifest.profile !== options.profile) {
+    addFail(report, "email manifest profile", `expected ${options.profile}, found ${manifest.profile}`);
+  } else {
+    addPass(report, "email manifest profile", manifest.profile);
   }
 
   if (manifest.brandId !== brand.id) {
@@ -200,30 +223,39 @@ async function main() {
 
   if (htmlExists) {
     const html = await fs.readFile(htmlPath, "utf8");
-    const requiredHtmlFields = [
-      brand.displayName,
-      brand.metadata.contactName,
-      collateral.email?.roleLine ?? collateral.positioning.primaryRole,
-      brand.metadata.contactEmail,
-      brand.metadata.workWithMeUrl,
-      collateral.ctas.primaryCTA.label,
-    ];
+    const requiredHtmlFields = [brand.metadata.contactName, brand.metadata.homeUrl];
 
-    if (brand.metadata.linkedinUrl) {
-      requiredHtmlFields.push("LinkedIn");
-    }
+    if (options.profile === "business") {
+      requiredHtmlFields.push(
+        brand.displayName,
+        collateral.email?.roleLine ?? collateral.positioning.primaryRole,
+        brand.metadata.contactEmail,
+        brand.metadata.workWithMeUrl,
+        collateral.ctas.primaryCTA.label,
+      );
 
-    const subline =
-      collateral.email?.subline ??
-      `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
+      if (brand.metadata.linkedinUrl) {
+        requiredHtmlFields.push("LinkedIn");
+      }
 
-    if (subline) {
-      requiredHtmlFields.push(subline);
+      const subline =
+        collateral.email?.subline ??
+        `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
+
+      if (subline) {
+        requiredHtmlFields.push(subline);
+      }
     }
 
     const missingFields = requiredHtmlFields.filter(
       (field) => !html.includes(escapeHtmlText(field)),
     );
+    if (options.profile === "personal") {
+      const logoAlt = `${brand.displayName} logo`;
+      if (!html.includes(`alt="${escapeHtmlText(logoAlt)}"`)) {
+        missingFields.push(logoAlt);
+      }
+    }
     if (missingFields.length > 0) {
       addFail(
         report,
@@ -234,7 +266,9 @@ async function main() {
       addPass(
         report,
         "email required HTML fields",
-        "brand, name, role, email, Work With Me link, tagline, and optional LinkedIn present",
+        options.profile === "personal"
+          ? "name, home URL, and logo present"
+          : "brand, name, role, email, Work With Me link, tagline, and optional LinkedIn present",
       );
     }
   }
@@ -250,14 +284,27 @@ async function main() {
     addPass(report, "email expected display URL", manifest.preflight.expectedDisplayUrl);
   }
 
-  if (manifest.preflight.expectedWorkWithMeUrl !== brand.metadata.workWithMeUrl) {
+  if (manifest.preflight.expectedHomeUrl !== brand.metadata.homeUrl) {
+    addFail(
+      report,
+      "email home URL",
+      `expected ${brand.metadata.homeUrl}, found ${manifest.preflight.expectedHomeUrl}`,
+    );
+  } else {
+    addPass(report, "email home URL", manifest.preflight.expectedHomeUrl);
+  }
+
+  if (
+    options.profile === "business" &&
+    manifest.preflight.expectedWorkWithMeUrl !== brand.metadata.workWithMeUrl
+  ) {
     addFail(
       report,
       "email Work With Me URL",
       `expected ${brand.metadata.workWithMeUrl}, found ${manifest.preflight.expectedWorkWithMeUrl}`,
     );
-  } else {
-    addPass(report, "email Work With Me URL", manifest.preflight.expectedWorkWithMeUrl);
+  } else if (options.profile === "business") {
+    addPass(report, "email Work With Me URL", manifest.preflight.expectedWorkWithMeUrl ?? "");
   }
 
   if (

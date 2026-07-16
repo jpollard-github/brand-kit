@@ -17,6 +17,7 @@ function escapeHtmlText(value: string) {
 export type EmailSignatureManifest = {
   generatorFamily: "email";
   outputKind: "email-signature";
+  profile: "business" | "personal";
   brandId: string;
   brandName: string;
   themeId: string;
@@ -36,13 +37,14 @@ export type EmailSignatureManifest = {
   sourceMetadata: {
     brandName?: string;
     contactName: string;
-    primaryRole: string;
-    roleLine: string;
-    contactEmail: string;
     homeUrl: string;
-    workWithMeUrl: string;
     displayUrl: string;
-    primaryCtaLabel: string;
+    logoAssetPath: string;
+    primaryRole?: string;
+    roleLine?: string;
+    contactEmail?: string;
+    workWithMeUrl?: string;
+    primaryCtaLabel?: string;
     subline?: string;
     linkedinUrl?: string;
   };
@@ -53,7 +55,8 @@ export type EmailSignatureManifest = {
     dimensionsVerified: boolean;
     requiredFieldsVerified: boolean;
     expectedDisplayUrl: string;
-    expectedWorkWithMeUrl: string;
+    expectedHomeUrl: string;
+    expectedWorkWithMeUrl?: string;
   };
 };
 
@@ -70,33 +73,42 @@ function verifyRequiredHtmlFields(options: {
   html: string;
   data: HeroCompositionData;
   collateral: ClientCollateralConfig;
+  profile: "business" | "personal";
 }) {
-  const { html, data, collateral } = options;
-  const requiredFields = [
-    data.brand.displayName,
-    data.brand.metadata.contactName,
-    collateral.email?.roleLine ?? collateral.positioning.primaryRole,
-    data.brand.metadata.contactEmail,
-    data.brand.metadata.workWithMeUrl,
-    collateral.ctas.primaryCTA.label,
-  ];
+  const { html, data, collateral, profile } = options;
+  const requiredFields = [data.brand.metadata.contactName, data.brand.metadata.homeUrl];
 
-  if (data.brand.metadata.linkedinUrl) {
-    requiredFields.push("LinkedIn");
+  if (profile === "business") {
+    requiredFields.push(
+      data.brand.displayName,
+      collateral.email?.roleLine ?? collateral.positioning.primaryRole,
+      data.brand.metadata.contactEmail,
+      data.brand.metadata.workWithMeUrl,
+      collateral.ctas.primaryCTA.label,
+    );
+
+    if (data.brand.metadata.linkedinUrl) {
+      requiredFields.push("LinkedIn");
+    }
+
+    const subline =
+      collateral.email?.subline ??
+      `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
+
+    if (subline) {
+      requiredFields.push(subline);
+    }
   }
 
-  const subline =
-    collateral.email?.subline ??
-    `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
-
-  if (subline) {
-    requiredFields.push(subline);
-  }
-
-  return requiredFields.every((field) => html.includes(escapeHtmlText(field)));
+  return (
+    requiredFields.every((field) => html.includes(escapeHtmlText(field))) &&
+    (profile !== "personal" ||
+      html.includes(`alt="${escapeHtmlText(`${data.brand.displayName} logo`)}"`))
+  );
 }
 
 export async function writeEmailSignatureManifest(options: {
+  profile: "business" | "personal";
   html: string;
   collateral: ClientCollateralConfig;
   data: HeroCompositionData;
@@ -104,7 +116,7 @@ export async function writeEmailSignatureManifest(options: {
   htmlPath: string;
   pngPath: string;
 }) {
-  const { html, collateral, data, outputName, htmlPath, pngPath } = options;
+  const { profile, html, collateral, data, outputName, htmlPath, pngPath } = options;
   const manifestPath = path.join(path.dirname(pngPath), `${outputName}.manifest.json`);
 
   const [htmlExists, pngExists] = await Promise.all([
@@ -123,6 +135,7 @@ export async function writeEmailSignatureManifest(options: {
     html,
     data,
     collateral,
+    profile,
   });
 
   if (!requiredFieldsVerified) {
@@ -132,6 +145,7 @@ export async function writeEmailSignatureManifest(options: {
   const manifest: EmailSignatureManifest = {
     generatorFamily: "email",
     outputKind: "email-signature",
+    profile,
     brandId: data.brand.id,
     brandName: data.brand.displayName,
     themeId: data.themeVariant.id,
@@ -148,17 +162,23 @@ export async function writeEmailSignatureManifest(options: {
     sourceMetadata: {
       brandName: data.brand.displayName,
       contactName: data.brand.metadata.contactName,
-      primaryRole: collateral.positioning.primaryRole,
-      roleLine: collateral.email?.roleLine ?? collateral.positioning.primaryRole,
-      contactEmail: data.brand.metadata.contactEmail,
       homeUrl: data.brand.metadata.homeUrl,
-      workWithMeUrl: data.brand.metadata.workWithMeUrl,
       displayUrl: toDisplayUrl(data.brand.metadata.homeUrl),
-      primaryCtaLabel: collateral.ctas.primaryCTA.label,
-      ...(data.brand.metadata.linkedinUrl
+      logoAssetPath: data.brand.logo.primaryAsset,
+      ...(profile === "business"
+        ? {
+            primaryRole: collateral.positioning.primaryRole,
+            roleLine: collateral.email?.roleLine ?? collateral.positioning.primaryRole,
+            contactEmail: data.brand.metadata.contactEmail,
+            workWithMeUrl: data.brand.metadata.workWithMeUrl,
+            primaryCtaLabel: collateral.ctas.primaryCTA.label,
+          }
+        : {}),
+      ...(profile === "business" && data.brand.metadata.linkedinUrl
         ? { linkedinUrl: data.brand.metadata.linkedinUrl }
         : {}),
-      ...((collateral.email?.subline ??
+      ...(profile === "business" &&
+      (collateral.email?.subline ??
         `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`)
         ? {
             subline:
@@ -174,7 +194,10 @@ export async function writeEmailSignatureManifest(options: {
       dimensionsVerified: true,
       requiredFieldsVerified: true,
       expectedDisplayUrl: toDisplayUrl(data.brand.metadata.homeUrl),
-      expectedWorkWithMeUrl: data.brand.metadata.workWithMeUrl,
+      expectedHomeUrl: data.brand.metadata.homeUrl,
+      ...(profile === "business"
+        ? { expectedWorkWithMeUrl: data.brand.metadata.workWithMeUrl }
+        : {}),
     },
   };
 

@@ -22,3 +22,6 @@ review-packets/
 
 # Local repo review archives
 repo-reviews/
+
+# Local todos
+todos/

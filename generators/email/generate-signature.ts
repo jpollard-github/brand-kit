@@ -7,6 +7,7 @@ import {
   getClientCollateralConfig,
   resolveClientCollateralLink,
 } from "../../design-system/client-collateral";
+import { toDisplayUrl } from "../shared/output-manifest";
 import { writeEmailSignatureManifest } from "./manifest";
 import {
   buildHeroCompositionData,
@@ -20,20 +21,23 @@ const outputDir = path.join(repoRootDir, "generators", "outputs", "email");
 
 type SignatureArgs = {
   brandId: string;
+  profile: "business" | "personal";
   sceneId?: string;
   outputName: string;
 };
 
 function parseArgs(argv: string[]): SignatureArgs {
   const defaultBrandId = resolveBrandId(argv);
+  const defaultOutputName = createBrandOutputName(
+    defaultBrandId,
+    "email-signature",
+    process.env.BRAND_THEME,
+  );
   const args: SignatureArgs = {
     brandId: defaultBrandId,
+    profile: "business",
     sceneId: "work-with-me-hero",
-    outputName: createBrandOutputName(
-      defaultBrandId,
-      "email-signature",
-      process.env.BRAND_THEME,
-    ),
+    outputName: defaultOutputName,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -43,6 +47,17 @@ function parseArgs(argv: string[]): SignatureArgs {
       index += 1;
     } else if (arg.startsWith("--brand=")) {
       args.brandId = arg.slice("--brand=".length);
+    } else if (arg === "--profile") {
+      const nextProfile = argv[index + 1];
+      if (nextProfile === "business" || nextProfile === "personal") {
+        args.profile = nextProfile;
+      }
+      index += 1;
+    } else if (arg.startsWith("--profile=")) {
+      const nextProfile = arg.slice("--profile=".length);
+      if (nextProfile === "business" || nextProfile === "personal") {
+        args.profile = nextProfile;
+      }
     } else if (arg === "--scene") {
       args.sceneId = argv[index + 1] ?? args.sceneId;
       index += 1;
@@ -53,6 +68,25 @@ function parseArgs(argv: string[]): SignatureArgs {
       index += 1;
     } else if (arg.startsWith("--output=")) {
       args.outputName = arg.slice("--output=".length);
+    }
+  }
+
+  if (args.outputName === defaultOutputName) {
+    args.outputName = createBrandOutputName(
+      args.brandId,
+      "email-signature",
+      process.env.BRAND_THEME,
+    );
+  }
+
+  if (args.profile === "personal") {
+    args.sceneId = "arcadeghosts-hero";
+    if (args.outputName === createBrandOutputName(args.brandId, "email-signature", process.env.BRAND_THEME)) {
+      args.outputName = createBrandOutputName(
+        args.brandId,
+        "email-signature-personal",
+        process.env.BRAND_THEME,
+      );
     }
   }
 
@@ -67,15 +101,15 @@ async function writeSignatureFiles(args: SignatureArgs) {
   const data = await buildHeroCompositionData(args.brandId, args.sceneId);
   const brand = data.brand;
   const collateral = getClientCollateralConfig(brand.id);
+  const contactEmailUrl = resolveClientCollateralLink(
+    brand.metadata,
+    collateral.ctas.contactCTA.linkKey,
+  );
   const primaryCtaUrl = resolveClientCollateralLink(
     brand.metadata,
     collateral.ctas.primaryCTA.linkKey,
   );
   const primaryCtaDisplayLabel = "View services";
-  const contactEmailUrl = resolveClientCollateralLink(
-    brand.metadata,
-    collateral.ctas.contactCTA.linkKey,
-  );
   const linkedinUrl = brand.metadata.linkedinUrl
     ? resolveClientCollateralLink(brand.metadata, "linkedin")
     : undefined;
@@ -88,7 +122,49 @@ async function writeSignatureFiles(args: SignatureArgs) {
   const subline =
     collateral.email?.subline ??
     `${collateral.positioning.tagline ?? collateral.positioning.oneLiner} ${collateral.positioning.problemSummary ?? collateral.positioning.shortPromise}`;
-  const html = `<!doctype html>
+  const websiteDisplayUrl = toDisplayUrl(brand.metadata.homeUrl);
+  const html =
+    args.profile === "personal"
+      ? `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${escapeXml(brand.displayName)} Email Signature</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 16px;
+        background: #f4f0e8;
+        font-family: ${brand.typography.fontStack};
+      }
+
+      .signature {
+        width: 356px;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <table class="signature" role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:356px;max-width:356px;background:#11161e;border:1px solid rgba(255,242,234,0.18);color:#fff6ea;font-family:${brand.typography.fontStack};border-radius:14px;">
+      <tr>
+        <td style="padding:14px 12px 14px 16px;vertical-align:middle;width:84px;">
+          <img src="${data.logoDataUrl}" alt="${escapeXml(brand.displayName)} logo" style="display:block;width:64px;height:auto;" />
+        </td>
+        <td style="padding:14px 16px 14px 0;vertical-align:middle;">
+          <div style="color:#fff6ea;font-size:22px;font-weight:800;line-height:1.08;margin:0 0 6px 0;">${escapeXml(brand.metadata.contactName)}</div>
+          <div style="color:#8de7ff;font-size:13px;line-height:1.4;margin:0;">
+            <a href="${escapeXml(brand.metadata.homeUrl)}" style="color:#8de7ff;text-decoration:none;">${escapeXml(websiteDisplayUrl)}</a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`
+      : `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -174,6 +250,7 @@ async function main() {
   const pngPath = path.join(outputDir, `${args.outputName}.png`);
   await renderHtmlPreview(result.html, pngPath);
   const manifestPath = await writeEmailSignatureManifest({
+    profile: args.profile,
     html: result.html,
     collateral: result.collateral,
     data: result.data,
