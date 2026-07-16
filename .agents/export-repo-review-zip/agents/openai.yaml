@@ -1,0 +1,4 @@
+interface:
+  display_name: "Export Repo Review Zip"
+  short_description: "Create and reveal a timestamped review archive"
+  default_prompt: "Use $export-repo-review-zip to create and reveal a timestamped review archive of this repository."

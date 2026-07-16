@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { getBrandConfig } from "../../design-system/brand-config";
 
 import {
   getClientCollateralConfig,
@@ -80,7 +81,7 @@ function parseArgs(argv: string[]): SignatureArgs {
   }
 
   if (args.profile === "personal") {
-    args.sceneId = "arcadeghosts-hero";
+    args.sceneId = getBrandConfig(args.brandId).scenes.defaultHero.id;
     if (args.outputName === createBrandOutputName(args.brandId, "email-signature", process.env.BRAND_THEME)) {
       args.outputName = createBrandOutputName(
         args.brandId,

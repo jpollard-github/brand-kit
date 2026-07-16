@@ -8,6 +8,7 @@ import {
   getThemeVariant,
 } from "../../design-system/themes";
 import { defaultPalette } from "../../design-system/colors";
+import { createBrandOutputName } from "../../generators/shared/cli";
 
 describe("themes", () => {
   it("keeps default output names unsuffixed", () => {
@@ -20,6 +21,10 @@ describe("themes", () => {
     expect(createThemedOutputName("arcadeghosts-og-image", "conference")).toBe(
       "arcadeghosts-og-image-conference",
     );
+  });
+
+  it("includes the selected brand in shared output names", () => {
+    expect(createBrandOutputName("jasonpollard", "og-image", "default")).toBe("jasonpollard-og-image");
   });
 
   it("resolves a matching theme variant", () => {

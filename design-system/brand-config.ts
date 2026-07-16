@@ -10,6 +10,7 @@ import {
   type BrandThemeSystem,
 } from "./themes";
 import { arcadeghostsBrand } from "./brands/arcadeghosts";
+import { jasonpollardBrand } from "./brands/jasonpollard";
 
 export const DEFAULT_BRAND_ID = "arcadeghosts";
 
@@ -24,6 +25,14 @@ export type BrandConfig = {
   scenes: BrandScenes;
   guardrails: BrandGuardrails;
   themes: BrandThemeSystem;
+  composition: {
+    family: "atmospheric" | "editorial";
+    effects: {
+      radialGlows: boolean;
+      sweepingArcs: boolean;
+      glassPanels: boolean;
+    };
+  };
   labels: {
     workWithMe: string;
     arcade: string;
@@ -32,6 +41,7 @@ export type BrandConfig = {
 
 const brandRegistry: Record<string, BrandConfig> = {
   arcadeghosts: arcadeghostsBrand,
+  jasonpollard: jasonpollardBrand,
 };
 
 function normalizeBrandId(brandId: string) {

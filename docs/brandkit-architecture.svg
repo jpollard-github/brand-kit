@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">How BrandKit turns a brand into approved assets</title>
+  <desc id="desc">Brand ingredients and format rules flow through shared generation, quality checks, human review, and approved outputs.</desc>
+  <defs><pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#c9c5bb" stroke-width="1"/></pattern></defs>
+  <rect width="1600" height="900" fill="#f4f1e9"/><rect width="1600" height="900" fill="url(#grid)" opacity=".24"/><rect width="1600" height="14" fill="#147d78"/>
+  <text x="80" y="92" fill="#0c5e5b" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="20" font-weight="700" letter-spacing="3">BRANDKIT PROCESS</text>
+  <text x="80" y="158" fill="#112033" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="700" letter-spacing="-2">How BrandKit turns a brand into approved assets</text>
+  <line x1="80" y1="196" x2="1520" y2="196" stroke="#c9c5bb"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <g transform="translate(80 246)"><text fill="#a8532c" font-family="ui-monospace, monospace" font-size="18" font-weight="700">01</text><text y="48" fill="#112033" font-size="30" font-weight="700">Brand ingredients</text><text y="92" fill="#56616d" font-size="21"><tspan x="0">Colors · Typography · Logo</tspan><tspan x="0" dy="34">Copy · Basic rules · Themes</tspan></text></g>
+    <g transform="translate(590 246)"><text fill="#a8532c" font-family="ui-monospace, monospace" font-size="18" font-weight="700">02</text><text y="48" fill="#112033" font-size="30" font-weight="700">Format blueprint</text><text y="92" fill="#56616d" font-size="21"><tspan x="0">Dimensions · Layout · Safe areas</tspan><tspan x="0" dy="34">Required content</tspan></text></g>
+    <g transform="translate(1100 246)"><text fill="#a8532c" font-family="ui-monospace, monospace" font-size="18" font-weight="700">03</text><text y="48" fill="#112033" font-size="30" font-weight="700">Shared generator</text><text y="92" fill="#56616d" font-size="21"><tspan x="0">Select brand · Select format</tspan><tspan x="0" dy="34">Apply theme · Render from source</tspan></text></g>
+    <path d="M480 316h74" stroke="#147d78" stroke-width="4"/><path d="M554 316l-14-8v16z" fill="#147d78"/><path d="M990 316h74" stroke="#147d78" stroke-width="4"/><path d="M1064 316l-14-8v16z" fill="#147d78"/>
+    <line x1="80" y1="448" x2="1520" y2="448" stroke="#c9c5bb"/>
+    <g transform="translate(280 500)"><text fill="#a8532c" font-family="ui-monospace, monospace" font-size="18" font-weight="700">04</text><text y="48" fill="#112033" font-size="30" font-weight="700">Quality checks</text><text y="92" fill="#56616d" font-size="21"><tspan x="0">Correct size · Required text · Safe paths</tspan><tspan x="0" dy="34">Automated checks · Human visual review</tspan></text></g>
+    <g transform="translate(970 500)"><text fill="#a8532c" font-family="ui-monospace, monospace" font-size="18" font-weight="700">05</text><text y="48" fill="#112033" font-size="30" font-weight="700">Approved output</text><text y="92" fill="#56616d" font-size="21"><tspan x="0">PNG · PDF · HTML · Manifest</tspan></text></g>
+    <path d="M790 570h124" stroke="#147d78" stroke-width="4"/><path d="M914 570l-14-8v16z" fill="#147d78"/>
+  </g>
+  <rect x="80" y="730" width="1440" height="98" fill="#112033"/>
+  <text x="800" y="790" text-anchor="middle" fill="#fffdf8" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700">Brand ingredients + format rules + shared generation + verification = repeatable output</text>
+</svg>

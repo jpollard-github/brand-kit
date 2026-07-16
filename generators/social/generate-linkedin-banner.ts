@@ -9,6 +9,7 @@ import {
   renderHeroBase,
   renderHeroDefs,
 } from "./hero-composition";
+import { renderJasonPollardLinkedIn } from "./editorial-format-layouts";
 import {
   createBrandOutputName,
   resolveBrandId,
@@ -87,6 +88,13 @@ async function writeBannerSvg(args: BannerArgs) {
     subline: args.subline,
   });
 
+  if (data.brand.composition.family === "editorial") {
+    const svg = renderJasonPollardLinkedIn(data);
+    const svgPath = path.join(outputDir, `${args.outputName}.svg`);
+    await fs.writeFile(svgPath, svg, "utf8");
+    return { data, svg, svgPath };
+  }
+
   const logoWidth = 190;
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${bannerSize.width}" height="${bannerSize.height}" viewBox="0 0 ${bannerSize.width} ${bannerSize.height}">
@@ -94,9 +102,6 @@ async function writeBannerSvg(args: BannerArgs) {
   ${renderHeroBase(bannerSize.width, bannerSize.height, 0.4)}
 
   <rect x="34" y="28" width="1516" height="340" rx="28" fill="rgba(10, 13, 18, 0.54)" stroke="${data.brand.palette.border}" stroke-width="2" />
-
-  <circle cx="144" cy="320" r="86" fill="rgba(8, 10, 14, 0.84)" stroke="rgba(248,239,227,0.12)" stroke-width="2" />
-  <text x="144" y="326" text-anchor="middle" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="18" font-weight="700" letter-spacing="3">AVATAR</text>
 
   <g transform="translate(270 72)">
     <text x="0" y="0" fill="${data.brand.palette.amber}" font-family="${data.fontStack}" font-size="19" font-weight="700" letter-spacing="4.5">${data.kicker.toUpperCase()}</text>

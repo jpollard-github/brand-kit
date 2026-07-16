@@ -228,6 +228,57 @@ export function renderHeroBase(width: number, height: number, gridOpacity = 0.42
   <rect x="0" y="0" width="${width}" height="${height}" fill="url(#grid)" opacity="${gridOpacity}" />`;
 }
 
+export type EditorialCompositionKind =
+  | "og"
+  | "linkedin"
+  | "github"
+  | "project";
+
+export function renderEditorialComposition(
+  data: HeroCompositionData,
+  kind: EditorialCompositionKind,
+) {
+  const sizes = {
+    og: { width: 1200, height: 630 },
+    linkedin: { width: 1584, height: 396 },
+    github: { width: 1280, height: 640 },
+    project: { width: 1280, height: 720 },
+  } as const;
+  const { width, height } = sizes[kind];
+  const isLinkedIn = kind === "linkedin";
+  const left = isLinkedIn ? 430 : 84;
+  const top = isLinkedIn ? 62 : 76;
+  const headlineSize = isLinkedIn ? 54 : 68;
+  const headlineStep = isLinkedIn ? 60 : 76;
+  const headlineLines = isLinkedIn ? data.headlineLines : data.titleLines;
+  const bodyLines = isLinkedIn ? data.sublineLines : data.subtitleLines;
+  const bodyTop = isLinkedIn
+    ? top + 94 + (headlineLines.length - 1) * headlineStep + 54
+    : top + (headlineLines.length > 1 ? headlineStep * 2 + 52 : headlineStep + 58);
+  const logoSize = isLinkedIn ? 104 : 122;
+  const logoX = width - (isLinkedIn ? 176 : 188);
+  const logoY = isLinkedIn ? 64 : 82;
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <defs>
+    <pattern id="editorialGrid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="${data.brand.palette.border}" stroke-width="1" />
+    </pattern>
+  </defs>
+  <rect width="${width}" height="${height}" fill="${data.brand.palette.background}" />
+  <rect width="${width}" height="${height}" fill="url(#editorialGrid)" opacity="0.24" />
+  <rect width="${width}" height="12" fill="${data.brand.palette.teal}" />
+  <line x1="${left}" y1="${top + 24}" x2="${left + 210}" y2="${top + 24}" stroke="${data.brand.palette.teal}" stroke-width="4" />
+  <text x="${left}" y="${top}" fill="${data.brand.palette.cyan}" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="${isLinkedIn ? 16 : 18}" font-weight="700" letter-spacing="3">${data.kicker.toUpperCase()}</text>
+  ${headlineLines.map((line, index) => `<text x="${left}" y="${top + 94 + index * headlineStep}" fill="${data.brand.palette.text}" font-family="${data.fontStack}" font-size="${headlineSize}" font-weight="700" letter-spacing="-2.2">${line}</text>`).join("")}
+  ${bodyLines.map((line, index) => `<text x="${left}" y="${bodyTop + index * 34}" fill="${data.brand.palette.textMuted}" font-family="${data.fontStack}" font-size="${isLinkedIn ? 23 : 26}" font-weight="400">${line}</text>`).join("")}
+  <line x1="${left}" y1="${height - 78}" x2="${width - 78}" y2="${height - 78}" stroke="${data.brand.palette.border}" stroke-width="1" />
+  <text x="${left}" y="${height - 40}" fill="${data.brand.palette.text}" font-family="${data.fontStack}" font-size="20" font-weight="700">${data.displayUrl}</text>
+  <image href="${data.logoDataUrl}" x="${logoX}" y="${logoY}" width="${logoSize}" height="${logoSize}" preserveAspectRatio="xMidYMid meet" />
+</svg>`;
+}
+
 export async function renderSvgToPng(
   svg: string,
   size: { width: number; height: number },

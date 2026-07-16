@@ -425,6 +425,7 @@ async function writeAssetFiles(fileBaseName: string, svg: string, size: { width:
 }
 
 async function writePhoneImportReadme(args: {
+  qrTargetUrl: string;
   conferenceCardFileName: string;
   lockScreenFileName: string;
   minimalLockScreenFileName: string;
@@ -482,7 +483,7 @@ async function writePhoneImportReadme(args: {
       "",
       "1. Open the conference card or lock screen full-screen.",
       "2. Use another phone to scan the QR.",
-      "3. Confirm it opens exactly `https://arcadeghosts.org`.",
+      `3. Confirm it opens exactly \`${args.qrTargetUrl}\`.`,
       "4. Test at normal brightness and dimmer brightness.",
       "",
       "## Meetup reminder",
@@ -490,7 +491,7 @@ async function writePhoneImportReadme(args: {
       "Favorite the conference card in Photos.",
       "At the meetup, open it full-screen when someone asks what you do.",
       "",
-      "The QR should open exactly `https://arcadeghosts.org`.",
+      `The QR should open exactly \`${args.qrTargetUrl}\`.`,
     ].join("\n"),
     "utf8",
   );
@@ -499,6 +500,7 @@ async function writePhoneImportReadme(args: {
 
 async function buildPhoneImportFolder(files: {
   brandId: string;
+  qrTargetUrl: string;
   conferenceCardPngPath?: string;
   lockScreenPngPath?: string;
   lockScreenMinimalPngPath?: string;
@@ -583,6 +585,7 @@ async function buildPhoneImportFolder(files: {
   await fs.copyFile(files.qrPngPath, path.join(phoneImportDir, path.basename(files.qrPngPath)));
 
   return writePhoneImportReadme({
+    qrTargetUrl: files.qrTargetUrl,
     conferenceCardFileName: path.basename(existingConferenceCardPngPath),
     lockScreenFileName: path.basename(existingLockScreenPngPath),
     minimalLockScreenFileName: path.basename(existingMinimalLockScreenPngPath),
@@ -767,6 +770,7 @@ async function generateAssets(args: GeneratorArgs): Promise<GeneratedAssets> {
 
   const phoneImportReadmePath = await buildPhoneImportFolder({
     brandId: args.brandId,
+    qrTargetUrl: qrTarget,
     conferenceCardPngPath,
     lockScreenPngPath,
     lockScreenMinimalPngPath,

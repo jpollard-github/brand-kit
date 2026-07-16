@@ -9,6 +9,8 @@ import {
   renderSvgToPng,
   repoRootDir,
 } from "../social/hero-composition";
+import { renderBrandKitProjectCover } from "../social/editorial-format-layouts";
+import { createBrandOutputName, resolveBrandId, resolveSceneId } from "../shared/cli";
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const outputDir = path.join(repoRootDir, "generators", "outputs", "projects");
@@ -28,10 +30,11 @@ type ProjectCoverArgs = {
 };
 
 function parseArgs(argv: string[]): ProjectCoverArgs {
+  const brandId = resolveBrandId(argv);
   const args: ProjectCoverArgs = {
-    brandId: "arcadeghosts",
-    sceneId: "arcadeghosts-hero",
-    outputName: "arcadeghosts-project-cover",
+    brandId,
+    sceneId: resolveSceneId(argv),
+    outputName: createBrandOutputName(brandId, "project-cover"),
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -82,6 +85,13 @@ async function writeProjectCoverSvg(args: ProjectCoverArgs) {
     title: args.title,
     subtitle: args.subtitle,
   });
+
+  if (data.brand.composition.family === "editorial") {
+    const svg = renderBrandKitProjectCover(data);
+    const svgPath = path.join(outputDir, `${args.outputName}.svg`);
+    await fs.writeFile(svgPath, svg, "utf8");
+    return { data, svg, svgPath };
+  }
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${coverSize.width}" height="${coverSize.height}" viewBox="0 0 ${coverSize.width} ${coverSize.height}">

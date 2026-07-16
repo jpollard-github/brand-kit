@@ -57,6 +57,8 @@
     "brand:packet:client-collateral:timed": "node scripts/run-with-timing.mjs --label brand:packet:client-collateral -- npm run brand:packet:client-collateral",
     "brand:packet:networking": "node --import tsx scripts/create-networking-review-packet.ts",
     "brand:packet:work-with-me": "node --import tsx scripts/create-work-with-me-review-packet.ts",
+    "portfolio:brandkit-proof": "node --import tsx scripts/create-brandkit-proof.ts",
+    "portfolio:brandkit-proof:verify": "node --import tsx scripts/verify-brandkit-proof.ts",
     "repo:review-zip": "node scripts/create-repo-review-zip.mjs",
     "brand:preview:timed": "node scripts/run-with-timing.mjs --label brand:preview -- npm run brand:preview",
     "brand:verify:timed": "node scripts/run-with-timing.mjs --label brand:verify -- npm run brand:verify",

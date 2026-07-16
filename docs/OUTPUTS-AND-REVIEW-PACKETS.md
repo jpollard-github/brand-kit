@@ -216,3 +216,14 @@ Suggested first-pass review order:
 4. Proposal cover
 5. Discovery guide
 6. Invoice
+# Portfolio proof packet
+
+Run `npm run portfolio:brandkit-proof` to build the ignored, public-safe job-search proof under a UTC timestamped folder in `review-packets/brandkit-proof/`, plus a matching `brandkit-proof-<timestamp>.zip`. The generator updates `latest.json`, and `npm run portfolio:brandkit-proof:verify` always verifies that referenced folder and zip. The packet separates architecture evidence, human visual approval candidates, and review-only overlays. Generated and verified visuals default to `human-review-required`; they are not approved for publication by generation alone.
+
+The public-candidate set is limited to the BrandKit system preview, plain-language process diagram, Jason Pollard Open Graph image, Jason Pollard LinkedIn banner, and BrandKit project cover. Business-card proofs are excluded from this job-search packet and remain separate future collateral work.
+
+The architecture source is `docs/brandkit-architecture.mmd`. Render its SVG with Mermaid CLI when the diagram changes:
+
+```bash
+npx -p @mermaid-js/mermaid-cli mmdc -i docs/brandkit-architecture.mmd -o docs/brandkit-architecture.svg
+```

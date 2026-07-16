@@ -7,26 +7,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
 const outputDir = path.join(repoRoot, "repo-reviews");
-const outputFile = path.join(outputDir, "brand-kit-source.zip");
-
-const imageExtensions = new Set([
-  ".ai",
-  ".avif",
-  ".bmp",
-  ".gif",
-  ".heic",
-  ".heif",
-  ".ico",
-  ".jpeg",
-  ".jpg",
-  ".png",
-  ".psd",
-  ".raw",
-  ".svg",
-  ".tif",
-  ".tiff",
-  ".webp",
-]);
+const timestamp = new Date()
+  .toISOString()
+  .replace(/:/g, "")
+  .replace(/\.\d{3}Z$/, "Z");
+const outputFile = path.join(
+  outputDir,
+  `brand-kit-repo-review-${timestamp}.zip`,
+);
 
 function run(command, args, options = {}) {
   return new Promise((resolve, reject) => {
@@ -74,8 +62,7 @@ const { stdout } = await run("git", ["ls-files", "-co", "--exclude-standard", "-
 const files = stdout
   .split("\0")
   .filter(Boolean)
-  .filter((file) => !imageExtensions.has(path.extname(file).toLowerCase()))
-  .filter((file) => file !== path.relative(repoRoot, outputFile))
+  .filter((file) => !file.startsWith("repo-reviews/"))
   .sort((left, right) => left.localeCompare(right));
 
 if (files.length === 0) {
@@ -83,9 +70,10 @@ if (files.length === 0) {
 }
 
 await mkdir(outputDir, { recursive: true });
-await run("rm", ["-f", outputFile]);
 await run("zip", ["-q", outputFile, "-@"], {
   input: `${files.join("\n")}\n`,
 });
 
 console.log(`Created ${path.relative(repoRoot, outputFile)} with ${files.length} files.`);
+await run("open", ["-R", outputFile]);
+console.log(`Revealed ${path.relative(repoRoot, outputFile)} in Finder.`);

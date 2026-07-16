@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  DEFAULT_BRAND_ID,
   getBrandConfig,
   getBrandPalette,
   getBrandThemeVariant,
@@ -37,8 +38,8 @@ type PreviewSection = {
 
 function parseArgs(argv: string[]): PreviewArgs {
   const args: PreviewArgs = {
-    brandId: "arcadeghosts",
-    outputName: "arcadeghosts-preview-sheet",
+    brandId: DEFAULT_BRAND_ID,
+    outputName: `${DEFAULT_BRAND_ID}-preview-sheet`,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -108,6 +109,9 @@ async function renderAssetCard(asset: PreviewAsset) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const brand = getBrandConfig(args.brandId);
+  if (args.outputName === `${DEFAULT_BRAND_ID}-preview-sheet` && args.brandId !== DEFAULT_BRAND_ID) {
+    args.outputName = `${args.brandId}-preview-sheet`;
+  }
   const themeId = getRequestedThemeVariantId(args.themeId);
   const palette = getBrandPalette(args.brandId, themeId);
   const themeVariant = getBrandThemeVariant(args.brandId, themeId);

@@ -220,6 +220,10 @@ export const arcadeghostsBrand: BrandConfig = {
   }),
   guardrails: arcadeghostsGuardrails,
   themes: arcadeghostsThemes,
+  composition: {
+    family: "atmospheric",
+    effects: { radialGlows: true, sweepingArcs: true, glassPanels: true },
+  },
   labels: {
     workWithMe: "Work With Me",
     arcade: "ArcadeGhosts",

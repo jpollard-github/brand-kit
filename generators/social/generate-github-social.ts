@@ -8,6 +8,7 @@ import {
   renderSvgToPng,
   renderHeroBase,
   renderHeroDefs,
+  renderEditorialComposition,
 } from "./hero-composition";
 import {
   createBrandOutputName,
@@ -86,6 +87,13 @@ async function writeGithubSocialSvg(args: GithubSocialArgs) {
     title: args.title,
     subtitle: args.subtitle,
   });
+
+  if (data.brand.composition.family === "editorial") {
+    const svg = renderEditorialComposition(data, "github");
+    const svgPath = path.join(outputDir, `${args.outputName}.svg`);
+    await fs.writeFile(svgPath, svg, "utf8");
+    return { data, svg, svgPath };
+  }
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${githubSocialSize.width}" height="${githubSocialSize.height}" viewBox="0 0 ${githubSocialSize.width} ${githubSocialSize.height}">

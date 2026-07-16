@@ -13,7 +13,10 @@ const excludedSegments = new Set([
   "archive/",
   "vschats/",
 ]);
-const allowedFiles = new Set(["design-system/brands/arcadeghosts.ts"]);
+const allowedFiles = new Set([
+  "design-system/brands/arcadeghosts.ts",
+  "design-system/brands/jasonpollard.ts",
+]);
 const scanExtensions = new Set([".ts", ".tsx", ".js", ".mjs", ".cjs"]);
 
 type AuditPattern = {
@@ -107,6 +110,13 @@ const warningOnlyRules: WarningOnlyRule[] = [
     classification: "acceptable brand-specific reference",
     severity: "medium",
     note: "Preview copy intentionally names the current brand examples, but this review layer is still brand-weighted.",
+  },
+  {
+    match: (finding) =>
+      finding.path === "generators/portfolio/brandkit-proof-visuals.ts",
+    classification: "acceptable brand-specific reference",
+    severity: "low",
+    note: "The curated portfolio preview intentionally labels one ArcadeGhosts output as the requested second-brand contrast proof.",
   },
   {
     match: (finding) => entrypointDefaults.has(finding.path),
@@ -344,9 +354,13 @@ async function main() {
   );
   printSummary(classifiedFindings);
   printGroupedFindings(classifiedFindings);
-  console.warn(
-    "Warnings remain non-blocking for now. High-severity reusable-code leaks should shrink before stricter enforcement is considered.",
+  const blocking = classifiedFindings.filter(
+    (finding) => finding.classification === "reusable-code leak" && finding.severity === "high",
   );
+  if (blocking.length) {
+    throw new Error(`Source audit failed: ${blocking.length} unexpected ArcadeGhosts assumptions remain in shared infrastructure.`);
+  }
+  console.warn("Source audit passed with only classified, intentional brand-specific references.");
 }
 
 main().catch((error) => {
